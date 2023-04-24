@@ -1,9 +1,13 @@
+body {
+  background-color: #0c0c0c;
+  margin: 0;
+}
 /***************************************** Nav bar **************************************'*/
 .nav-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #f5f5f5;
+  background-color: #1c1c1c;
   padding: 10px;
   position: fixed;
   top: 0;
@@ -11,6 +15,10 @@
   right: 0;
 }
 
+#logo {
+  height: 70px;
+  width: 70px;
+}
 nav {
   display: flex;
   align-items: center;
@@ -60,10 +68,9 @@ select {
 }
 
 .grid-item {
-  background-color: #ffffff;
+  text-align: center;
   padding: 20px;
   font-size: 30px;
-  text-align: center;
   height: 275px;
   width: 185px;
   cursor: pointer;
@@ -71,78 +78,78 @@ select {
 
 .item1 {
   grid-column: 1 / span 6;
-  grid-row: 1 / span 1;
-  background-color: #fff8e7;
+  grid-row: 1 / span 2;
+  background-color: #1a2a6c;
   padding: 20px;
   font-size: 30px;
   text-align: center;
 }
 
 .item2 {
-  background-color: #f8b195;
+  background-color: #daa520;
 }
 
 .item3 {
-  background-color: #f67280;
+  background-color: #cc5500;
 }
 
 .item4 {
-  background-color: #c06c84;
+  background-color: #daa520;
 }
 
 .item5 {
-  background-color: #6c5b7b;
+  background-color: #cc3333;
 }
 
 .item6 {
-  background-color: #355c7d;
+  background-color: #daa520;
 }
 
 .item7 {
-  background-color: #f8e9a1;
+  background-color: #cc5500;
 }
 
 .item8 {
-  background-color: #f05f40;
+  background-color: #daa520;
 }
 
 .item9 {
-  background-color: #fdfd96;
+  background-color: #cc3333;
 }
 
 .item10 {
-  background-color: #a7dbdb;
+  background-color: #daa520;
 }
 
 .item11 {
-  background-color: #e0e4cc;
+  background-color: #cc5500;
 }
 
 .item12 {
-  background-color: #f5d5cb;
+  background-color: #daa520;
 }
 
 .item13 {
-  background-color: #c5e0dc;
+  background-color: #cc3333;
 }
 
 .item14 {
-  background-color: #8fd9a8;
+  background-color: #daa520;
 }
 
 .item15 {
-  background-color: #fece44;
+  background-color: #cc5500;
 }
 
 .item16 {
-  background-color: #fb4d3d;
+  background-color: #daa520;
 }
 .item17 {
-  background-color: #ffe066;
+  background-color: #cc3333;
 }
 .item18 {
-  background-color: #3e92cc;
+  background-color: #daa520;
 }
 .item19 {
-  background-color: #90c3c8;
+  background-color: #cc5500;
 }
