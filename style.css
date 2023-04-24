@@ -56,6 +56,16 @@ select {
   font-size: 16px;
   padding: 10px;
   cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+#btn-add-movie:hover {
+  background-color: #1a2a6c;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  padding: 10px;
+  cursor: pointer;
 }
 
 /***************************************** Grid container **************************************'*/
@@ -68,6 +78,17 @@ select {
 }
 
 .grid-item {
+  text-align: center;
+  padding: 20px;
+  font-size: 30px;
+  height: 275px;
+  width: 185px;
+  cursor: pointer;
+  transition: transform 0.4s ease-in-out;
+}
+
+.grid-item:hover {
+  transform: scale(1.1);
   text-align: center;
   padding: 20px;
   font-size: 30px;
