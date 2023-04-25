@@ -4,16 +4,16 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="style.css" />
-        <link rel="shortcut icon" href="./images/icons8-film-reel-16.png" type="image/x-icon" />
-
+        <link rel="stylesheet" href="./assets/css/style.css" />
+        <link rel="shortcut icon" href="./assets/images/icons8-film-reel-16.png" type="image/x-icon" />
+        <script src="./app.js" defer></script>
         <title>Movie CRUD</title>
     </head>
 
     <body>
-        <div class="nav-container">
+         <div class="nav-container"> <!-- hvorfor har en div wrapper med .nav-container når vi allerede bruger <nav> tagget? -->
             <nav>
-                <img id="logo" src="./images/preview.png"/>
+                <img id="logo" src="./assets/images/preview.png"/>
                 <label for="search-bar"></label>
                 <input type="text" id="search-bar" placeholder="search" />
                 <select id="filter">
