@@ -35,17 +35,12 @@ nav {
   right: 0;
 }
 
-label {
-  display: none;
-}
-
-input[type="text"] {
+/* input[type="text"] {
   padding: 5px 10px;
   font-size: 16px;
-  border: none;
   border-radius: 5px;
   width: 400px;
-}
+} */
 
 select {
   padding: 5px 10px;
@@ -109,6 +104,10 @@ select {
 .grid-item:hover {
   transform: scale(1.02);
   cursor: pointer;
+}
+
+.dialog-create-movie {
+  display: grid;
 }
 
 /***************************************** Media Queries **************************************'*/

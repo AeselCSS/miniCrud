@@ -1,49 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="./assets/css/style.css" />
-        <link rel="shortcut icon" href="./assets/images/icons8-film-reel-16.png" type="image/x-icon" />
-        <script src="./app.js" defer></script>
-        <script src="https://kit.fontawesome.com/d632d8ce37.js" crossorigin="anonymous" defer></script>
-        <title>Movie CRUD</title>
-    </head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <link
+      rel="shortcut icon"
+      href="./assets/images/icons8-film-reel-16.png"
+      type="image/x-icon"
+    />
+    <script src="./app.js" defer></script>
+    <script
+      src="https://kit.fontawesome.com/d632d8ce37.js"
+      crossorigin="anonymous"
+      defer
+    ></script>
+    <title>Movie CRUD</title>
+  </head>
 
-    <body>
-        <header>
-            <nav>
-                <!-- <img id="logo" src="./assets/images/preview.png"/> -->
-                <a id="logo" href="./"><i class="fa-solid fa-clapperboard"></i></a>
-                <label for="search-bar"></label>
-                <input type="text" id="search-bar" placeholder="search" />
-                <label for="filter">Filter Search</label>
-                <select id="filter">
-                    <option value="all">All</option>
-                    <option value="title">Title</option>
-                    <option value="actor">Actor</option>
-                    <option value="director">Director</option>
-                </select>
-                <label for="sort">Sort</label>
-                <select id="sort">
-                    <option value="year-new">Newest</option>
-                    <option value="year-old">Oldest</option>
-                    <option value="rating-des">Rating descending</option>
-                    <option value="rating-asc">Rating ascending</option>
-                </select>
-                <button id="btn-add-movie">Add Movie</button>
-            </nav>
-        </header>
-        <main>
-            <section class="top-movie-div"><h1>Top Movie</h1></section>
-            <section class="grid-container" id="movie-grid"></section>
-            <dialog class="modal" id="dialog-modal">
-                
-            </dialog>
-        </main>
-        <footer>
-            <p>Created by: Brian, Yaw, Chris & Ali</p>
-        </footer>
-    </body>
+  <body>
+    <header>
+      <nav>
+        <!-- <img id="logo" src="./assets/images/preview.png"/> -->
+        <a id="logo" href="./"><i class="fa-solid fa-clapperboard"></i></a>
+        <label for="search-bar"></label>
+        <input type="text" id="search-bar" placeholder="search" />
+        <label for="filter">Filter Search</label>
+        <select id="filter">
+          <option value="all">All</option>
+          <option value="title">Title</option>
+          <option value="actor">Actor</option>
+          <option value="director">Director</option>
+        </select>
+        <label for="sort">Sort</label>
+        <select id="sort">
+          <option value="year-new">Newest</option>
+          <option value="year-old">Oldest</option>
+          <option value="rating-des">Rating descending</option>
+          <option value="rating-asc">Rating ascending</option>
+        </select>
+        <button id="btn-add-movie">Add Movie</button>
+      </nav>
+    </header>
+    <main>
+      <section class="top-movie-div"><h1>Top Movie</h1></section>
+      <section class="grid-container" id="movie-grid"></section>
+      <dialog class="modal" id="dialog-modal">
+        <!-- content inserted by JS -->
+      </dialog>
+    </main>
+    <footer>
+      <p>Created by: Brian, Yaw, Chris & Ali</p>
+    </footer>
+  </body>
 </html>
