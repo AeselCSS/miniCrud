@@ -31,7 +31,13 @@ function prepareData(dataObject) {
   return movies;
 }
 
+async function updateGrid() {
+  const moviesArray = await getMovies(endpoint);
+  showMovies(moviesArray);
+}
+
 function showMovies(movies) {
+  document.querySelector("#movie-grid").innerHTML="";
   for (const movie of movies) {
     showMovie(movie);
   }
@@ -413,6 +419,7 @@ async function deleteMovie(id) {
   if (response.ok) {
     console.log("Movie was succesfully deleted from Firebase! 🔥");
     //Call updateGrid function fetch data again.
+    updateGrid();
   } else {
     console.log("Something went wrong with DELETE request ☹");
   }
