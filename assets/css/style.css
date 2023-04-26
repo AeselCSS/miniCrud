@@ -166,3 +166,40 @@ select {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   }
 }
+
+.movie-details-section{
+  width: 50vw;
+  overflow-x: hidden;
+}
+
+.movie-details-functions {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+.movie-details-header {
+  display: grid;
+  grid-template-columns: auto auto auto auto
+}
+
+.movie-details-main {
+  display: grid;
+  grid-template-columns: 30% 70%;
+}
+
+.movie-details-main img {
+  width: 100%;
+  
+}
+
+.movie-details-main iframe {
+  width: 100%;
+  height: 100%;
+}
+
+.movie-details-other {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  column-gap: 30px;
+}
+
