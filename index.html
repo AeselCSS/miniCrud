@@ -7,75 +7,45 @@
         <link rel="stylesheet" href="./assets/css/style.css" />
         <link rel="shortcut icon" href="./assets/images/icons8-film-reel-16.png" type="image/x-icon" />
         <script src="./app.js" defer></script>
+        <script src="https://kit.fontawesome.com/d632d8ce37.js" crossorigin="anonymous" defer></script>
         <title>Movie CRUD</title>
     </head>
 
     <body>
-         <div class="nav-container"> <!-- hvorfor har en div wrapper med .nav-container når vi allerede bruger <nav> tagget? -->
+        <header>
             <nav>
-                <img id="logo" src="./assets/images/preview.png"/>
+                <!-- <img id="logo" src="./assets/images/preview.png"/> -->
+                <a id="logo" href="./"><i  class="fa-solid fa-clapperboard"></i></a>
                 <label for="search-bar"></label>
                 <input type="text" id="search-bar" placeholder="search" />
+                <label for="filter">Filter Search</label>
                 <select id="filter">
-                    <option value="">Filter</option>
-                    <option value="option1">Option 1</option>
-                    <option value="option2">Option 2</option>
-                    <option value="option3">Option 3</option>
+                    <option value="all">All</option>
+                    <option value="title">Title</option>
+                    <option value="actor">Actor</option>
+                    <option value="director">Director</option>
                 </select>
-                <select id="Sort">
-                    <option value="">Sort</option>
-                    <option value="option1">Option 1</option>
-                    <option value="option2">Option 2</option>
-                    <option value="option3">Option 3</option>
+                <label for="sort">Sort</label>
+                <select id="sort">
+                    <option value="year-new">Newest</option>
+                    <option value="year-old">Oldest</option>
+                    <option value="rating-des">Rating descending</option>
+                    <option value="rating-asc">Rating ascending</option>
                 </select>
                 <button id="btn-add-movie">Add Movie</button>
             </nav>
-        </div>
-		<div class="top-movie-div"><h1>Top Movie</h1></div>
-        <div class="grid-container">
+        </header>
+        <main>
+		<section class="top-movie-div"><h1>Top Movie</h1></section>
+        <section class="grid-container" id="movie-grid">
             
-            <div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-			<div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-			<div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-            <div class="grid-item">Movie</div>
-        </div>
+        </section>
+        <dialog class="modal" id="dialog-modal">
+
+        </dialog>
+</main>
+<footer>
+    <p>Created by: Brian, Yaw, Chris & Ali</p>
+</footer>
     </body>
 </html>
