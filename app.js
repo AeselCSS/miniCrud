@@ -114,6 +114,8 @@ function showMovieDialog(movie) {
     function removeClicked() {
         document.querySelector("#movie-remove-btn").removeEventListener("click", removeClicked);
         // kald på brains funktion med movie som argument mhp. slet
+        deleteMovieDialog(movie);
+
     }
 
     document.querySelector("#dialog-modal").showModal();
@@ -121,6 +123,9 @@ function showMovieDialog(movie) {
 
 // Shows dialog for Add Movie
 function showAddMovieModal(event) {
+
+  document.querySelector("#dialog-modal").innerHTML = '';
+
   const html = /*html*/ `
   <h2>Create a New Movie</h2>
         <form id="form" class="dialog-create-movie">
@@ -342,4 +347,65 @@ function populateActorList(actors) {
         `
         document.querySelector("#movie-actor-list").insertAdjacentHTML("beforeend", html);
     }
+}
+
+
+// ---------- My stuff ---------- //
+
+async function deleteMovieDialog(movie) {
+document.querySelector("#dialog-modal"). innerHTML = '';
+
+  // HTML to insert
+  const html = /*html*/ `
+    <h2>Are you sure you want to delete</h2>
+    <p id="dialog-delete-movie-title">${movie.title}</p>
+
+    <form method="dialog" id="form-delete-movie">
+
+    <button type="button" class="btn-cancel">NO</button>
+    <button>YES</button>
+    
+    </form>
+  `;
+
+  // Insert HTML
+  document.querySelector("#dialog-modal").innerHTML = html;
+
+  // Event listener
+  document
+    .querySelector("#form-delete-movie")
+    .addEventListener("submit", deleteYesClicked);
+
+  document
+    .querySelector(".btn-cancel")
+    .addEventListener("click", deleteNoClicked);
+
+  // Button functions
+  async function deleteYesClicked(event) {
+    event.preventDefault();
+    deleteMovie(movie.id);
+
+    const moviesArray = await getMovies(endpoint);
+    showMovies(moviesArray);
+    document.querySelector("#dialog-modal").close();
+  }
+
+  function deleteNoClicked() {
+    document.querySelector("#dialog-modal").close();
+  }
+}
+
+async function deleteMovie(id) {
+
+  const response = await fetch(`${endpoint}movies/${id}.json`, {
+    method: 'DELETE',
+  });
+
+  if (response.ok) {
+    console.log("Movie was succesfully deleted from Firebase! 🔥");
+  } else {
+    console.log("Something went wrong with DELETE request ☹");
+  }
+
+  
 }
