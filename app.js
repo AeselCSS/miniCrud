@@ -94,9 +94,23 @@ function showMovieDialog(movie) {
         </article>
     </section>
     `;
-    
+
     document.querySelector("#dialog-modal").insertAdjacentHTML("beforeend", section)
     populateActorList(movie.actorStars)
+
+
+    document.querySelector("#movie-update-btn").addEventListener("click", updateClicked);
+    document.querySelector("#movie-remove-btn").addEventListener("click", removeClicked);
+
+    function updateClicked() {
+        document.querySelector("#movie-update-btn").addEventListener("click", updateClicked);
+        // kald på brains funktion med movie som argument mhp. updater
+    }
+
+    function removeClicked() {
+        document.querySelector("#movie-remove-btn").removeEventListener("click", removeClicked);
+        // kald på brains funktion med movie som argument mhp. slet
+    }
 
     document.querySelector("#dialog-modal").showModal();
 }
