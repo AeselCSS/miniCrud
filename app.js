@@ -1,81 +1,85 @@
 "use strict";
 
 window.addEventListener("load", start);
-const endpoint =
-  "https://byca-crud-default-rtdb.europe-west1.firebasedatabase.app/";
+const endpoint = "https://byca-crud-default-rtdb.europe-west1.firebasedatabase.app/";
 
 async function start() {
-  const moviesArray = await getMovies(endpoint);
-  showMovies(moviesArray);
+	const moviesArray = await getMovies(endpoint);
+	showMovies(moviesArray);
 
-  document
-    .querySelector("#btn-add-movie")
-    .addEventListener("click", showAddMovieModal);
+	document.querySelector("#btn-add-movie").addEventListener("click", showAddMovieModal);
+
+	document.querySelector("#search-bar").addEventListener("input", searchThis);
+	document.querySelector("#filter").addEventListener("change", searchThis);
+
+	function searchThis(event) {
+		const filter = document.querySelector("#filter").value;
+		const searchBarValue = document.querySelector("#search-bar").value;
+
+		searchMovies(searchBarValue, filter);
+	}
 }
 
 async function getMovies(url) {
-  const response = await fetch(`${url}movies.json`);
-  const data = await response.json();
-  const preparedData = prepareData(data);
-  return preparedData;
+	const response = await fetch(`${url}movies.json`);
+	const data = await response.json();
+	const preparedData = prepareData(data);
+	return preparedData;
 }
 
 function prepareData(dataObject) {
-  const movies = [];
+	const movies = [];
 
-  for (const key in dataObject) {
+	for (const key in dataObject) {
+		const movie = dataObject[key];
 
-    const movie = dataObject[key];
+		//Workaround til bug nr2
+		if (!movie) {
+			continue;
+		}
 
-    //Workaround til bug nr2
-    if (!movie) {
-      continue;
-    }
-    
-    movie.id = key;
-    movies.push(movie);
-  }
-  return movies;
+		movie.id = key;
+		movies.push(movie);
+	}
+	return movies;
 }
 
 async function updateGrid() {
-  const moviesArray = await getMovies(endpoint);
-  showMovies(moviesArray);
+	const moviesArray = await getMovies(endpoint);
+	showMovies(moviesArray);
 }
 
 function showMovies(movies) {
-  document.querySelector("#movie-grid").innerHTML="";
-  for (const movie of movies) {
-    showMovie(movie);
-  }
+	document.querySelector("#movie-grid").innerHTML = "";
+	for (const movie of movies) {
+		showMovie(movie);
+	}
 }
 
 function showMovie(movie) {
-  const moviesContainer = document.querySelector("#movie-grid");
-  const movieHTML = /*html*/ `
+	const moviesContainer = document.querySelector("#movie-grid");
+	const movieHTML = /*html*/ `
   
   <article class="grid-item" > 
   <img src="${movie.poster}" >
   </article>
   `;
 
-  moviesContainer.insertAdjacentHTML("beforeend", movieHTML);
-  document
-    .querySelector("#movie-grid article:last-child")
-    .addEventListener("click", movieClicked);
+	moviesContainer.insertAdjacentHTML("beforeend", movieHTML);
+	document.querySelector("#movie-grid article:last-child").addEventListener("click", movieClicked);
 
-  function movieClicked(event) {
-    showMovieDialog(movie);
-  }
+	function movieClicked(event) {
+		showMovieDialog(movie);
+	}
 }
 
 // Shows dialog for movie clicked
 function showMovieDialog(movie) {
-  document.querySelector("#dialog-modal").innerHTML = "";
+	document.querySelector("#dialog-modal").innerHTML = "";
 
-  const genreString = getGenreTagsAsString(movie.genreTags);
+	const genreString = getGenreTagsAsString(movie.genreTags);
 
-  const section = /*html*/ `
+	const section = /*html*/ `
 	<section class="movie-details-section">
         <article class="movie-details-functions">
             <button id="movie-update-btn">Update details</button>
@@ -115,45 +119,37 @@ function showMovieDialog(movie) {
     </section>
     `;
 
-  document
-    .querySelector("#dialog-modal")
-    .insertAdjacentHTML("beforeend", section);
-  populateActorList(movie.actorStars);
+	document.querySelector("#dialog-modal").insertAdjacentHTML("beforeend", section);
+	populateActorList(movie.actorStars);
 
-  document
-    .querySelector("#movie-update-btn")
-    .addEventListener("click", updateClicked);
-  document
-    .querySelector("#movie-remove-btn")
-    .addEventListener("click", removeClicked);
+	document.querySelector("#movie-update-btn").addEventListener("click", updateClicked);
+	document.querySelector("#movie-remove-btn").addEventListener("click", removeClicked);
 
-  function updateClicked() {
-    document
-      .querySelector("#movie-update-btn")
-      .addEventListener("click", updateClicked);
-    // kald på brains funktion med movie som argument mhp. updater
-    updateMovieDialog(movie);
-  }
+	function updateClicked() {
+		document.querySelector("#movie-update-btn").addEventListener("click", updateClicked);
+		// kald på brains funktion med movie som argument mhp. updater
+		updateMovieDialog(movie);
+	}
 
-  function removeClicked() {
-    //Kommenteret ud, fordi det virker uden at fjerne eventlisteneren
-    /*
+	function removeClicked() {
+		//Kommenteret ud, fordi det virker uden at fjerne eventlisteneren
+		/*
     document
       .querySelector("#movie-remove-btn")
       .removeEventListener("click", removeClicked);
     */
-    // kald på brains funktion med movie som argument mhp. slet
-    deleteMovieDialog(movie);
-  }
+		// kald på brains funktion med movie som argument mhp. slet
+		deleteMovieDialog(movie);
+	}
 
-  document.querySelector("#dialog-modal").showModal();
+	document.querySelector("#dialog-modal").showModal();
 }
 
 // Shows dialog for Add Movie
 function showAddMovieModal(event) {
-  document.querySelector("#dialog-modal").innerHTML = "";
+	document.querySelector("#dialog-modal").innerHTML = "";
 
-  const html = /*html*/ `
+	const html = /*html*/ `
   <h2>Create a New Movie</h2>
         <form id="form" class="dialog-create-movie">
 
@@ -264,122 +260,106 @@ function showAddMovieModal(event) {
         </form>
   `;
 
-  document.querySelector("#dialog-modal").insertAdjacentHTML("beforeend", html);
+	document.querySelector("#dialog-modal").insertAdjacentHTML("beforeend", html);
 
-  document
-    .querySelector("#form")
-    .addEventListener("submit", createMovieClicked);
+	document.querySelector("#form").addEventListener("submit", createMovieClicked);
 
-  document.querySelector("#dialog-modal").showModal();
+	document.querySelector("#dialog-modal").showModal();
 }
 
 function createMovieClicked(event) {
-  event.preventDefault();
-  console.log(event);
+	event.preventDefault();
+	console.log(event);
 
-  document.querySelector("#dialog-modal").close();
+	document.querySelector("#dialog-modal").close();
 
-  const form = event.target;
-  console.log(form);
+	const form = event.target;
+	console.log(form);
 
-  const title = form.title.value;
-  const runtime = form.runtime.value;
-  const score = form.score.value;
-  const director = form.director.value;
-  const actorStars = form.actorStars.value.split(",");
-  const year = form.year.value;
-  const poster = form.poster.value;
-  const trailer = form.trailer.value;
-  const genreTags = form.genreTags.value.split(",");
-  const description = form.description.value;
-  let inCinema = form.inCinema.value;
+	const title = form.title.value;
+	const runtime = form.runtime.value;
+	const score = form.score.value;
+	const director = form.director.value;
+	const actorStars = form.actorStars.value.split(",");
+	const year = form.year.value;
+	const poster = form.poster.value;
+	const trailer = form.trailer.value;
+	const genreTags = form.genreTags.value.split(",");
+	const description = form.description.value;
+	let inCinema = form.inCinema.value;
 
-  if (inCinema === "yes") {
-    inCinema = true;
-  } else if (inCinema === "no") {
-    inCinema = false;
-  }
+	if (inCinema === "yes") {
+		inCinema = true;
+	} else if (inCinema === "no") {
+		inCinema = false;
+	}
 
-  createMovie(
-    title,
-    runtime,
-    score,
-    director,
-    actorStars,
-    year,
-    poster,
-    trailer,
-    genreTags,
-    description,
-    inCinema
-  );
+	createMovie(title, runtime, score, director, actorStars, year, poster, trailer, genreTags, description, inCinema);
 }
 
 async function createMovie(
-  title,
-  runtime,
-  score,
-  director,
-  actorStars,
-  year,
-  poster,
-  trailer,
-  genreTags,
-  description,
-  inCinema
+	title,
+	runtime,
+	score,
+	director,
+	actorStars,
+	year,
+	poster,
+	trailer,
+	genreTags,
+	description,
+	inCinema
 ) {
-  const newMovie = {
-    title,
-    runtime,
-    score,
-    director,
-    actorStars,
-    year,
-    poster,
-    trailer,
-    genreTags,
-    description,
-    inCinema,
-  };
-  console.log(newMovie);
-  const json = JSON.stringify(newMovie);
-  const response = await fetch(`${endpoint}movies.json`, {
-    method: "POST",
-    body: json,
-  });
+	const newMovie = {
+		title,
+		runtime,
+		score,
+		director,
+		actorStars,
+		year,
+		poster,
+		trailer,
+		genreTags,
+		description,
+		inCinema,
+	};
+	console.log(newMovie);
+	const json = JSON.stringify(newMovie);
+	const response = await fetch(`${endpoint}movies.json`, {
+		method: "POST",
+		body: json,
+	});
 
-  if (response.ok) {
-    console.log("Movie successfully posted");
-    updateGrid();
-    //Call updateGrid function fetch data again.
-  } else {
-    console.log("Failed to create movie");
-  }
+	if (response.ok) {
+		console.log("Movie successfully posted");
+		updateGrid();
+		//Call updateGrid function fetch data again.
+	} else {
+		console.log("Failed to create movie");
+	}
 }
 
 function getGenreTagsAsString(genreTags) {
-  return genreTags.join(",");
+	return genreTags.join(",");
 }
 
 function populateActorList(actors) {
-  for (const actor of actors) {
-    const html = /*html*/ `
+	for (const actor of actors) {
+		const html = /*html*/ `
         <li>${actor}</li>
         `;
-    document
-      .querySelector("#movie-actor-list")
-      .insertAdjacentHTML("beforeend", html);
-  }
+		document.querySelector("#movie-actor-list").insertAdjacentHTML("beforeend", html);
+	}
 }
 
 // ---------- Delete movie functions ---------- //
 
 async function deleteMovieDialog(movie) {
-  // console.log(movie.id);
-  document.querySelector("#dialog-modal").innerHTML = "";
+	// console.log(movie.id);
+	document.querySelector("#dialog-modal").innerHTML = "";
 
-  // HTML to insert
-  const html = /*html*/ `
+	// HTML to insert
+	const html = /*html*/ `
     <h2>Are you sure you want to delete</h2>
     <p id="dialog-delete-movie-title">${movie.title}</p>
 
@@ -391,53 +371,49 @@ async function deleteMovieDialog(movie) {
     </form>
   `;
 
-  // Insert HTML
-  document.querySelector("#dialog-modal").innerHTML = html;
+	// Insert HTML
+	document.querySelector("#dialog-modal").innerHTML = html;
 
-  // Event listener
-  document
-    .querySelector("#form-delete-movie")
-    .addEventListener("submit", deleteYesClicked);
+	// Event listener
+	document.querySelector("#form-delete-movie").addEventListener("submit", deleteYesClicked);
 
-  document
-    .querySelector(".btn-cancel")
-    .addEventListener("click", deleteNoClicked);
+	document.querySelector(".btn-cancel").addEventListener("click", deleteNoClicked);
 
-  // Button functions
-  async function deleteYesClicked(event) {
-    event.preventDefault();
-    deleteMovie(movie.id);
+	// Button functions
+	async function deleteYesClicked(event) {
+		event.preventDefault();
+		deleteMovie(movie.id);
 
-    document.querySelector("#dialog-modal").close();
-  }
+		document.querySelector("#dialog-modal").close();
+	}
 
-  function deleteNoClicked() {
-    document.querySelector("#dialog-modal").close();
-  }
+	function deleteNoClicked() {
+		document.querySelector("#dialog-modal").close();
+	}
 }
 
 async function deleteMovie(id) {
-  const response = await fetch(`${endpoint}movies/${id}.json`, {
-    method: "DELETE",
-  });
+	const response = await fetch(`${endpoint}movies/${id}.json`, {
+		method: "DELETE",
+	});
 
-  if (response.ok) {
-    console.log("Movie was succesfully deleted from Firebase! 🔥");
-    //Call updateGrid function fetch data again.
-    updateGrid();
-  } else {
-    console.log("Something went wrong with DELETE request ☹");
-  }
+	if (response.ok) {
+		console.log("Movie was succesfully deleted from Firebase! 🔥");
+		//Call updateGrid function fetch data again.
+		updateGrid();
+	} else {
+		console.log("Something went wrong with DELETE request ☹");
+	}
 }
 
 // ---------- Update movie functions ---------- //
 
 function updateMovieDialog(movie) {
-  console.log(movie);
+	console.log(movie);
 
-  document.querySelector("#dialog-modal").innerHTML = "";
+	document.querySelector("#dialog-modal").innerHTML = "";
 
-  const html = /*html*/ `
+	const html = /*html*/ `
   <h2>Update Movie</h2>
         <form id="form" class="dialog-update-movie">
 
@@ -557,101 +533,157 @@ function updateMovieDialog(movie) {
         </form>
   `;
 
-  document.querySelector("#dialog-modal").insertAdjacentHTML("beforeend", html);
-  
-  if (movie.inCinema) {
-    document.querySelector("#in-cinema-yes").setAttribute("checked", true);
-  } else {
-    document.querySelector("#in-cinema-no").setAttribute("checked", true);
-  }
+	document.querySelector("#dialog-modal").insertAdjacentHTML("beforeend", html);
 
-  document
-    .querySelector("#form")
-    .addEventListener("submit", updateMovieClicked);
+	if (movie.inCinema) {
+		document.querySelector("#in-cinema-yes").setAttribute("checked", true);
+	} else {
+		document.querySelector("#in-cinema-no").setAttribute("checked", true);
+	}
 
-  function updateMovieClicked(event) {
-    event.preventDefault();
+	document.querySelector("#form").addEventListener("submit", updateMovieClicked);
 
-    document.querySelector("#dialog-modal").close();
+	function updateMovieClicked(event) {
+		event.preventDefault();
 
-    const form = event.target;
+		document.querySelector("#dialog-modal").close();
 
-    const title = form.title.value;
-    const runtime = form.runtime.value;
-    const score = form.score.value;
-    const director = form.director.value;
-    const actorStars = form.actorStars.value.split(",");
-    const year = form.year.value;
-    const poster = form.poster.value;
-    const trailer = form.trailer.value;
-    const genreTags = form.genreTags.value.split(',');
-    const description = form.description.value;
-    let inCinema = form.inCinema.value;
-    const id = movie.id;
+		const form = event.target;
 
-    if (inCinema === "yes") {
-      inCinema = true;
-    } else if (inCinema === "no") {
-      inCinema = false;
-    }
+		const title = form.title.value;
+		const runtime = form.runtime.value;
+		const score = form.score.value;
+		const director = form.director.value;
+		const actorStars = form.actorStars.value.split(",");
+		const year = form.year.value;
+		const poster = form.poster.value;
+		const trailer = form.trailer.value;
+		const genreTags = form.genreTags.value.split(",");
+		const description = form.description.value;
+		let inCinema = form.inCinema.value;
+		const id = movie.id;
 
-    updateMovie(
-      title,
-      runtime,
-      score,
-      director,
-      actorStars,
-      year,
-      poster,
-      trailer,
-      genreTags,
-      description,
-      inCinema,
-      id
-    );
-  }
+		if (inCinema === "yes") {
+			inCinema = true;
+		} else if (inCinema === "no") {
+			inCinema = false;
+		}
+
+		updateMovie(
+			title,
+			runtime,
+			score,
+			director,
+			actorStars,
+			year,
+			poster,
+			trailer,
+			genreTags,
+			description,
+			inCinema,
+			id
+		);
+	}
 }
 
 async function updateMovie(
-  title,
-  runtime,
-  score,
-  director,
-  actorStars,
-  year,
-  poster,
-  trailer,
-  genreTags,
-  description,
-  inCinema,
-  id
+	title,
+	runtime,
+	score,
+	director,
+	actorStars,
+	year,
+	poster,
+	trailer,
+	genreTags,
+	description,
+	inCinema,
+	id
 ) {
-  const updatedMovie = {
-    title,
-    runtime,
-    score,
-    director,
-    actorStars,
-    year,
-    poster,
-    trailer,
-    genreTags,
-    description,
-    inCinema,
-  };
+	const updatedMovie = {
+		title,
+		runtime,
+		score,
+		director,
+		actorStars,
+		year,
+		poster,
+		trailer,
+		genreTags,
+		description,
+		inCinema,
+	};
 
-  const json = JSON.stringify(updatedMovie);
+	const json = JSON.stringify(updatedMovie);
 
-  const response = await fetch(`${endpoint}movies/${id}.json`, {
-    method: "PUT",
-    body: json,
-  });
+	const response = await fetch(`${endpoint}movies/${id}.json`, {
+		method: "PUT",
+		body: json,
+	});
 
-  if (response.ok) {
-    console.log("Movie successfully updated in Firebase! 🔥");
-    updateGrid();
-    //Call updateGrid function fetch data again.
-  } else {
-    console.log("Something went wrong with PUT request ☹");
-  }
+	if (response.ok) {
+		console.log("Movie successfully updated in Firebase! 🔥");
+		updateGrid();
+		//Call updateGrid function fetch data again.
+	} else {
+		console.log("Something went wrong with PUT request ☹");
+	}
 }
+
+/*=====================FILTER & SEARCH BAR========================*/
+async function searchMovies(keywords, filter) {
+	const movies = await getMovies(endpoint);
+	const filteredMovies = filterMovies(movies, keywords, filter);
+
+	showMovies(filteredMovies);
+}
+
+function filterMovies(movies, keywords, filter) {
+	const filteredMovies = [];
+	const keywordsLowerCase = keywords.toLowerCase();
+
+	for (const movie of movies) {
+		if (filter == "all") {
+			loopAllPropertiesOfMovie(movie);
+		} else if (filter == "director") {
+			loopDirectorOfMovie(movie);
+		} else if (filter == "title") {
+			loopTitleOfMovie(movie);
+		} else if (filter == "actor") {
+			loopActorsOfMovie(movie);
+		}
+	}
+
+	function loopAllPropertiesOfMovie(movie) {
+		for (const property in movie) {
+			if (movie[property].toString().toLowerCase().includes(keywordsLowerCase)) {
+				filteredMovies.push(movie);
+				break;
+			}
+		}
+	}
+
+	function loopDirectorOfMovie(movie) {
+		if (movie["director"].toLowerCase().includes(keywordsLowerCase)) {
+			filteredMovies.push(movie);
+		}
+	}
+
+	function loopTitleOfMovie(movie) {
+		if (movie["title"].toLowerCase().includes(keywordsLowerCase)) {
+			filteredMovies.push(movie);
+		}
+	}
+
+	function loopActorsOfMovie(movie) {
+		for (let i = 0; i < movie.actorStars.length; i++) {
+			if (movie.actorStars[i].toLowerCase().includes(keywordsLowerCase)) {
+				filteredMovies.push(movie);
+				break;
+			}
+		}
+	}
+
+	return filteredMovies;
+}
+/*=====================FILTER & SEARCH BAR SLUT========================*/
