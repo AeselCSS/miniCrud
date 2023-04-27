@@ -24,7 +24,14 @@ function prepareData(dataObject) {
   const movies = [];
 
   for (const key in dataObject) {
+
     const movie = dataObject[key];
+
+    //Workaround til bug nr2
+    if (!movie) {
+      continue;
+    }
+    
     movie.id = key;
     movies.push(movie);
   }
@@ -129,9 +136,12 @@ function showMovieDialog(movie) {
   }
 
   function removeClicked() {
+    //Kommenteret ud, fordi det virker uden at fjerne eventlisteneren
+    /*
     document
       .querySelector("#movie-remove-btn")
       .removeEventListener("click", removeClicked);
+    */
     // kald på brains funktion med movie som argument mhp. slet
     deleteMovieDialog(movie);
   }
@@ -165,9 +175,9 @@ function showAddMovieModal(event) {
             id="score"
             name="score"
             placeholder="Rating"
-            min="1"
+            min="0"
             max="10"
-            step="1"
+            step="0.1"
             required
           />
 
@@ -267,6 +277,8 @@ function createMovieClicked(event) {
   event.preventDefault();
   console.log(event);
 
+  document.querySelector("#dialog-modal").close();
+
   const form = event.target;
   console.log(form);
 
@@ -338,22 +350,15 @@ async function createMovie(
 
   if (response.ok) {
     console.log("Movie successfully posted");
+    updateGrid();
     //Call updateGrid function fetch data again.
+  } else {
+    console.log("Failed to create movie");
   }
 }
 
 function getGenreTagsAsString(genreTags) {
-  let genreString = "";
-
-  for (let i = 0; i < genreTags.length; i++) {
-    if (i === genreTags.length - 1) {
-      genreString += genreTags[i];
-    } else {
-      genreString += `${genreTags[i]}, `;
-    }
-  }
-
-  return genreString;
+  return genreTags.join(",");
 }
 
 function populateActorList(actors) {
@@ -370,7 +375,7 @@ function populateActorList(actors) {
 // ---------- Delete movie functions ---------- //
 
 async function deleteMovieDialog(movie) {
-  console.log(movie.id);
+  // console.log(movie.id);
   document.querySelector("#dialog-modal").innerHTML = "";
 
   // HTML to insert
@@ -539,7 +544,7 @@ function updateMovieDialog(movie) {
           
            <label for="inCinema-no">No <input
             type="radio"
-            id="in-cinema"
+            id="in-cinema-no"
             name="inCinema"
             value="no"
             required
@@ -553,6 +558,12 @@ function updateMovieDialog(movie) {
   `;
 
   document.querySelector("#dialog-modal").insertAdjacentHTML("beforeend", html);
+  
+  if (movie.inCinema) {
+    document.querySelector("#in-cinema-yes").setAttribute("checked", true);
+  } else {
+    document.querySelector("#in-cinema-no").setAttribute("checked", true);
+  }
 
   document
     .querySelector("#form")
@@ -638,6 +649,7 @@ async function updateMovie(
 
   if (response.ok) {
     console.log("Movie successfully updated in Firebase! 🔥");
+    updateGrid();
     //Call updateGrid function fetch data again.
   } else {
     console.log("Something went wrong with PUT request ☹");
