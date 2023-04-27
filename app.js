@@ -274,11 +274,11 @@ function createMovieClicked(event) {
   const runtime = form.runtime.value;
   const score = form.score.value;
   const director = form.director.value;
-  const actorStars = form.actorStars.value;
+  const actorStars = form.actorStars.value.split(",");
   const year = form.year.value;
   const poster = form.poster.value;
   const trailer = form.trailer.value;
-  const genreTags = form.genreTags.value;
+  const genreTags = form.genreTags.value.split(",");
   const description = form.description.value;
   let inCinema = form.inCinema.value;
 
