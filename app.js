@@ -413,7 +413,7 @@ async function deleteMovie(id) {
 // ---------- Update movie functions ---------- //
 
 function updateMovieDialog(movie) {
-	console.log(movie);
+	// console.log(movie);
 
 	document.querySelector("#dialog-modal").innerHTML = "";
 
@@ -537,7 +537,7 @@ function updateMovieDialog(movie) {
         </form>
   `;
 
-	document.querySelector("#dialog-modal").insertAdjacentHTML("beforeend", html);
+	document.querySelector("#dialog-modal").innerHTML = html;
 
 	if (movie.inCinema) {
 		document.querySelector("#in-cinema-yes").setAttribute("checked", true);
@@ -545,13 +545,14 @@ function updateMovieDialog(movie) {
 		document.querySelector("#in-cinema-no").setAttribute("checked", true);
 	}
 
-	document.querySelector("#form").addEventListener("submit", updateMovieClicked);
+	document.querySelector("#form").addEventListener("submit", updateMovieFeedbackDialog);
 
-	function updateMovieClicked(event) {
+	function updateMovieFeedbackDialog(event) {
 		event.preventDefault();
 
-		document.querySelector("#dialog-modal").close();
+		document.querySelector("#dialog-modal").innerHTML = "";
 
+		// Form values to variables
 		const form = event.target;
 
 		const title = form.title.value;
@@ -573,20 +574,54 @@ function updateMovieDialog(movie) {
 			inCinema = false;
 		}
 
-		updateMovie(
-			title,
-			runtime,
-			score,
-			director,
-			actorStars,
-			year,
-			poster,
-			trailer,
-			genreTags,
-			description,
-			inCinema,
-			id
-		);
+		// HTML to insert
+		const html = /*html*/ `
+		<p>
+			<h2>Updated movie details</h2>
+		</p>
+		<p><b>Title:</b> ${form.title.value}</p>
+		<p><b>Runtime:</b> ${movie.runtime} minutes</p>
+		<p><b>Score:</b> ${movie.score}</p>
+		<p><b>Director:</b> ${movie.director}</p>
+		<p><b>Star actors:</b> ${movie.actorStars}</p>
+		<p><b>Year:</b> ${movie.year}</p>
+		<p><b>Poster:</b> <img src="${movie.poster}" alt="POSTER MISSING" /></p>
+		<p><b>Trailer:</b> <iframe src="${movie.trailer}"></iframe></p>
+		<p><b>Genres:</b> ${movie.genreTags}</p>
+		<p><b>Year:</b> ${movie.inCinema ? "Yes" : "No"}</p>
+		<button id="update-confirm-btn">Confirm</button>
+		<button id="update-back-btn">Back</button>
+		`;
+		document.querySelector("#dialog-modal").innerHTML = html;
+
+		// Button event listeners
+		document.querySelector("#update-confirm-btn").addEventListener("click", updateMovieFeedbackConfirm);
+
+		document.querySelector("#update-back-btn").addEventListener("click", updateMovieFeedbackBack);
+
+		function updateMovieFeedbackConfirm() {
+			document.querySelector("#dialog-modal").close();
+
+			updateMovie(
+				title,
+				runtime,
+				score,
+				director,
+				actorStars,
+				year,
+				poster,
+				trailer,
+				genreTags,
+				description,
+				inCinema,
+				id
+			);
+		}
+
+		function updateMovieFeedbackBack() {
+			// Shows movie dialog with original values
+			updateMovieDialog(movie);
+		}
 	}
 }
 
@@ -618,8 +653,10 @@ async function updateMovie(
 		inCinema,
 	};
 
+	// Parses into json
 	const json = JSON.stringify(updatedMovie);
 
+	// Updates/replaces object in database
 	const response = await fetch(`${endpoint}movies/${id}.json`, {
 		method: "PUT",
 		body: json,
@@ -628,7 +665,6 @@ async function updateMovie(
 	if (response.ok) {
 		console.log("Movie successfully updated in Firebase! 🔥");
 		updateGrid();
-		//Call updateGrid function fetch data again.
 	} else {
 		console.log("Something went wrong with PUT request ☹");
 		const errorMessage = "The movie could not be updated. Please try again later.";
