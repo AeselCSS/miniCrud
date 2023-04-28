@@ -579,16 +579,17 @@ function updateMovieDialog(movie) {
 		<p>
 			<h2>Updated movie details</h2>
 		</p>
-		<p><b>Title:</b> ${form.title.value}</p>
-		<p><b>Runtime:</b> ${movie.runtime} minutes</p>
-		<p><b>Score:</b> ${movie.score}</p>
-		<p><b>Director:</b> ${movie.director}</p>
-		<p><b>Star actors:</b> ${movie.actorStars}</p>
-		<p><b>Year:</b> ${movie.year}</p>
-		<p><b>Poster:</b> <img src="${movie.poster}" alt="POSTER MISSING" /></p>
-		<p><b>Trailer:</b> <iframe src="${movie.trailer}"></iframe></p>
-		<p><b>Genres:</b> ${movie.genreTags}</p>
-		<p><b>Year:</b> ${movie.inCinema ? "Yes" : "No"}</p>
+		<p><b>Title:</b> ${title}</p>
+		<p><b>Runtime:</b> ${runtime} minutes</p>
+		<p><b>Year:</b> ${year}</p>
+		<p><b>Director:</b> ${director}</p>
+		<p><b>Star actors:</b> ${actorStars}</p>
+		<p><b>Genres:</b> ${genreTags}</p>
+		<p><b>Score:</b> ${score}</p>
+		<p><b>Description:</b> ${description}</p>
+		<p><b>Currently in cinema:</b> ${inCinema ? "Yes" : "No"}</p>
+		<p><b>Poster:</b> <img src="${poster}" alt="POSTER MISSING" /></p>
+		<p><b>Trailer:</b> <iframe src="${trailer}"></iframe></p>
 		<button id="update-confirm-btn">Confirm</button>
 		<button id="update-back-btn">Back</button>
 		`;
