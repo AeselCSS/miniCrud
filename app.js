@@ -721,7 +721,7 @@ function filterMovies(movies, keywords, filter) {
 }
 /*=====================FILTER & SEARCH BAR SLUT========================*/
 
-/*============================ SORT BAR =================================*/
+/*============================ SORT FUNCTIONS =================================*/
 
 async function sortMovies(dropDownValue) {
 	const movies = await getMovies(endpoint);
@@ -732,6 +732,13 @@ async function sortMovies(dropDownValue) {
 	} else if (dropDownValue === "year-old") {
 		const sortedByOldestYear = movies.sort(sortYearOld);
 		showMovies(sortedByOldestYear);
+	} else if (dropDownValue === "rating-des") {
+		const sortedHighestRate = movies.sort(sortHighestRating);
+		console.log(sortedHighestRate);
+		showMovies(sortedHighestRate);
+	} else if (dropDownValue === "rating-asc") {
+		const sortedLowestRating = movies.sort(sortLowestRating);
+		showMovies(sortedLowestRating);
 	}
 }
 
@@ -741,4 +748,12 @@ function sortYearNew(movie1, movie2) {
 
 function sortYearOld(movie1, movie2) {
 	return movie1.year - movie2.year;
+}
+
+function sortHighestRating(movie1, movie2) {
+	return movie2.score - movie1.score;
+}
+
+function sortLowestRating(movie1, movie2) {
+	return movie1.score - movie2.score;
 }
