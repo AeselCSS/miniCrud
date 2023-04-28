@@ -417,6 +417,7 @@ function updateMovieDialog(movie) {
 
 	document.querySelector("#dialog-modal").innerHTML = "";
 
+	// HTML to insert
 	const html = /*html*/ `
   <h2>Update Movie</h2>
         <form id="form" class="dialog-update-movie">
@@ -539,6 +540,7 @@ function updateMovieDialog(movie) {
 
 	document.querySelector("#dialog-modal").innerHTML = html;
 
+	// Sets clicked in cinema radio button
 	if (movie.inCinema) {
 		document.querySelector("#in-cinema-yes").setAttribute("checked", true);
 	} else {
