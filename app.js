@@ -157,9 +157,9 @@ function showMovieDialog(movie) {
 }
 
 // Shows dialog for Add Movie
-function showAddMovieModal(event) {
-	document.querySelector("#dialog-modal").innerHTML = "";
-
+function showAddMovieModal() {
+  const dialog = document.querySelector("#dialog-modal");
+  const dialogContent = document.querySelector("#dialog-modal-content");
 	const html = /*html*/ `
   <h2>Create a New Movie</h2>
         <form id="form" class="dialog-create-movie">
@@ -252,8 +252,6 @@ function showAddMovieModal(event) {
             name="inCinema"
             value="yes"
             required
-            
-           
           /></label>
           
            <label for="inCinema-no">No <input
@@ -261,21 +259,16 @@ function showAddMovieModal(event) {
             id="in-cinema"
             name="inCinema"
             value="no"
-            required
-            
-            
+            required  
           /></label>
-          
-
+        
           <button>Add this movie</button>
         </form>
   `;
 
-	document.querySelector("#dialog-modal").insertAdjacentHTML("beforeend", html);
-
+	dialogContent.insertAdjacentHTML("beforeend", html);
 	document.querySelector("#form").addEventListener("submit", createMovieClicked);
-
-	document.querySelector("#dialog-modal").showModal();
+	dialog.showModal();
 }
 
 function createMovieClicked(event) {
