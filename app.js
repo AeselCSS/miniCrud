@@ -19,8 +19,7 @@ async function start() {
 		searchMovies(searchBarValue, filter);
 	}
 
-  closeDialogEventListener();
-
+	closeDialogEventListener();
 }
 
 async function getMovies(url) {
@@ -78,7 +77,7 @@ function showMovie(movie) {
 
 // Shows dialog for movie clicked
 function showMovieDialog(movie) {
-  const dialogContent = document.querySelector("#dialog-modal-content");
+	const dialogContent = document.querySelector("#dialog-modal-content");
 	dialogContent.innerHTML = "";
 
 	const genreString = getGenreTagsAsString(movie.genreTags);
@@ -360,10 +359,9 @@ function populateActorList(actors) {
 // ---------- Delete movie functions ---------- //
 
 async function deleteMovieDialog(movie) {
-  const dialog = document.querySelector("#dialog-modal");
-  // const dialogContent = document.querySelector("#dialog-modal-content");
+	const dialog = document.querySelector("#dialog-modal");
+	const dialogContent = document.querySelector("#dialog-modal-content");
 	// console.log(movie.id);
-	dialog.innerHTML = "";
 
 	// HTML to insert
 	const html = /*html*/ `
@@ -379,7 +377,7 @@ async function deleteMovieDialog(movie) {
   `;
 
 	// Insert HTML
-	dialog.innerHTML = html;
+	dialogContent.innerHTML = html;
 
 	// Event listener
 	document.querySelector("#form-delete-movie").addEventListener("submit", deleteYesClicked);
@@ -418,11 +416,9 @@ async function deleteMovie(id) {
 // ---------- Update movie functions ---------- //
 
 function updateMovieDialog(movie) {
-	console.log(movie);
-  const dialog = document.querySelector("#dialog-modal");
-  const dialogContent = document.querySelector("#dialog-modal-content");
-
-	// document.querySelector("#dialog-modal").innerHTML = "";
+	// console.log(movie);
+	const dialog = document.querySelector("#dialog-modal");
+	const dialogContent = document.querySelector("#dialog-modal-content");
 
 	// HTML to insert
 	const html = /*html*/ `
@@ -545,7 +541,7 @@ function updateMovieDialog(movie) {
         </form>
   `;
 
-	dialogContent.insertAdjacentHTML("beforeend", html);
+	dialogContent.innerHTML = html;
 
 	// Sets clicked in cinema radio button
 	if (movie.inCinema) {
@@ -558,8 +554,6 @@ function updateMovieDialog(movie) {
 
 	function updateMovieFeedbackDialog(event) {
 		event.preventDefault();
-
-		document.querySelector("#dialog-modal").innerHTML = "";
 
 		// Form values to variables
 		const form = event.target;
@@ -602,7 +596,7 @@ function updateMovieDialog(movie) {
 		<button id="update-confirm-btn">Confirm</button>
 		<button id="update-back-btn">Back</button>
 		`;
-		document.querySelector("#dialog-modal").innerHTML = html;
+		dialogContent.innerHTML = html;
 
 		// Button event listeners
 		document.querySelector("#update-confirm-btn").addEventListener("click", updateMovieFeedbackConfirm);
@@ -610,7 +604,7 @@ function updateMovieDialog(movie) {
 		document.querySelector("#update-back-btn").addEventListener("click", updateMovieFeedbackBack);
 
 		function updateMovieFeedbackConfirm() {
-			document.querySelector("#dialog-modal").close();
+			dialog.close();
 
 			updateMovie(
 				title,
@@ -684,7 +678,7 @@ async function updateMovie(
 
 // Error handling - display error message in a dialog
 function displayErrorDialog(message) {
-  const dialog = document.querySelector("#dialog-modal");
+	const dialog = document.querySelector("#dialog-modal");
 	const dialogContent = document.querySelector("#dialog-modal-content");
 	const html = /*html*/ `
     <h2>Something went wrong</h2>
@@ -696,13 +690,13 @@ function displayErrorDialog(message) {
 
 // Close dialog
 function closeDialogEventListener() {
-  const closeDialogButton = document.querySelector("#btn-close-modal");
-  const dialogContent = document.querySelector("#dialog-modal-content");
-  const dialogModal = document.querySelector("#dialog-modal");
-  closeDialogButton.addEventListener("click", () => {
+	const closeDialogButton = document.querySelector("#btn-close-modal");
+	const dialogContent = document.querySelector("#dialog-modal-content");
+	const dialogModal = document.querySelector("#dialog-modal");
+	closeDialogButton.addEventListener("click", () => {
 		dialogContent.innerHTML = "";
 		dialogModal.close();
-  });
+	});
 }
 
 /*=====================FILTER & SEARCH BAR========================*/
