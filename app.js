@@ -170,7 +170,7 @@ function showAddMovieModal(event) {
             type="number"
             id="score"
             name="score"
-            placeholder="Rating"
+            placeholder="Rate between 0,0-10"
             min="0"
             max="10"
             step="0.1"
@@ -191,7 +191,7 @@ function showAddMovieModal(event) {
             type="text"
             id="actors"
             name="actorStars"
-            placeholder="Name of star actors"
+            placeholder="Name of star actors (actor1, actor2, ...)"
             required
           />
 
@@ -221,7 +221,7 @@ function showAddMovieModal(event) {
             type="text"
             id="genre"
             name="genreTags"
-            placeholder="write the genre(s)"
+            placeholder="write the genre (genre1, genre2, ...)"
             required
           />
 
@@ -435,7 +435,7 @@ function updateMovieDialog(movie) {
             type="number"
             id="score"
             name="score"
-            placeholder="Rating"
+            placeholder="Rate between 0,0-10"
             min="1"
             max="10"
             step="0.1"
@@ -458,7 +458,7 @@ function updateMovieDialog(movie) {
             type="text"
             id="actors"
             name="actorStars"
-            placeholder="Name of star actors"
+            placeholder="Name of star actors (actor1, actor2, ...)"
             value='${movie.actorStars}'
             required
           />
@@ -492,7 +492,7 @@ function updateMovieDialog(movie) {
             type="text"
             id="genre"
             name="genreTags"
-            placeholder="write the genre(s)"
+            placeholder="Write the genre (genre1, genre2, ...)"
             value='${movie.genreTags}'
             required
           />
