@@ -727,12 +727,18 @@ async function sortMovies(dropDownValue) {
 	const movies = await getMovies(endpoint);
 
 	if (dropDownValue === "year-new") {
-		const sortedByYear = movies.sort(sortYearNew);
-		console.log(sortedByYear);
-		showMovies(sortedByYear);
+		const sortedByNewestYear = movies.sort(sortYearNew);
+		showMovies(sortedByNewestYear);
+	} else if (dropDownValue === "year-old") {
+		const sortedByOldestYear = movies.sort(sortYearOld);
+		showMovies(sortedByOldestYear);
 	}
 }
 
 function sortYearNew(movie1, movie2) {
 	return movie2.year - movie1.year;
+}
+
+function sortYearOld(movie1, movie2) {
+	return movie1.year - movie2.year;
 }
