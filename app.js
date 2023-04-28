@@ -336,6 +336,8 @@ async function createMovie(
 		//Call updateGrid function fetch data again.
 	} else {
 		console.log("Failed to create movie");
+		const errorMessage = "The movie could not be created. Please try again later.";
+		displayErrorDialog(errorMessage);
 	}
 }
 
@@ -403,6 +405,8 @@ async function deleteMovie(id) {
 		updateGrid();
 	} else {
 		console.log("Something went wrong with DELETE request ☹");
+		const errorMessage = "The movie could not be deleted. Please try again later.";
+		displayErrorDialog(errorMessage);
 	}
 }
 
@@ -514,7 +518,7 @@ function updateMovieDialog(movie) {
             name="inCinema"
             value="yes"
             required
-            
+          
            
           /></label>
           
@@ -627,7 +631,27 @@ async function updateMovie(
 		//Call updateGrid function fetch data again.
 	} else {
 		console.log("Something went wrong with PUT request ☹");
+		const errorMessage = "The movie could not be updated. Please try again later.";
+		displayErrorDialog(errorMessage);
 	}
+}
+
+// Error handling - display error message in a dialog
+function displayErrorDialog(message) {
+	const dialog = document.querySelector("#dialog-modal");
+	const html = /*html*/ `
+    <h2>Something went wrong</h2>
+    <p>${message}</p>
+    <button id="close-dialog">Close</button>
+    `;
+	dialog.innerHTML = html;
+
+	const closeDialogButton = document.querySelector("#close-dialog");
+	closeDialogButton.addEventListener("click", () => {
+		dialog.innerHTML = "";
+		dialog.close();
+	});
+	dialog.showModal();
 }
 
 /*=====================FILTER & SEARCH BAR========================*/
