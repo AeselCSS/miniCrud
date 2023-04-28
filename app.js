@@ -161,7 +161,7 @@ function showAddMovieModal(event) {
             type="number"
             id="runtime"
             name="runtime"
-            placeholder="runtime in min"
+            placeholder="Runtime in minutes"
             required
           />
 
@@ -200,7 +200,7 @@ function showAddMovieModal(event) {
             type="number"
             id="year"
             name="year"
-            placeholder="Year released"
+            placeholder="Year of release"
             required
           />
 
@@ -221,7 +221,7 @@ function showAddMovieModal(event) {
             type="text"
             id="genre"
             name="genreTags"
-            placeholder="write the genre (genre1, genre2, ...)"
+            placeholder="Write the genre (genre1, genre2, ...)"
             required
           />
 
@@ -234,7 +234,7 @@ function showAddMovieModal(event) {
             required
           />
 
-          <label for=""> is the movie in cinema:</label>
+          <label for=""> Is the movie currently in cinema:</label>
           <label for="in-cinema-yes">Yes <input
             type="radio"
             id="in-cinema-yes"
@@ -425,7 +425,7 @@ function updateMovieDialog(movie) {
             type="number"
             id="runtime"
             name="runtime"
-            placeholder="runtime in min"
+            placeholder="Runtime in minutes"
             value='${movie.runtime}'
             required
           />
@@ -468,7 +468,7 @@ function updateMovieDialog(movie) {
             type="number"
             id="year"
             name="year"
-            placeholder="Year released"
+            placeholder="Year of release"
             value='${movie.year}'
             required
           />
@@ -507,7 +507,7 @@ function updateMovieDialog(movie) {
             required
           />
 
-          <label for=""> is the movie in cinema:</label>
+          <label for=""> is the movie currently in cinema:</label>
           <label for="in-cinema-yes">Yes <input
             type="radio"
             id="in-cinema-yes"
