@@ -635,3 +635,79 @@ async function updateMovie(
 		displayErrorDialog(errorMessage);
 	}
 }
+
+// Error handling - display error message in a dialog
+function displayErrorDialog(message) {
+	const dialog = document.querySelector("#dialog-modal");
+	const html = /*html*/ `
+    <h2>Something went wrong</h2>
+    <p>${message}</p>
+    <button id="close-dialog">Close</button>
+    `;
+	dialog.innerHTML = html;
+
+	const closeDialogButton = document.querySelector("#close-dialog");
+	closeDialogButton.addEventListener("click", () => {
+		dialog.innerHTML = "";
+		dialog.close();
+	});
+	dialog.showModal();
+}
+
+/*=====================FILTER & SEARCH BAR========================*/
+async function searchMovies(keywords, filter) {
+	const movies = await getMovies(endpoint);
+	const filteredMovies = filterMovies(movies, keywords, filter);
+
+	showMovies(filteredMovies);
+}
+
+function filterMovies(movies, keywords, filter) {
+	const filteredMovies = [];
+	const keyword = keywords.toLowerCase();
+
+	for (const movie of movies) {
+		if (filter == "all") {
+			loopAllPropertiesOfMovie(movie);
+		} else if (filter == "director") {
+			loopDirectorOfMovie(movie);
+		} else if (filter == "title") {
+			loopTitleOfMovie(movie);
+		} else if (filter == "actor") {
+			loopActorsOfMovie(movie);
+		}
+	}
+
+	function loopAllPropertiesOfMovie(movie) {
+		for (const property in movie) {
+			if (movie[property].toString().toLowerCase().includes(keyword)) {
+				filteredMovies.push(movie);
+				break;
+			}
+		}
+	}
+
+	function loopDirectorOfMovie(movie) {
+		if (movie["director"].toLowerCase().includes(keyword)) {
+			filteredMovies.push(movie);
+		}
+	}
+
+	function loopTitleOfMovie(movie) {
+		if (movie["title"].toLowerCase().includes(keyword)) {
+			filteredMovies.push(movie);
+		}
+	}
+
+	function loopActorsOfMovie(movie) {
+		for (let i = 0; i < movie.actorStars.length; i++) {
+			if (movie.actorStars[i].toLowerCase().includes(keyword)) {
+				filteredMovies.push(movie);
+				break;
+			}
+		}
+	}
+
+	return filteredMovies;
+}
+/*=====================FILTER & SEARCH BAR SLUT========================*/
