@@ -640,7 +640,7 @@ async function searchMovies(keywords, filter) {
 
 function filterMovies(movies, keywords, filter) {
 	const filteredMovies = [];
-	const keywordsLowerCase = keywords.toLowerCase();
+	const keyword = keywords.toLowerCase();
 
 	for (const movie of movies) {
 		if (filter == "all") {
@@ -656,7 +656,7 @@ function filterMovies(movies, keywords, filter) {
 
 	function loopAllPropertiesOfMovie(movie) {
 		for (const property in movie) {
-			if (movie[property].toString().toLowerCase().includes(keywordsLowerCase)) {
+			if (movie[property].toString().toLowerCase().includes(keyword)) {
 				filteredMovies.push(movie);
 				break;
 			}
@@ -664,20 +664,20 @@ function filterMovies(movies, keywords, filter) {
 	}
 
 	function loopDirectorOfMovie(movie) {
-		if (movie["director"].toLowerCase().includes(keywordsLowerCase)) {
+		if (movie["director"].toLowerCase().includes(keyword)) {
 			filteredMovies.push(movie);
 		}
 	}
 
 	function loopTitleOfMovie(movie) {
-		if (movie["title"].toLowerCase().includes(keywordsLowerCase)) {
+		if (movie["title"].toLowerCase().includes(keyword)) {
 			filteredMovies.push(movie);
 		}
 	}
 
 	function loopActorsOfMovie(movie) {
 		for (let i = 0; i < movie.actorStars.length; i++) {
-			if (movie.actorStars[i].toLowerCase().includes(keywordsLowerCase)) {
+			if (movie.actorStars[i].toLowerCase().includes(keyword)) {
 				filteredMovies.push(movie);
 				break;
 			}
