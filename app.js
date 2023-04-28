@@ -20,6 +20,8 @@ async function start() {
 		searchMovies(searchBarValue, filter);
 	}
 
+	closeDialogEventListener();
+
 	document.querySelector("#sort").addEventListener("change", sortBy);
 
 	function sortBy(event) {
@@ -84,7 +86,8 @@ function showMovie(movie) {
 
 // Shows dialog for movie clicked
 function showMovieDialog(movie) {
-	document.querySelector("#dialog-modal").innerHTML = "";
+	const dialogContent = document.querySelector("#dialog-modal-content");
+	dialogContent.innerHTML = "";
 
 	const genreString = getGenreTagsAsString(movie.genreTags);
 
@@ -128,7 +131,7 @@ function showMovieDialog(movie) {
     </section>
     `;
 
-	document.querySelector("#dialog-modal").insertAdjacentHTML("beforeend", section);
+	dialogContent.insertAdjacentHTML("beforeend", section);
 	populateActorList(movie.actorStars);
 
 	document.querySelector("#movie-update-btn").addEventListener("click", updateClicked);
@@ -150,7 +153,6 @@ function showMovieDialog(movie) {
 		// kald på brains funktion med movie som argument mhp. slet
 		deleteMovieDialog(movie);
 	}
-
 	document.querySelector("#dialog-modal").showModal();
 }
 
@@ -366,8 +368,9 @@ function populateActorList(actors) {
 // ---------- Delete movie functions ---------- //
 
 async function deleteMovieDialog(movie) {
+	const dialog = document.querySelector("#dialog-modal");
+	const dialogContent = document.querySelector("#dialog-modal-content");
 	// console.log(movie.id);
-	document.querySelector("#dialog-modal").innerHTML = "";
 
 	// HTML to insert
 	const html = /*html*/ `
@@ -383,7 +386,7 @@ async function deleteMovieDialog(movie) {
   `;
 
 	// Insert HTML
-	document.querySelector("#dialog-modal").innerHTML = html;
+	dialogContent.innerHTML = html;
 
 	// Event listener
 	document.querySelector("#form-delete-movie").addEventListener("submit", deleteYesClicked);
@@ -395,11 +398,11 @@ async function deleteMovieDialog(movie) {
 		event.preventDefault();
 		deleteMovie(movie.id);
 
-		document.querySelector("#dialog-modal").close();
+		dialog.close();
 	}
 
 	function deleteNoClicked() {
-		document.querySelector("#dialog-modal").close();
+		dialog.close();
 	}
 }
 
@@ -422,10 +425,11 @@ async function deleteMovie(id) {
 // ---------- Update movie functions ---------- //
 
 function updateMovieDialog(movie) {
-	console.log(movie);
+	// console.log(movie);
+	const dialog = document.querySelector("#dialog-modal");
+	const dialogContent = document.querySelector("#dialog-modal-content");
 
-	document.querySelector("#dialog-modal").innerHTML = "";
-
+	// HTML to insert
 	const html = /*html*/ `
   <h2>Update Movie</h2>
         <form id="form" class="dialog-update-movie">
@@ -546,21 +550,21 @@ function updateMovieDialog(movie) {
         </form>
   `;
 
-	document.querySelector("#dialog-modal").insertAdjacentHTML("beforeend", html);
+	dialogContent.innerHTML = html;
 
+	// Sets clicked in cinema radio button
 	if (movie.inCinema) {
 		document.querySelector("#in-cinema-yes").setAttribute("checked", true);
 	} else {
 		document.querySelector("#in-cinema-no").setAttribute("checked", true);
 	}
 
-	document.querySelector("#form").addEventListener("submit", updateMovieClicked);
+	document.querySelector("#form").addEventListener("submit", updateMovieFeedbackDialog);
 
-	function updateMovieClicked(event) {
+	function updateMovieFeedbackDialog(event) {
 		event.preventDefault();
 
-		document.querySelector("#dialog-modal").close();
-
+		// Form values to variables
 		const form = event.target;
 
 		const title = form.title.value;
@@ -582,20 +586,55 @@ function updateMovieDialog(movie) {
 			inCinema = false;
 		}
 
-		updateMovie(
-			title,
-			runtime,
-			score,
-			director,
-			actorStars,
-			year,
-			poster,
-			trailer,
-			genreTags,
-			description,
-			inCinema,
-			id
-		);
+		// HTML to insert
+		const html = /*html*/ `
+		<p>
+			<h2>Updated movie details</h2>
+		</p>
+		<p><b>Title:</b> ${title}</p>
+		<p><b>Runtime:</b> ${runtime} minutes</p>
+		<p><b>Year:</b> ${year}</p>
+		<p><b>Director:</b> ${director}</p>
+		<p><b>Star actors:</b> ${actorStars}</p>
+		<p><b>Genres:</b> ${genreTags}</p>
+		<p><b>Score:</b> ${score}</p>
+		<p><b>Description:</b> ${description}</p>
+		<p><b>Currently in cinema:</b> ${inCinema ? "Yes" : "No"}</p>
+		<p><b>Poster:</b> <img src="${poster}" alt="POSTER MISSING" /></p>
+		<p><b>Trailer:</b> <iframe src="${trailer}"></iframe></p>
+		<button id="update-confirm-btn">Confirm</button>
+		<button id="update-back-btn">Back</button>
+		`;
+		dialogContent.innerHTML = html;
+
+		// Button event listeners
+		document.querySelector("#update-confirm-btn").addEventListener("click", updateMovieFeedbackConfirm);
+
+		document.querySelector("#update-back-btn").addEventListener("click", updateMovieFeedbackBack);
+
+		function updateMovieFeedbackConfirm() {
+			dialog.close();
+
+			updateMovie(
+				title,
+				runtime,
+				score,
+				director,
+				actorStars,
+				year,
+				poster,
+				trailer,
+				genreTags,
+				description,
+				inCinema,
+				id
+			);
+		}
+
+		function updateMovieFeedbackBack() {
+			// Shows movie dialog with original values
+			updateMovieDialog(movie);
+		}
 	}
 }
 
@@ -627,8 +666,10 @@ async function updateMovie(
 		inCinema,
 	};
 
+	// Parses into json
 	const json = JSON.stringify(updatedMovie);
 
+	// Updates/replaces object in database
 	const response = await fetch(`${endpoint}movies/${id}.json`, {
 		method: "PUT",
 		body: json,
@@ -637,7 +678,6 @@ async function updateMovie(
 	if (response.ok) {
 		console.log("Movie successfully updated in Firebase! 🔥");
 		updateGrid();
-		//Call updateGrid function fetch data again.
 	} else {
 		console.log("Something went wrong with PUT request ☹");
 		const errorMessage = "The movie could not be updated. Please try again later.";
@@ -648,19 +688,24 @@ async function updateMovie(
 // Error handling - display error message in a dialog
 function displayErrorDialog(message) {
 	const dialog = document.querySelector("#dialog-modal");
+	const dialogContent = document.querySelector("#dialog-modal-content");
 	const html = /*html*/ `
     <h2>Something went wrong</h2>
     <p>${message}</p>
-    <button id="close-dialog">Close</button>
     `;
-	dialog.innerHTML = html;
-
-	const closeDialogButton = document.querySelector("#close-dialog");
-	closeDialogButton.addEventListener("click", () => {
-		dialog.innerHTML = "";
-		dialog.close();
-	});
+	dialogContent.innerHTML = html;
 	dialog.showModal();
+}
+
+// Close dialog
+function closeDialogEventListener() {
+	const closeDialogButton = document.querySelector("#btn-close-modal");
+	const dialogContent = document.querySelector("#dialog-modal-content");
+	const dialogModal = document.querySelector("#dialog-modal");
+	closeDialogButton.addEventListener("click", () => {
+		dialogContent.innerHTML = "";
+		dialogModal.close();
+	});
 }
 
 /*=====================FILTER & SEARCH BAR========================*/
