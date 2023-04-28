@@ -33,7 +33,7 @@ function prepareData(dataObject) {
 	for (const key in dataObject) {
 		const movie = dataObject[key];
 
-		//Workaround til bug nr2
+		//Continues if movie is null
 		if (!movie) {
 			continue;
 		}
