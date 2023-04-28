@@ -18,6 +18,9 @@ async function start() {
 
 		searchMovies(searchBarValue, filter);
 	}
+
+  closeDialogEventListener();
+
 }
 
 async function getMovies(url) {
@@ -75,7 +78,8 @@ function showMovie(movie) {
 
 // Shows dialog for movie clicked
 function showMovieDialog(movie) {
-	document.querySelector("#dialog-modal").innerHTML = "";
+  const dialogContent = document.querySelector("#dialog-modal-content");
+	dialogContent.innerHTML = "";
 
 	const genreString = getGenreTagsAsString(movie.genreTags);
 
@@ -119,7 +123,7 @@ function showMovieDialog(movie) {
     </section>
     `;
 
-	document.querySelector("#dialog-modal").insertAdjacentHTML("beforeend", section);
+	dialogContent.insertAdjacentHTML("beforeend", section);
 	populateActorList(movie.actorStars);
 
 	document.querySelector("#movie-update-btn").addEventListener("click", updateClicked);
@@ -141,7 +145,6 @@ function showMovieDialog(movie) {
 		// kald på brains funktion med movie som argument mhp. slet
 		deleteMovieDialog(movie);
 	}
-
 	document.querySelector("#dialog-modal").showModal();
 }
 
@@ -357,8 +360,10 @@ function populateActorList(actors) {
 // ---------- Delete movie functions ---------- //
 
 async function deleteMovieDialog(movie) {
+  const dialog = document.querySelector("#dialog-modal");
+  // const dialogContent = document.querySelector("#dialog-modal-content");
 	// console.log(movie.id);
-	document.querySelector("#dialog-modal").innerHTML = "";
+	dialog.innerHTML = "";
 
 	// HTML to insert
 	const html = /*html*/ `
@@ -374,7 +379,7 @@ async function deleteMovieDialog(movie) {
   `;
 
 	// Insert HTML
-	document.querySelector("#dialog-modal").innerHTML = html;
+	dialog.innerHTML = html;
 
 	// Event listener
 	document.querySelector("#form-delete-movie").addEventListener("submit", deleteYesClicked);
@@ -386,11 +391,11 @@ async function deleteMovieDialog(movie) {
 		event.preventDefault();
 		deleteMovie(movie.id);
 
-		document.querySelector("#dialog-modal").close();
+		dialog.close();
 	}
 
 	function deleteNoClicked() {
-		document.querySelector("#dialog-modal").close();
+		dialog.close();
 	}
 }
 
@@ -414,8 +419,10 @@ async function deleteMovie(id) {
 
 function updateMovieDialog(movie) {
 	console.log(movie);
+  const dialog = document.querySelector("#dialog-modal");
+  const dialogContent = document.querySelector("#dialog-modal-content");
 
-	document.querySelector("#dialog-modal").innerHTML = "";
+	// document.querySelector("#dialog-modal").innerHTML = "";
 
 	const html = /*html*/ `
   <h2>Update Movie</h2>
@@ -537,7 +544,7 @@ function updateMovieDialog(movie) {
         </form>
   `;
 
-	document.querySelector("#dialog-modal").insertAdjacentHTML("beforeend", html);
+	dialogContent.insertAdjacentHTML("beforeend", html);
 
 	if (movie.inCinema) {
 		document.querySelector("#in-cinema-yes").setAttribute("checked", true);
@@ -638,20 +645,25 @@ async function updateMovie(
 
 // Error handling - display error message in a dialog
 function displayErrorDialog(message) {
-	const dialog = document.querySelector("#dialog-modal");
+  const dialog = document.querySelector("#dialog-modal");
+	const dialogContent = document.querySelector("#dialog-modal-content");
 	const html = /*html*/ `
     <h2>Something went wrong</h2>
     <p>${message}</p>
-    <button id="close-dialog">Close</button>
     `;
-	dialog.innerHTML = html;
-
-	const closeDialogButton = document.querySelector("#close-dialog");
-	closeDialogButton.addEventListener("click", () => {
-		dialog.innerHTML = "";
-		dialog.close();
-	});
+	dialogContent.innerHTML = html;
 	dialog.showModal();
+}
+
+// Close dialog
+function closeDialogEventListener() {
+  const closeDialogButton = document.querySelector("#btn-close-modal");
+  const dialogContent = document.querySelector("#dialog-modal-content");
+  const dialogModal = document.querySelector("#dialog-modal");
+  closeDialogButton.addEventListener("click", () => {
+		dialogContent.innerHTML = "";
+		dialogModal.close();
+  });
 }
 
 /*=====================FILTER & SEARCH BAR========================*/
