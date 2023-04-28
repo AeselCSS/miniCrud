@@ -1,16 +1,23 @@
 "use strict";
 
 window.addEventListener("load", start);
-const endpoint =
-  "https://byca-crud-default-rtdb.europe-west1.firebasedatabase.app/";
+const endpoint = "https://byca-crud-default-rtdb.europe-west1.firebasedatabase.app/";
 
 async function start() {
 	const moviesArray = await getMovies(endpoint);
 	showMovies(moviesArray);
 
-  document
-    .querySelector("#btn-add-movie")
-    .addEventListener("click", showAddMovieModal);
+	document.querySelector("#btn-add-movie").addEventListener("click", showAddMovieModal);
+
+	document.querySelector("#search-bar").addEventListener("input", searchThis);
+	document.querySelector("#filter").addEventListener("change", searchThis);
+
+	function searchThis(event) {
+		const filter = document.querySelector("#filter").value;
+		const searchBarValue = document.querySelector("#search-bar").value;
+
+		searchMovies(searchBarValue, filter);
+	}
 }
 
 async function getMovies(url) {
@@ -24,14 +31,13 @@ function prepareData(dataObject) {
 	const movies = [];
 
 	for (const key in dataObject) {
-
 		const movie = dataObject[key];
 
-		//Workaround til bug nr2
+		//Continues if movie is null
 		if (!movie) {
 			continue;
 		}
-    
+
 		movie.id = key;
 		movies.push(movie);
 	}
@@ -44,7 +50,7 @@ async function updateGrid() {
 }
 
 function showMovies(movies) {
-  document.querySelector("#movie-grid").innerHTML="";
+	document.querySelector("#movie-grid").innerHTML = "";
 	for (const movie of movies) {
 		showMovie(movie);
 	}
@@ -60,12 +66,10 @@ function showMovie(movie) {
   `;
 
 	moviesContainer.insertAdjacentHTML("beforeend", movieHTML);
-  document
-    .querySelector("#movie-grid article:last-child")
-    .addEventListener("click", movieClicked);
+	document.querySelector("#movie-grid article:last-child").addEventListener("click", movieClicked);
 
 	function movieClicked(event) {
-    showMovieDialog(movie);
+		showMovieDialog(movie);
 	}
 }
 
@@ -115,22 +119,14 @@ function showMovieDialog(movie) {
     </section>
     `;
 
-  document
-    .querySelector("#dialog-modal")
-    .insertAdjacentHTML("beforeend", section);
+	document.querySelector("#dialog-modal").insertAdjacentHTML("beforeend", section);
 	populateActorList(movie.actorStars);
 
-  document
-    .querySelector("#movie-update-btn")
-    .addEventListener("click", updateClicked);
-  document
-    .querySelector("#movie-remove-btn")
-    .addEventListener("click", removeClicked);
+	document.querySelector("#movie-update-btn").addEventListener("click", updateClicked);
+	document.querySelector("#movie-remove-btn").addEventListener("click", removeClicked);
 
 	function updateClicked() {
-    document
-      .querySelector("#movie-update-btn")
-      .addEventListener("click", updateClicked);
+		document.querySelector("#movie-update-btn").addEventListener("click", updateClicked);
 		// kald på brains funktion med movie som argument mhp. updater
 		updateMovieDialog(movie);
 	}
@@ -266,9 +262,7 @@ function showAddMovieModal(event) {
 
 	document.querySelector("#dialog-modal").insertAdjacentHTML("beforeend", html);
 
-  document
-    .querySelector("#form")
-    .addEventListener("submit", createMovieClicked);
+	document.querySelector("#form").addEventListener("submit", createMovieClicked);
 
 	document.querySelector("#dialog-modal").showModal();
 }
@@ -300,19 +294,7 @@ function createMovieClicked(event) {
 		inCinema = false;
 	}
 
-  createMovie(
-    title,
-    runtime,
-    score,
-    director,
-    actorStars,
-    year,
-    poster,
-    trailer,
-    genreTags,
-    description,
-    inCinema
-  );
+	createMovie(title, runtime, score, director, actorStars, year, poster, trailer, genreTags, description, inCinema);
 }
 
 async function createMovie(
@@ -368,9 +350,7 @@ function populateActorList(actors) {
 		const html = /*html*/ `
         <li>${actor}</li>
         `;
-    document
-      .querySelector("#movie-actor-list")
-      .insertAdjacentHTML("beforeend", html);
+		document.querySelector("#movie-actor-list").insertAdjacentHTML("beforeend", html);
 	}
 }
 
@@ -397,13 +377,9 @@ async function deleteMovieDialog(movie) {
 	document.querySelector("#dialog-modal").innerHTML = html;
 
 	// Event listener
-  document
-    .querySelector("#form-delete-movie")
-    .addEventListener("submit", deleteYesClicked);
+	document.querySelector("#form-delete-movie").addEventListener("submit", deleteYesClicked);
 
-  document
-    .querySelector(".btn-cancel")
-    .addEventListener("click", deleteNoClicked);
+	document.querySelector(".btn-cancel").addEventListener("click", deleteNoClicked);
 
 	// Button functions
 	async function deleteYesClicked(event) {
@@ -569,9 +545,7 @@ function updateMovieDialog(movie) {
 		document.querySelector("#in-cinema-no").setAttribute("checked", true);
 	}
 
-  document
-    .querySelector("#form")
-    .addEventListener("submit", updateMovieClicked);
+	document.querySelector("#form").addEventListener("submit", updateMovieClicked);
 
 	function updateMovieClicked(event) {
 		event.preventDefault();
@@ -588,7 +562,7 @@ function updateMovieDialog(movie) {
 		const year = form.year.value;
 		const poster = form.poster.value;
 		const trailer = form.trailer.value;
-    const genreTags = form.genreTags.value.split(',');
+		const genreTags = form.genreTags.value.split(",");
 		const description = form.description.value;
 		let inCinema = form.inCinema.value;
 		const id = movie.id;
@@ -660,22 +634,4 @@ async function updateMovie(
 		const errorMessage = "The movie could not be updated. Please try again later.";
 		displayErrorDialog(errorMessage);
 	}
-}
-
-// Error handling - display error message in a dialog
-function displayErrorDialog(message) {
-	const dialog = document.querySelector("#dialog-modal");
-	const html = /*html*/ `
-    <h2>Something went wrong</h2>
-    <p>${message}</p>
-    <button id="close-dialog">Close</button>
-    `;
-	dialog.innerHTML = html;
-
-	const closeDialogButton = document.querySelector("#close-dialog");
-	closeDialogButton.addEventListener("click", () => {
-		dialog.innerHTML = "";
-		dialog.close();
-	});
-	dialog.showModal();
 }
