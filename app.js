@@ -5,6 +5,7 @@ const endpoint = "https://byca-crud-default-rtdb.europe-west1.firebasedatabase.a
 
 async function start() {
 	const moviesArray = await getMovies(endpoint);
+
 	showMovies(moviesArray);
 
 	document.querySelector("#btn-add-movie").addEventListener("click", showAddMovieModal);
@@ -20,6 +21,14 @@ async function start() {
 	}
 
 	closeDialogEventListener();
+
+	document.querySelector("#sort").addEventListener("change", sortBy);
+
+	function sortBy(event) {
+		const selectedSort = document.querySelector("#sort").value;
+		console.log(selectedSort);
+		sortMovies(selectedSort);
+	}
 }
 
 async function getMovies(url) {
@@ -756,3 +765,40 @@ function filterMovies(movies, keywords, filter) {
 	return filteredMovies;
 }
 /*=====================FILTER & SEARCH BAR SLUT========================*/
+
+/*============================ SORT FUNCTIONS =================================*/
+
+async function sortMovies(dropDownValue) {
+	const movies = await getMovies(endpoint);
+
+	if (dropDownValue === "year-new") {
+		const sortedByNewestYear = movies.sort(sortYearNew);
+		showMovies(sortedByNewestYear);
+	} else if (dropDownValue === "year-old") {
+		const sortedByOldestYear = movies.sort(sortYearOld);
+		showMovies(sortedByOldestYear);
+	} else if (dropDownValue === "rating-des") {
+		const sortedHighestRate = movies.sort(sortHighestRating);
+		console.log(sortedHighestRate);
+		showMovies(sortedHighestRate);
+	} else if (dropDownValue === "rating-asc") {
+		const sortedLowestRating = movies.sort(sortLowestRating);
+		showMovies(sortedLowestRating);
+	}
+}
+
+function sortYearNew(movie1, movie2) {
+	return movie2.year - movie1.year;
+}
+
+function sortYearOld(movie1, movie2) {
+	return movie1.year - movie2.year;
+}
+
+function sortHighestRating(movie1, movie2) {
+	return movie2.score - movie1.score;
+}
+
+function sortLowestRating(movie1, movie2) {
+	return movie1.score - movie2.score;
+}
