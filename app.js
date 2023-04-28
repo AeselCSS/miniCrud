@@ -5,6 +5,7 @@ const endpoint = "https://byca-crud-default-rtdb.europe-west1.firebasedatabase.a
 
 async function start() {
 	const moviesArray = await getMovies(endpoint);
+
 	showMovies(moviesArray);
 
 	document.querySelector("#btn-add-movie").addEventListener("click", showAddMovieModal);
@@ -17,6 +18,14 @@ async function start() {
 		const searchBarValue = document.querySelector("#search-bar").value;
 
 		searchMovies(searchBarValue, filter);
+	}
+
+	document.querySelector("#sort").addEventListener("change", sortBy);
+
+	function sortBy(event) {
+		const selectedSort = document.querySelector("#sort").value;
+		console.log(selectedSort);
+		sortMovies(selectedSort);
 	}
 }
 
@@ -711,3 +720,19 @@ function filterMovies(movies, keywords, filter) {
 	return filteredMovies;
 }
 /*=====================FILTER & SEARCH BAR SLUT========================*/
+
+/*============================ SORT BAR =================================*/
+
+async function sortMovies(dropDownValue) {
+	const movies = await getMovies(endpoint);
+
+	if (dropDownValue === "year-new") {
+		const sortedByYear = movies.sort(sortYearNew);
+		console.log(sortedByYear);
+		showMovies(sortedByYear);
+	}
+}
+
+function sortYearNew(movie1, movie2) {
+	return movie2.year - movie1.year;
+}
