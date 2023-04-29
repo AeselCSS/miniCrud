@@ -5,6 +5,7 @@ const endpoint = "https://byca-crud-default-rtdb.europe-west1.firebasedatabase.a
 
 async function start() {
 	const moviesArray = await getMovies(endpoint);
+
 	showMovies(moviesArray);
 
 	document.querySelector("#btn-add-movie").addEventListener("click", showAddMovieModal);
@@ -17,6 +18,16 @@ async function start() {
 		const searchBarValue = document.querySelector("#search-bar").value;
 
 		searchMovies(searchBarValue, filter);
+	}
+
+	closeDialogEventListener();
+
+	document.querySelector("#sort").addEventListener("change", sortBy);
+
+	function sortBy(event) {
+		const selectedSort = document.querySelector("#sort").value;
+		console.log(selectedSort);
+		sortMovies(selectedSort);
 	}
 }
 
@@ -75,7 +86,8 @@ function showMovie(movie) {
 
 // Shows dialog for movie clicked
 function showMovieDialog(movie) {
-	document.querySelector("#dialog-modal").innerHTML = "";
+	const dialogContent = document.querySelector("#dialog-modal-content");
+	dialogContent.innerHTML = "";
 
 	const genreString = getGenreTagsAsString(movie.genreTags);
 
@@ -119,7 +131,7 @@ function showMovieDialog(movie) {
     </section>
     `;
 
-	document.querySelector("#dialog-modal").insertAdjacentHTML("beforeend", section);
+	dialogContent.insertAdjacentHTML("beforeend", section);
 	populateActorList(movie.actorStars);
 
 	document.querySelector("#movie-update-btn").addEventListener("click", updateClicked);
@@ -141,14 +153,13 @@ function showMovieDialog(movie) {
 		// kald på brains funktion med movie som argument mhp. slet
 		deleteMovieDialog(movie);
 	}
-
 	document.querySelector("#dialog-modal").showModal();
 }
 
 // Shows dialog for Add Movie
-function showAddMovieModal(event) {
-	document.querySelector("#dialog-modal").innerHTML = "";
-
+function showAddMovieModal() {
+  const dialog = document.querySelector("#dialog-modal");
+  const dialogContent = document.querySelector("#dialog-modal-content");
 	const html = /*html*/ `
   <h2>Create a New Movie</h2>
         <form id="form" class="dialog-create-movie">
@@ -161,7 +172,7 @@ function showAddMovieModal(event) {
             type="number"
             id="runtime"
             name="runtime"
-            placeholder="runtime in min"
+            placeholder="Runtime in minutes"
             required
           />
 
@@ -170,7 +181,7 @@ function showAddMovieModal(event) {
             type="number"
             id="score"
             name="score"
-            placeholder="Rating"
+            placeholder="Rate between 0,0-10"
             min="0"
             max="10"
             step="0.1"
@@ -191,7 +202,7 @@ function showAddMovieModal(event) {
             type="text"
             id="actors"
             name="actorStars"
-            placeholder="Name of star actors"
+            placeholder="Name of star actors (actor1, actor2, ...)"
             required
           />
 
@@ -200,7 +211,7 @@ function showAddMovieModal(event) {
             type="number"
             id="year"
             name="year"
-            placeholder="Year released"
+            placeholder="Year of release"
             required
           />
 
@@ -221,7 +232,7 @@ function showAddMovieModal(event) {
             type="text"
             id="genre"
             name="genreTags"
-            placeholder="write the genre(s)"
+            placeholder="Write the genre (genre1, genre2, ...)"
             required
           />
 
@@ -234,15 +245,13 @@ function showAddMovieModal(event) {
             required
           />
 
-          <label for=""> is the movie in cinema:</label>
+          <label for=""> Is the movie currently in cinema:</label>
           <label for="in-cinema-yes">Yes <input
             type="radio"
             id="in-cinema-yes"
             name="inCinema"
             value="yes"
             required
-            
-           
           /></label>
           
            <label for="inCinema-no">No <input
@@ -250,21 +259,16 @@ function showAddMovieModal(event) {
             id="in-cinema"
             name="inCinema"
             value="no"
-            required
-            
-            
+            required  
           /></label>
-          
-
+        
           <button>Add this movie</button>
         </form>
   `;
 
-	document.querySelector("#dialog-modal").insertAdjacentHTML("beforeend", html);
-
+	dialogContent.insertAdjacentHTML("beforeend", html);
 	document.querySelector("#form").addEventListener("submit", createMovieClicked);
-
-	document.querySelector("#dialog-modal").showModal();
+	dialog.showModal();
 }
 
 function createMovieClicked(event) {
@@ -357,8 +361,9 @@ function populateActorList(actors) {
 // ---------- Delete movie functions ---------- //
 
 async function deleteMovieDialog(movie) {
+	const dialog = document.querySelector("#dialog-modal");
+	const dialogContent = document.querySelector("#dialog-modal-content");
 	// console.log(movie.id);
-	document.querySelector("#dialog-modal").innerHTML = "";
 
 	// HTML to insert
 	const html = /*html*/ `
@@ -374,7 +379,7 @@ async function deleteMovieDialog(movie) {
   `;
 
 	// Insert HTML
-	document.querySelector("#dialog-modal").innerHTML = html;
+	dialogContent.innerHTML = html;
 
 	// Event listener
 	document.querySelector("#form-delete-movie").addEventListener("submit", deleteYesClicked);
@@ -386,11 +391,11 @@ async function deleteMovieDialog(movie) {
 		event.preventDefault();
 		deleteMovie(movie.id);
 
-		document.querySelector("#dialog-modal").close();
+		dialog.close();
 	}
 
 	function deleteNoClicked() {
-		document.querySelector("#dialog-modal").close();
+		dialog.close();
 	}
 }
 
@@ -413,10 +418,11 @@ async function deleteMovie(id) {
 // ---------- Update movie functions ---------- //
 
 function updateMovieDialog(movie) {
-	console.log(movie);
+	// console.log(movie);
+	const dialog = document.querySelector("#dialog-modal");
+	const dialogContent = document.querySelector("#dialog-modal-content");
 
-	document.querySelector("#dialog-modal").innerHTML = "";
-
+	// HTML to insert
 	const html = /*html*/ `
   <h2>Update Movie</h2>
         <form id="form" class="dialog-update-movie">
@@ -429,7 +435,7 @@ function updateMovieDialog(movie) {
             type="number"
             id="runtime"
             name="runtime"
-            placeholder="runtime in min"
+            placeholder="Runtime in minutes"
             value='${movie.runtime}'
             required
           />
@@ -439,7 +445,7 @@ function updateMovieDialog(movie) {
             type="number"
             id="score"
             name="score"
-            placeholder="Rating"
+            placeholder="Rate between 0,0-10"
             min="1"
             max="10"
             step="0.1"
@@ -462,7 +468,7 @@ function updateMovieDialog(movie) {
             type="text"
             id="actors"
             name="actorStars"
-            placeholder="Name of star actors"
+            placeholder="Name of star actors (actor1, actor2, ...)"
             value='${movie.actorStars}'
             required
           />
@@ -472,7 +478,7 @@ function updateMovieDialog(movie) {
             type="number"
             id="year"
             name="year"
-            placeholder="Year released"
+            placeholder="Year of release"
             value='${movie.year}'
             required
           />
@@ -496,7 +502,7 @@ function updateMovieDialog(movie) {
             type="text"
             id="genre"
             name="genreTags"
-            placeholder="write the genre(s)"
+            placeholder="Write the genre (genre1, genre2, ...)"
             value='${movie.genreTags}'
             required
           />
@@ -511,7 +517,7 @@ function updateMovieDialog(movie) {
             required
           />
 
-          <label for=""> is the movie in cinema:</label>
+          <label for=""> is the movie currently in cinema:</label>
           <label for="in-cinema-yes">Yes <input
             type="radio"
             id="in-cinema-yes"
@@ -537,21 +543,21 @@ function updateMovieDialog(movie) {
         </form>
   `;
 
-	document.querySelector("#dialog-modal").insertAdjacentHTML("beforeend", html);
+	dialogContent.innerHTML = html;
 
+	// Sets clicked in cinema radio button
 	if (movie.inCinema) {
 		document.querySelector("#in-cinema-yes").setAttribute("checked", true);
 	} else {
 		document.querySelector("#in-cinema-no").setAttribute("checked", true);
 	}
 
-	document.querySelector("#form").addEventListener("submit", updateMovieClicked);
+	document.querySelector("#form").addEventListener("submit", updateMovieFeedbackDialog);
 
-	function updateMovieClicked(event) {
+	function updateMovieFeedbackDialog(event) {
 		event.preventDefault();
 
-		document.querySelector("#dialog-modal").close();
-
+		// Form values to variables
 		const form = event.target;
 
 		const title = form.title.value;
@@ -573,20 +579,55 @@ function updateMovieDialog(movie) {
 			inCinema = false;
 		}
 
-		updateMovie(
-			title,
-			runtime,
-			score,
-			director,
-			actorStars,
-			year,
-			poster,
-			trailer,
-			genreTags,
-			description,
-			inCinema,
-			id
-		);
+		// HTML to insert
+		const html = /*html*/ `
+		<p>
+			<h2>Updated movie details</h2>
+		</p>
+		<p><b>Title:</b> ${title}</p>
+		<p><b>Runtime:</b> ${runtime} minutes</p>
+		<p><b>Year:</b> ${year}</p>
+		<p><b>Director:</b> ${director}</p>
+		<p><b>Star actors:</b> ${actorStars}</p>
+		<p><b>Genres:</b> ${genreTags}</p>
+		<p><b>Score:</b> ${score}</p>
+		<p><b>Description:</b> ${description}</p>
+		<p><b>Currently in cinema:</b> ${inCinema ? "Yes" : "No"}</p>
+		<p><b>Poster:</b> <img src="${poster}" alt="POSTER MISSING" /></p>
+		<p><b>Trailer:</b> <iframe src="${trailer}"></iframe></p>
+		<button id="update-confirm-btn">Confirm</button>
+		<button id="update-back-btn">Back</button>
+		`;
+		dialogContent.innerHTML = html;
+
+		// Button event listeners
+		document.querySelector("#update-confirm-btn").addEventListener("click", updateMovieFeedbackConfirm);
+
+		document.querySelector("#update-back-btn").addEventListener("click", updateMovieFeedbackBack);
+
+		function updateMovieFeedbackConfirm() {
+			dialog.close();
+
+			updateMovie(
+				title,
+				runtime,
+				score,
+				director,
+				actorStars,
+				year,
+				poster,
+				trailer,
+				genreTags,
+				description,
+				inCinema,
+				id
+			);
+		}
+
+		function updateMovieFeedbackBack() {
+			// Shows movie dialog with original values
+			updateMovieDialog(movie);
+		}
 	}
 }
 
@@ -618,8 +659,10 @@ async function updateMovie(
 		inCinema,
 	};
 
+	// Parses into json
 	const json = JSON.stringify(updatedMovie);
 
+	// Updates/replaces object in database
 	const response = await fetch(`${endpoint}movies/${id}.json`, {
 		method: "PUT",
 		body: json,
@@ -628,7 +671,6 @@ async function updateMovie(
 	if (response.ok) {
 		console.log("Movie successfully updated in Firebase! 🔥");
 		updateGrid();
-		//Call updateGrid function fetch data again.
 	} else {
 		console.log("Something went wrong with PUT request ☹");
 		const errorMessage = "The movie could not be updated. Please try again later.";
@@ -639,19 +681,24 @@ async function updateMovie(
 // Error handling - display error message in a dialog
 function displayErrorDialog(message) {
 	const dialog = document.querySelector("#dialog-modal");
+	const dialogContent = document.querySelector("#dialog-modal-content");
 	const html = /*html*/ `
     <h2>Something went wrong</h2>
     <p>${message}</p>
-    <button id="close-dialog">Close</button>
     `;
-	dialog.innerHTML = html;
-
-	const closeDialogButton = document.querySelector("#close-dialog");
-	closeDialogButton.addEventListener("click", () => {
-		dialog.innerHTML = "";
-		dialog.close();
-	});
+	dialogContent.innerHTML = html;
 	dialog.showModal();
+}
+
+// Close dialog
+function closeDialogEventListener() {
+	const closeDialogButton = document.querySelector("#btn-close-modal");
+	const dialogContent = document.querySelector("#dialog-modal-content");
+	const dialogModal = document.querySelector("#dialog-modal");
+	closeDialogButton.addEventListener("click", () => {
+		dialogContent.innerHTML = "";
+		dialogModal.close();
+	});
 }
 
 /*=====================FILTER & SEARCH BAR========================*/
@@ -711,3 +758,40 @@ function filterMovies(movies, keywords, filter) {
 	return filteredMovies;
 }
 /*=====================FILTER & SEARCH BAR SLUT========================*/
+
+/*============================ SORT FUNCTIONS =================================*/
+
+async function sortMovies(dropDownValue) {
+	const movies = await getMovies(endpoint);
+
+	if (dropDownValue === "year-new") {
+		const sortedByNewestYear = movies.sort(sortYearNew);
+		showMovies(sortedByNewestYear);
+	} else if (dropDownValue === "year-old") {
+		const sortedByOldestYear = movies.sort(sortYearOld);
+		showMovies(sortedByOldestYear);
+	} else if (dropDownValue === "rating-des") {
+		const sortedHighestRate = movies.sort(sortHighestRating);
+		console.log(sortedHighestRate);
+		showMovies(sortedHighestRate);
+	} else if (dropDownValue === "rating-asc") {
+		const sortedLowestRating = movies.sort(sortLowestRating);
+		showMovies(sortedLowestRating);
+	}
+}
+
+function sortYearNew(movie1, movie2) {
+	return movie2.year - movie1.year;
+}
+
+function sortYearOld(movie1, movie2) {
+	return movie1.year - movie2.year;
+}
+
+function sortHighestRating(movie1, movie2) {
+	return movie2.score - movie1.score;
+}
+
+function sortLowestRating(movie1, movie2) {
+	return movie1.score - movie2.score;
+}
