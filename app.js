@@ -90,45 +90,55 @@ function showMovieDialog(movie) {
 	dialogContent.innerHTML = "";
 
 	const genreString = getGenreTagsAsString(movie.genreTags);
+	const videoId = getVideoId(movie.trailer);
+	const embedableVideo = createEmbedLink(videoId);
 
 	const section = /*html*/ `
-	<section class="movie-details-section">
-        <article class="movie-details-functions">
-            <button id="movie-update-btn">Update details</button>
-            <button id="movie-remove-btn">Remove</button>
-        </article>
+	<article>
+        <div>
+			<button id="movie-remove-btn"><i class="fa-solid fa-trash-can"></i></button>
+            <button id="movie-update-btn"><i class="fa-solid fa-pen-to-square"></i></button>
+        </div>
 
-        <article class="movie-details-header">
-            <p>${movie.title}</p>
-            <p>${movie.year}</p>
-            <p>${movie.runtime} Minutes</p>
-            <p>${movie.score}</p>
-        </article>
+        <div class="movie-details-header">
+            <h2>${movie.title}</h2>
+        </div>
 
-        <article class="movie-details-main">
+		<div class="movie-details-top">
+		<div class="left">
+			<p>Year of release: ${movie.year}</p>
+        	<p>Runtime: ${movie.runtime} Minutes</p>
+        	<p>Rating: ${movie.score}</p>
+		</div>
+
+		<div class="middle">
+        	<p>Genre: ${genreString}</p>
+        	<p>Director: ${movie.director}</p>
+		</div>
+
+		<div class="right">
+            <p>Actors:</p>
+            <ul id="movie-actor-list"></ul>
+        </div>
+
+		</div>
+
+        <div class="movie-details-middle">
             <div>
                 <img src="${movie.poster}">
             </div>
 
             <div>
-                <iframe src="${movie.trailer}"></iframe>
+                <iframe src="${embedableVideo}"></iframe>
             </div>
-        </article>
+        </div>
 
-        <article class="movie-details-other">
-            <div>
-                <p>${genreString}</p>
-                <p>${movie.director}</p>
-                <p>${movie.description}</p>
-            </div>
-            <div>
-                <p>Actors:</p>
-                <ul id="movie-actor-list">
-                    
-                </ul>
-            </div>
-        </article>
-    </section>
+        <div class="movie-details-bottom">
+            
+                <p>Description: ${movie.description}</p>
+            
+        </div>
+    </article>
     `;
 
 	dialogContent.insertAdjacentHTML("beforeend", section);
@@ -157,9 +167,9 @@ function showMovieDialog(movie) {
 }
 
 // Shows dialog for Add Movie
-function showAddMovieModal(event) {
-	document.querySelector("#dialog-modal").innerHTML = "";
-
+function showAddMovieModal() {
+	const dialog = document.querySelector("#dialog-modal");
+	const dialogContent = document.querySelector("#dialog-modal-content");
 	const html = /*html*/ `
   <h2>Create a New Movie</h2>
         <form id="form" class="dialog-create-movie">
@@ -169,113 +179,59 @@ function showAddMovieModal(event) {
 
           <label for="runtime">Movie length:</label>
           <input
-            type="number"
-            id="runtime"
-            name="runtime"
-            placeholder="Runtime in minutes"
-            required
+            type="number" id="runtime" name="runtime" placeholder="Runtime in minutes" required
           />
 
           <label for="score">Score:</label>
           <input
-            type="number"
-            id="score"
-            name="score"
-            placeholder="Rate between 0,0-10"
-            min="0"
-            max="10"
-            step="0.1"
-            required
+            type="number" id="score" name="score" placeholder="Rate between 0,0-10" min="0" max="10" step="0.1" required
           />
 
           <label for="director">Director:</label>
-          <input
-            type="text"
-            id="director"
-            name="director"
-            placeholder="Director"
-            required
+          <input type="text" id="director" name="director" placeholder="Director" required
           />
 
           <label for="actors">Star Actors:</label>
-          <input
-            type="text"
-            id="actors"
-            name="actorStars"
-            placeholder="Name of star actors (actor1, actor2, ...)"
-            required
+          <input type="text" id="actors" name="actorStars" placeholder="Name of star actors (actor1, actor2, ...)" required
           />
 
           <label for="year">Year of premiere:</label>
-          <input
-            type="number"
-            id="year"
-            name="year"
-            placeholder="Year of release"
-            required
+          <input type="number" id="year" name="year" placeholder="Year of release" required
           />
 
           <label for="poster">Poster:</label>
           <input type="url" id="poster" name="poster" placeholder="URL link" required />
 
           <label for="trailer">Trailer:</label>
-          <input
-            type="url"
-            id="trailer"
-            name="trailer"
-            placeholder="URL link"
-            required
+          <input type="url" id="trailer" name="trailer" placeholder="URL link" required
           />
 
           <label for="genre">Genre:</label>
-          <input
-            type="text"
-            id="genre"
-            name="genreTags"
-            placeholder="Write the genre (genre1, genre2, ...)"
-            required
+          <input type="text" id="genre" name="genreTags" placeholder="Write the genre (genre1, genre2, ...)" required
           />
 
           <label for="description">Movie description:</label>
-          <input
-            type="text"
-            id="description"
-            name="description"
-            placeholder="Description"
-            required
+          <input type="text" id="description" name="description" placeholder="Description" required
           />
 
-          <label for=""> Is the movie currently in cinema:</label>
-          <label for="in-cinema-yes">Yes <input
-            type="radio"
-            id="in-cinema-yes"
-            name="inCinema"
-            value="yes"
-            required
-            
-           
-          /></label>
+          <label for=""> Currently in cinema?</label>
+          <label for="in-cinema-yes">Yes 
+		  <input type="radio" id="in-cinema-yes" name="inCinema" value="yes" required
+          />
+		  </label>
           
-           <label for="inCinema-no">No <input
-            type="radio"
-            id="in-cinema"
-            name="inCinema"
-            value="no"
-            required
-            
-            
-          /></label>
-          
-
+           <label for="inCinema-no">No 
+		   <input type="radio" id="in-cinema" name="inCinema" value="no" required  
+          />
+		  </label>
+        
           <button>Add this movie</button>
         </form>
   `;
 
-	document.querySelector("#dialog-modal").insertAdjacentHTML("beforeend", html);
-
+	dialogContent.insertAdjacentHTML("beforeend", html);
 	document.querySelector("#form").addEventListener("submit", createMovieClicked);
-
-	document.querySelector("#dialog-modal").showModal();
+	dialog.showModal();
 }
 
 function createMovieClicked(event) {
@@ -723,12 +679,10 @@ function filterMovies(movies, keywords, filter) {
 	for (const movie of movies) {
 		if (filter == "all") {
 			loopAllPropertiesOfMovie(movie);
-		} else if (filter == "director") {
-			loopDirectorOfMovie(movie);
-		} else if (filter == "title") {
-			loopTitleOfMovie(movie);
-		} else if (filter == "actor") {
+		} else if (filter == "actorStars") {
 			loopActorsOfMovie(movie);
+		} else {
+			loopOtherPropertyOfMovie(movie);
 		}
 	}
 
@@ -741,18 +695,13 @@ function filterMovies(movies, keywords, filter) {
 		}
 	}
 
-	function loopDirectorOfMovie(movie) {
-		if (movie["director"].toLowerCase().includes(keyword)) {
+	function loopOtherPropertyOfMovie(movie) {
+		if (movie[filter].toLowerCase().includes(keyword)) {
 			filteredMovies.push(movie);
 		}
 	}
 
-	function loopTitleOfMovie(movie) {
-		if (movie["title"].toLowerCase().includes(keyword)) {
-			filteredMovies.push(movie);
-		}
-	}
-
+	//Filtrer på movie.actorStars.some
 	function loopActorsOfMovie(movie) {
 		for (let i = 0; i < movie.actorStars.length; i++) {
 			if (movie.actorStars[i].toLowerCase().includes(keyword)) {
@@ -802,4 +751,30 @@ function sortHighestRating(movie1, movie2) {
 
 function sortLowestRating(movie1, movie2) {
 	return movie1.score - movie2.score;
+}
+
+
+// ======================= YOUTUBE ===========================
+
+// youtube video id retriever
+function getVideoId(link) {
+	let videoId;
+	if (link.includes("youtu.be/")) {
+		videoId = link.split("youtu.be/")[1].split("?")[0];
+	} else if (link.includes("watch?v=")) {
+		videoId = link.split("watch?v=")[1].split("&")[0];
+	} else if (link.includes("t=")) {
+		videoId = link.split("v=")[1].split("&")[0];
+	} else if (link.includes("channel/")) {
+		videoId = link.split("channel/")[1].split("?")[0];
+	} else if (link.includes("playlist?list=")) {
+		videoId = link.split("playlist?list=")[1].split("&")[0];
+	}
+	return videoId;
+}
+
+// create youtube embed link
+function createEmbedLink(videoId) {
+	const embedLink = `https://www.youtube.com/embed/${videoId}`;
+	return embedLink;
 }
