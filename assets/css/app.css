@@ -307,7 +307,7 @@ select:focus ~ select option {
 	/* max-width: calc(30em * 0.66); */
 	overflow: hidden;
 	position: relative;
-	background-color: #186e82;
+	animation: fadeIn 0.4s;
 }
 
 .grid-item:hover {
@@ -332,10 +332,10 @@ select:focus ~ select option {
 	opacity: 0;
 	transition: opacity 0.3s ease;
 	background: rgba(75, 75, 75, 0.46);
-box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-backdrop-filter: blur(2.8px);
--webkit-backdrop-filter: blur(2.8px);
-/* border-top: 1px solid rgba(147, 147, 147, 0.48); */
+	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+	backdrop-filter: blur(2.8px);
+	-webkit-backdrop-filter: blur(2.8px);
+	/* border-top: 1px solid rgba(147, 147, 147, 0.48); */
 }
 
 /* MODAL STYLING */
@@ -417,4 +417,15 @@ backdrop-filter: blur(2.8px);
 #dialog-delete-movie-title {
 	text-align: center;
 	margin-bottom: 0.5em;
+}
+
+/* ====== ANIMATIONS ===== */
+
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
 }

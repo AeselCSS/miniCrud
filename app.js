@@ -1,5 +1,7 @@
 "use strict";
 
+let timeoutIds = [];
+
 window.addEventListener("load", start);
 const endpoint = "https://byca-crud-default-rtdb.europe-west1.firebasedatabase.app/";
 
@@ -62,9 +64,24 @@ async function updateGrid() {
 
 function showMovies(movies) {
 	document.querySelector("#movie-grid").innerHTML = "";
-	for (const movie of movies) {
-		showMovie(movie);
+
+	// Clear any previous timeouts
+	for (const i of timeoutIds) clearTimeout(i);
+	
+	// Loop through each movie, 
+	// Timeout to get fadeIn effect
+	for (let i = 0; i < movies.length; i++) {
+		const timeoutId = setTimeout(() => {
+			showMovie(movies[i]);
+		}, i * 100);
+
+		timeoutIds.push(timeoutId);
 	}
+
+	// Old loop method
+	// for (const movie of movies) {
+	// 	showMovie(movie);
+	// }
 }
 
 function showMovie(movie) {
