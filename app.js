@@ -73,6 +73,11 @@ function showMovie(movie) {
   
   <article class="grid-item" > 
   <img src="${movie.poster}" >
+  <div class="grid-item-text"><p>
+	<b>${movie.title}</b>
+	<em>${movie.year}</em>
+  </p>
+  <p>${movie.actorStars}</p></div>
   </article>
   `;
 
@@ -751,7 +756,6 @@ function sortHighestRating(movie1, movie2) {
 function sortLowestRating(movie1, movie2) {
 	return movie1.score - movie2.score;
 }
-
 
 // ======================= YOUTUBE ===========================
 
