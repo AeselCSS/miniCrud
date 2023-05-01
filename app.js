@@ -679,12 +679,10 @@ function filterMovies(movies, keywords, filter) {
 	for (const movie of movies) {
 		if (filter == "all") {
 			loopAllPropertiesOfMovie(movie);
-		} else if (filter == "director") {
-			loopDirectorOfMovie(movie);
-		} else if (filter == "title") {
-			loopTitleOfMovie(movie);
 		} else if (filter == "actorStars") {
 			loopActorsOfMovie(movie);
+		} else {
+			loopOtherPropertyOfMovie(movie);
 		}
 	}
 
@@ -697,18 +695,13 @@ function filterMovies(movies, keywords, filter) {
 		}
 	}
 
-	function loopDirectorOfMovie(movie) {
-		if (movie["director"].toLowerCase().includes(keyword)) {
+	function loopOtherPropertyOfMovie(movie) {
+		if (movie[filter].toLowerCase().includes(keyword)) {
 			filteredMovies.push(movie);
 		}
 	}
 
-	function loopTitleOfMovie(movie) {
-		if (movie["title"].toLowerCase().includes(keyword)) {
-			filteredMovies.push(movie);
-		}
-	}
-
+	//Filtrer på movie.actorStars.some
 	function loopActorsOfMovie(movie) {
 		for (let i = 0; i < movie.actorStars.length; i++) {
 			if (movie.actorStars[i].toLowerCase().includes(keyword)) {
