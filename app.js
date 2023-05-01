@@ -67,8 +67,8 @@ function showMovies(movies) {
 
 	// Clear any previous timeouts
 	for (const i of timeoutIds) clearTimeout(i);
-	
-	// Loop through each movie, 
+
+	// Loop through each movie,
 	// Timeout to get fadeIn effect
 	for (let i = 0; i < movies.length; i++) {
 		const timeoutId = setTimeout(() => {
@@ -91,9 +91,12 @@ function showMovie(movie) {
   <article class="grid-item" > 
   <img src="${movie.poster}" >
   <div class="grid-item-text"><p>
-	<b>${movie.title}</b>
+	<b>${movie.title}</b> -
 	<em>${movie.year}</em>
   </p>
+  <p><b>Runtime </b>- ${movie.runtime} min.</p>
+  <p><b>Rating </b>- ${movie.score} / 10</p>
+  <p><b>Starring</b></p>
   <p>${movie.actorStars}</p></div>
   </article>
   `;
