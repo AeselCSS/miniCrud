@@ -770,6 +770,7 @@ function filterMovies(movies, keywords, filter) {
 
 async function sortMovies(dropDownValue) {
 	const movies = await getMovies(endpoint);
+	console.log(movies);
 
 	if (dropDownValue === "year-new") {
 		const sortedByNewestYear = movies.sort(sortYearNew);
