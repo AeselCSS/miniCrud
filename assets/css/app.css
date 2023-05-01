@@ -303,7 +303,8 @@ select:focus ~ select option {
 	cursor: pointer;
 	transition: var(--transition-transform);
 	/* height: fit-content; */
-	max-width: calc(30em * 0.66);
+	width: 10rem;
+	/* max-width: calc(30em * 0.66); */
 	overflow: hidden;
 	position: relative;
 	background-color: #186e82;
@@ -330,11 +331,11 @@ select:focus ~ select option {
 	padding: 0.5em;
 	opacity: 0;
 	transition: opacity 0.3s ease;
-	background: rgba(255, 255, 255, 0.09);
-	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-	backdrop-filter: blur(2.8px);
-	-webkit-backdrop-filter: blur(2.8px);
-	border: 1px solid rgba(255, 255, 255, 0.19);
+	background: rgba(75, 75, 75, 0.46);
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(2.8px);
+-webkit-backdrop-filter: blur(2.8px);
+/* border-top: 1px solid rgba(147, 147, 147, 0.48); */
 }
 
 /* MODAL STYLING */
