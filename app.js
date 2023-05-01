@@ -683,7 +683,7 @@ function filterMovies(movies, keywords, filter) {
 			loopDirectorOfMovie(movie);
 		} else if (filter == "title") {
 			loopTitleOfMovie(movie);
-		} else if (filter == "actor") {
+		} else if (filter == "actorStars") {
 			loopActorsOfMovie(movie);
 		}
 	}
