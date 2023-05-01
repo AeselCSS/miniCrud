@@ -719,40 +719,60 @@ function filterMovies(movies, keywords, filter) {
 
 async function sortMovies(dropDownValue) {
 	const movies = await getMovies(endpoint);
-	console.log(movies);
 
-	if (dropDownValue === "year-new") {
-		const sortedByNewestYear = movies.sort(sortYearNew);
-		showMovies(sortedByNewestYear);
-	} else if (dropDownValue === "year-old") {
-		const sortedByOldestYear = movies.sort(sortYearOld);
-		showMovies(sortedByOldestYear);
-	} else if (dropDownValue === "rating-des") {
-		const sortedHighestRate = movies.sort(sortHighestRating);
-		console.log(sortedHighestRate);
-		showMovies(sortedHighestRate);
-	} else if (dropDownValue === "rating-asc") {
-		const sortedLowestRating = movies.sort(sortLowestRating);
-		showMovies(sortedLowestRating);
+	let result;
+
+	if (dropDownValue === "year-old" || dropDownValue === "rating-asc") {
+		result = sortLowToHigh(movies, dropDownValue);
+		showMovies(result);
+	} else {
+		result = sortHighToLow(movies, dropDownValue);
+		showMovies(result);
 	}
+
+	// 	if (dropDownValue === "year-new") {
+	// 		const sortedByNewestYear = movies.sort(sortYearNew);
+	// 		showMovies(sortedByNewestYear);
+	// 	} else if (dropDownValue === "year-old") {
+	// 		const sortedByOldestYear = movies.sort(sortYearOld);
+	// 		showMovies(sortedByOldestYear);
+	// 	} else if (dropDownValue === "rating-des") {
+	// 		const sortedHighestRate = movies.sort(sortHighestRating);
+	// 		console.log(sortedHighestRate);
+	// 		showMovies(sortedHighestRate);
+	// 	} else if (dropDownValue === "rating-asc") {
+	// 		const sortedLowestRating = movies.sort(sortLowestRating);
+	// 		showMovies(sortedLowestRating);
+	// 	}
 }
 
-function sortYearNew(movie1, movie2) {
-	return movie2.year - movie1.year;
+function sortLowToHigh(movieArray, value) {
+	return movieArray.sort((movie1, movie2) =>
+		value === "year-old" ? movie1.year - movie2.year : movie1.score - movie2.score
+	);
 }
 
-function sortYearOld(movie1, movie2) {
-	return movie1.year - movie2.year;
+function sortHighToLow(movieArray, value) {
+	return movieArray.sort((movie1, movie2) =>
+		value === "year-new" ? movie2.year - movie1.year : movie2.score - movie1.score
+	);
 }
 
-function sortHighestRating(movie1, movie2) {
-	return movie2.score - movie1.score;
-}
+// function sortYearNew(movie1, movie2) {
+// 	return movie2.year - movie1.year;
+// }
 
-function sortLowestRating(movie1, movie2) {
-	return movie1.score - movie2.score;
-}
+// function sortYearOld(movie1, movie2) {
+// 	return movie1.year - movie2.year;
+// }
 
+// function sortHighestRating(movie1, movie2) {
+// 	return movie2.score - movie1.score;
+// }
+
+// function sortLowestRating(movie1, movie2) {
+// 	return movie1.score - movie2.score;
+// }
 
 // ======================= YOUTUBE ===========================
 
