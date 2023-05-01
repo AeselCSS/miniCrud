@@ -7,8 +7,8 @@
 	--font-family: "Ysabeau", cursive;
 	--font-size-normal: 1em;
 	--font-size-small: 0.8em;
-	--font-size-large: 1.2em;
-	--font-size-xlarge: 1.5em;
+	--font-size-large: 1.3em;
+	--font-size-xlarge: 2em;
 	--font-weight-normal: 300;
 	--font-weight-bold: 500;
 	--font-weight-bolder: 700;
@@ -158,20 +158,31 @@ nav {
 }
 
 .filter-container select {
-	width: 81%;
+	width: 71.5%;
 	height: 100%;
 	border: 1px solid var(--secondary-color);
-	background-color: var(--accent-color);
-	cursor: pointer;
-	text-align: center;
 	border-top-left-radius: 0;
 	border-bottom-left-radius: 0;
 }
 
-.search-bar-container label {
-	margin-right: 0.25em;
-	color: var(--secondary-color);
+.search-bar-container label, .filter-container label, .sort-container label {
+    width: fit-content;
+    margin-bottom: 0;
 }
+
+.search-bar-container input {
+    margin: 0;
+}
+
+.sort-container label {
+    color: var(--primary-color);
+    margin-bottom: 0.4em;
+}
+.filter-container label {
+    color: var(--secondary-color);
+    margin-bottom: 0.4em;
+}
+
 
 /* ===== TOP MOVIE JUMBOTRON ===== */
 .jumbo {
@@ -183,19 +194,14 @@ nav {
 }
 
 /* ===== FORM STYLING ===== */
-form {
+/* form {
 	display: grid;
 	grid-template-columns: 0.5fr 1fr;
-}
+} */
 
 dialog h2 {
     text-align: center;
     margin-bottom: 1em;
-}
-
-form label {
-    font-size: var(--font-size-normal);
-    font-weight: var(--font-weight-light);
 }
 
 form ::placeholder {
@@ -205,33 +211,48 @@ form ::placeholder {
     font-weight: var(--font-weight-light);
 }
 
-input[type="text"],
-input[type="number"],
-input[type="url"] {
-	background-color: var(--tertiary-color);
-	color: var(--secondary-color);
-	border: var(--border-solid);
-	border-radius: var(--border-radius);
-	padding: 0.25em 0.5em;
-	font-size: var(--font-size-normal);
-	font-weight: var(--font-weight-light);
-	width: 100%;
-	height: 2em;
-}
-
 input[type="text"]:focus,
 input[type="number"]:focus,
 input[type="url"]:focus {
 	outline: none;
 }
 
+label, input {
+  display: inline-block;
+  vertical-align: middle;
+  background-color: var(--tertiary-color);
+  font-size: var(--font-size-normal);
+  font-weight: var(--font-weight-light);
+  border: var(--border-solid);
+  border-radius: var(--border-radius);
+  padding: 0.25em 0.5em;
+  margin-bottom: 10px;
+    width: 70%;
+    height: 1.5em;
+}
+
+label {
+    background-color: transparent;
+    border: var(--border-none);
+  width: 10em;
+}
+
+label[for="in-cinema-yes"],
+label[for="in-cinema-no"] {
+  display: inline-block;
+  margin-right: 10px;
+}
+
 input[type="radio"] {
-	margin-right: 0.25em;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 5px;
 }
 
 select,
 input[type="submit"],
 button {
+    position: relative;
 	background-color: var(--accent-color);
 	color: var(--primary-color);
 	border: none;
@@ -242,6 +263,29 @@ button {
 	cursor: pointer;
 	height: 2em;
 	width: fit-content;
+    text-align: center;
+}
+
+form > input[type="submit"], form > button {
+    margin-top: 1em;
+    width: 100%;
+}
+
+/* Style the dropdown menu */
+select option {
+    background-color: var(--accent-color);
+    color: var(--primary-color);
+    font-size: var(--font-size-normal);
+}
+
+/* Position the dropdown menu */
+select:focus ~ select option {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 2px;
+  width: 100%;
+  z-index: 1;
 }
 
 /* ====== GRID STYLING ===== */
@@ -281,6 +325,11 @@ button {
 	background-color: var(--primary-color);
 	border-radius: var(--border-radius);
 	border: var(--border-solid);
+    overflow-x: hidden;
+}
+
+#btn-close-modal {
+    float: right;
 }
 
 .modal-content {
@@ -289,3 +338,58 @@ button {
 	grid-template-rows: 1fr 1fr;
 	grid-gap: 1em;
 }
+
+.modal-content h2 {
+    font-size: var(--font-size-xlarge);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: 0.5em;
+    text-align: center;
+    text-transform: capitalize;
+}
+
+#movie-actor-list li {
+    list-style-type: none;
+    padding: 0;
+}
+
+.movie-details-top {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-bottom: 0.5em;
+}
+
+.movie-details-top .right {
+    text-align: center;
+}
+
+.movie-details-middle {
+  display: grid;
+  grid-template-columns: 30% 70%;
+  margin-bottom: 0.5em;
+}
+
+.movie-details-middle img {
+  width: 100%;
+}
+
+.movie-details-middle iframe {
+  width: 100%;
+  height: 99%;
+  border: none;
+}
+
+.movie-details-bottom {
+  margin-bottom: 0.5em;
+}
+
+#form-delete-movie {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 1em;
+}
+
+#dialog-delete-movie-title {
+    text-align: center;
+    margin-bottom: 0.5em;
+}
+
