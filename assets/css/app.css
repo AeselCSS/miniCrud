@@ -75,6 +75,7 @@ footer {
 	vertical-align: middle;
 	text-align: center;
 	z-index: 99;
+	box-shadow: 0px -5px 10px black ;
 }
 
 a {
