@@ -173,8 +173,8 @@ function showMovieDialog(movie) {
 	dialogContent.insertAdjacentHTML("beforeend", section);
 	populateActorList(movie.actorStars);
 
-	document.querySelector("#movie-update-btn").addEventListener("click", () => updateClicked(movie));
-	document.querySelector("#movie-remove-btn").addEventListener("click", () => removeClicked(movie));
+	document.querySelector("#movie-update-btn").addEventListener("click", () => updateMovieDialog(movie));
+	document.querySelector("#movie-remove-btn").addEventListener("click", () => deleteMovieDialog(movie));
 	document.querySelector("#dialog-modal").showModal();
 }
 
