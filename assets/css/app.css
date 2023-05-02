@@ -209,7 +209,7 @@ nav {
 
 /* ===== TOP MOVIE ===== */
 .top-movie-class {
-	aspect-ratio: 3 / 1;
+	/* aspect-ratio: 3 / 1; */
 	position: relative;
 	background-color: black;
 	height: 25em;
