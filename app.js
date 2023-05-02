@@ -133,18 +133,18 @@ function showMovieDialog(movie) {
 
 		<div class="movie-details-top">
 		<div class="left">
-			<p>Year of release: ${movie.year}</p>
-        	<p>Runtime: ${movie.runtime} Minutes</p>
-        	<p>Rating: ${movie.score}</p>
+			<p><b>Year of release:</b> ${movie.year}</p>
+        	<p><b>Runtime:</b> ${movie.runtime} Minutes</p>
+        	<p><b>Rating:</b> ${movie.score}</p>
 		</div>
 
 		<div class="middle">
-        	<p>Genre: ${genreString}</p>
-        	<p>Director: ${movie.director}</p>
+        	<p><b>Genre:</b> ${genreString}</p>
+        	<p><b>Director:</b> ${movie.director}</p>
 		</div>
 
 		<div class="right">
-            <p>Actors:</p>
+            <p><b>Actors:</b></p>
             <ul id="movie-actor-list"></ul>
         </div>
 
@@ -162,7 +162,7 @@ function showMovieDialog(movie) {
 
         <div class="movie-details-bottom">
             
-                <p>Description: ${movie.description}</p>
+                <p><b>Description:</b> ${movie.description}</p>
             
         </div>
     </article>

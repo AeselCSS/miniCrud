@@ -9,6 +9,7 @@
 	--font-size-small: 0.8em;
 	--font-size-large: 1.3em;
 	--font-size-xlarge: 2em;
+	--font-size-xxlarge: 3em;
 	--font-weight-normal: 300;
 	--font-weight-bold: 500;
 	--font-weight-bolder: 700;
@@ -247,8 +248,10 @@ nav {
 } */
 
 dialog h2 {
+	font-size: var(--font-size-xxlarge);
 	text-align: center;
 	margin-bottom: 1em;
+	line-height: 1em;
 }
 
 form ::placeholder {
@@ -411,7 +414,8 @@ select:focus ~ select option {
 	max-height: 85vh;
 	/* height: fit-content; */
 	padding: 1em;
-	background-color: var(--primary-color);
+	color: var(--text-color);
+	background-color: var(--secondary-color);
 	border-radius: var(--border-radius);
 	border: var(--border-solid);
 	overflow-x: hidden;
@@ -431,7 +435,7 @@ select:focus ~ select option {
 }
 
 .modal-content h2 {
-	font-size: var(--font-size-xlarge);
+	font-size: var(--font-size-xxlarge);
 	font-weight: var(--font-weight-bold);
 	margin-bottom: 0.5em;
 	text-align: center;
@@ -457,6 +461,7 @@ select:focus ~ select option {
 	display: grid;
 	grid-template-columns: 30% 70%;
 	margin-bottom: 0.5em;
+	gap: 1em;
 }
 
 .movie-details-middle img {
@@ -517,9 +522,11 @@ iframe {
 @keyframes fadeIn {
 	0% {
 		opacity: 0;
+		transform: scale(0.7);
 	}
 	100% {
 		opacity: 1;
+		transform: scale(1);
 	}
 }
 
