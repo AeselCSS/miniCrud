@@ -31,6 +31,8 @@ async function start() {
 		console.log(selectedSort);
 		sortMovies(selectedSort);
 	}
+
+	showRandomTopMovie(moviesArray)
 }
 
 async function getMovies(url) {
@@ -808,4 +810,19 @@ function getVideoId(link) {
 function createEmbedLink(videoId) {
 	const embedLink = `https://www.youtube.com/embed/${videoId}`;
 	return embedLink;
+}
+
+
+/* ============== TOP MOVIE GENERATOR ====================*/
+
+function showRandomTopMovie(movies) { 
+
+	const randomNumber = Math.floor(Math.random() * movies.length);
+	const videoId = getVideoId(movies[randomNumber].trailer);
+	const embedableVideo = createEmbedLink(videoId);
+
+	document.querySelector("#top-movie-iframe").src = embedableVideo;
+	document.querySelector("#top-movie-img").src = movies[randomNumber].poster;
+
+	
 }
