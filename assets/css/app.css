@@ -296,7 +296,6 @@ select:focus ~ select option {
 	display: grid;
 	gap: 2em;
 	padding: 0em 2em;
-	
 }
 
 .grid-item {
@@ -310,6 +309,7 @@ select:focus ~ select option {
 	overflow: hidden;
 	position: relative;
 	animation: fadeIn 0.4s;
+	border-radius: 1rem;
 }
 
 .grid-item:hover {
@@ -342,18 +342,22 @@ select:focus ~ select option {
 
 /* MODAL STYLING */
 .modal {
-	position: fixed;
+	/* position: fixed; */
 	z-index: 100;
-	left: 15%;
+	margin-left: auto;
+	margin-right: auto;
 	top: 10%;
-	min-width: 40%;
-	max-width: 70%;
-	height: fit-content;
+	/* min-width: 60%; */
+	max-width: 70rem;
+	max-height: 85vh;
+	/* height: fit-content; */
 	padding: 1em;
 	background-color: var(--primary-color);
 	border-radius: var(--border-radius);
 	border: var(--border-solid);
 	overflow-x: hidden;
+	animation: fadeIn 0.3s;
+	box-shadow: 10px 5px 20px black ;
 }
 
 #btn-close-modal {
@@ -419,6 +423,30 @@ select:focus ~ select option {
 #dialog-delete-movie-title {
 	text-align: center;
 	margin-bottom: 0.5em;
+}
+
+#form {
+	max-width: 40rem;
+}
+
+#form label {
+	font-weight: bolder;
+}
+
+.btn-wrapper {
+	max-width: 12rem;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 2rem;
+	text-align: center;
+}
+
+.update-feedback-body{
+max-width: 40rem;
+}
+
+.update-feedback-body img, iframe{
+width: 20rem;
 }
 
 /* ====== ANIMATIONS ===== */

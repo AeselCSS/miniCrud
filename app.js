@@ -250,7 +250,7 @@ function showAddMovieModal() {
           />
 		  </label>
         
-          <button>Add this movie</button>
+          <div class="btn-wrapper"><button>Add this movie</button></div>
         </form>
   `;
 
@@ -410,6 +410,9 @@ function updateMovieDialog(movie) {
 	const dialog = document.querySelector("#dialog-modal");
 	const dialogContent = document.querySelector("#dialog-modal-content");
 
+	const videoId = getVideoId(movie.trailer);
+	const embedableVideo = createEmbedLink(videoId);
+
 	// HTML to insert
 	const html = /*html*/ `
   <h2>Update Movie</h2>
@@ -481,7 +484,7 @@ function updateMovieDialog(movie) {
             id="trailer"
             name="trailer"
             placeholder="URL link"
-            value='${movie.trailer}'
+            value='${embedableVideo}'
             required
           />
 
@@ -527,7 +530,7 @@ function updateMovieDialog(movie) {
           /></label>
           
 
-          <button>Update this movie</button>
+          <div class="btn-wrapper"><button>Update this movie</button></div>
         </form>
   `;
 
@@ -569,23 +572,28 @@ function updateMovieDialog(movie) {
 
 		// HTML to insert
 		const html = /*html*/ `
-		<p>
-			<h2>Updated movie details</h2>
-		</p>
-		<p><b>Title:</b> ${title}</p>
-		<p><b>Runtime:</b> ${runtime} minutes</p>
-		<p><b>Year:</b> ${year}</p>
-		<p><b>Director:</b> ${director}</p>
-		<p><b>Star actors:</b> ${actorStars}</p>
-		<p><b>Genres:</b> ${genreTags}</p>
-		<p><b>Score:</b> ${score}</p>
-		<p><b>Description:</b> ${description}</p>
-		<p><b>Currently in cinema:</b> ${inCinema ? "Yes" : "No"}</p>
-		<p><b>Poster:</b> <img src="${poster}" alt="POSTER MISSING" /></p>
-		<p><b>Trailer:</b> <iframe src="${trailer}"></iframe></p>
-		<button id="update-confirm-btn">Confirm</button>
-		<button id="update-back-btn">Back</button>
+		<div class="update-feedback-body">
+			<p>
+				<h2>Updated movie details</h2>
+			</p>
+			<p><b>Title:</b> ${title}</p>
+			<p><b>Runtime:</b> ${runtime} minutes</p>
+			<p><b>Year:</b> ${year}</p>
+			<p><b>Director:</b> ${director}</p>
+			<p><b>Star actors:</b> ${actorStars}</p>
+			<p><b>Genres:</b> ${genreTags}</p>
+			<p><b>Score:</b> ${score}</p>
+			<p><b>Description:</b> ${description}</p>
+			<p><b>Currently in cinema:</b> ${inCinema ? "Yes" : "No"}</p>
+			<p><b>Poster:</b></p> <p><img src="${poster}" alt="POSTER MISSING" /></p>
+			<p><b>Trailer:</b></p><p> <iframe src="${trailer}"></iframe></p>
+			<div class="btn-wrapper">
+				<button id="update-confirm-btn">Confirm</button>
+				<button id="update-back-btn">Back</button>
+			</div>
+		</div>
 		`;
+
 		dialogContent.innerHTML = html;
 
 		// Button event listeners
