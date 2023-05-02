@@ -197,6 +197,9 @@ function showMovieDialog(movie) {
 function showAddMovieModal() {
 	const dialog = document.querySelector("#dialog-modal");
 	const dialogContent = document.querySelector("#dialog-modal-content");
+
+	dialogContent.innerHTML = "";
+
 	const html = /*html*/ `
   <h2>Create a New Movie</h2>
         <form id="form" class="dialog-create-movie">
