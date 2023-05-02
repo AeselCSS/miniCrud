@@ -57,6 +57,11 @@ body {
 	overflow-x: hidden; /* might be unnecessary later */
 }
 
+main {
+	min-height: 3000px;
+
+}
+
 header {
 	background-color: var(--secondary-color);
 	padding: 1em;
