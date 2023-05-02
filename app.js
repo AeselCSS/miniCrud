@@ -1,5 +1,7 @@
 "use strict";
 
+let timeoutIds = [];
+
 window.addEventListener("load", start);
 const endpoint = "https://byca-crud-default-rtdb.europe-west1.firebasedatabase.app/";
 
@@ -64,9 +66,24 @@ async function updateGrid() {
 
 function showMovies(movies) {
 	document.querySelector("#movie-grid").innerHTML = "";
-	for (const movie of movies) {
-		showMovie(movie);
+
+	// Clear any previous timeouts
+	for (const i of timeoutIds) clearTimeout(i);
+
+	// Loop through each movie,
+	// Timeout to get fadeIn effect
+	for (let i = 0; i < movies.length; i++) {
+		const timeoutId = setTimeout(() => {
+			showMovie(movies[i]);
+		}, i * 100);
+
+		timeoutIds.push(timeoutId);
 	}
+
+	// Old loop method
+	// for (const movie of movies) {
+	// 	showMovie(movie);
+	// }
 }
 
 function showMovie(movie) {
@@ -75,6 +92,14 @@ function showMovie(movie) {
   
   <article class="grid-item" > 
   <img src="${movie.poster}" >
+  <div class="grid-item-text"><p>
+	<b>${movie.title}</b> -
+	<em>${movie.year}</em>
+  </p>
+  <p><b>Runtime </b>- ${movie.runtime} min.</p>
+  <p><b>Rating </b>- ${movie.score} / 10</p>
+  <p><b>Starring</b></p>
+  <p>${movie.actorStars}</p></div>
   </article>
   `;
 
@@ -227,7 +252,7 @@ function showAddMovieModal() {
           />
 		  </label>
         
-          <button>Add this movie</button>
+          <div class="btn-wrapper"><button>Add this movie</button></div>
         </form>
   `;
 
@@ -387,6 +412,9 @@ function updateMovieDialog(movie) {
 	const dialog = document.querySelector("#dialog-modal");
 	const dialogContent = document.querySelector("#dialog-modal-content");
 
+	const videoId = getVideoId(movie.trailer);
+	const embedableVideo = createEmbedLink(videoId);
+
 	// HTML to insert
 	const html = /*html*/ `
   <h2>Update Movie</h2>
@@ -458,7 +486,7 @@ function updateMovieDialog(movie) {
             id="trailer"
             name="trailer"
             placeholder="URL link"
-            value='${movie.trailer}'
+            value='${embedableVideo}'
             required
           />
 
@@ -504,7 +532,7 @@ function updateMovieDialog(movie) {
           /></label>
           
 
-          <button>Update this movie</button>
+          <div class="btn-wrapper"><button>Update this movie</button></div>
         </form>
   `;
 
@@ -546,23 +574,28 @@ function updateMovieDialog(movie) {
 
 		// HTML to insert
 		const html = /*html*/ `
-		<p>
-			<h2>Updated movie details</h2>
-		</p>
-		<p><b>Title:</b> ${title}</p>
-		<p><b>Runtime:</b> ${runtime} minutes</p>
-		<p><b>Year:</b> ${year}</p>
-		<p><b>Director:</b> ${director}</p>
-		<p><b>Star actors:</b> ${actorStars}</p>
-		<p><b>Genres:</b> ${genreTags}</p>
-		<p><b>Score:</b> ${score}</p>
-		<p><b>Description:</b> ${description}</p>
-		<p><b>Currently in cinema:</b> ${inCinema ? "Yes" : "No"}</p>
-		<p><b>Poster:</b> <img src="${poster}" alt="POSTER MISSING" /></p>
-		<p><b>Trailer:</b> <iframe src="${trailer}"></iframe></p>
-		<button id="update-confirm-btn">Confirm</button>
-		<button id="update-back-btn">Back</button>
+		<div class="update-feedback-body">
+			<p>
+				<h2>Updated movie details</h2>
+			</p>
+			<p><b>Title:</b> ${title}</p>
+			<p><b>Runtime:</b> ${runtime} minutes</p>
+			<p><b>Year:</b> ${year}</p>
+			<p><b>Director:</b> ${director}</p>
+			<p><b>Star actors:</b> ${actorStars}</p>
+			<p><b>Genres:</b> ${genreTags}</p>
+			<p><b>Score:</b> ${score}</p>
+			<p><b>Description:</b> ${description}</p>
+			<p><b>Currently in cinema:</b> ${inCinema ? "Yes" : "No"}</p>
+			<p><b>Poster:</b></p> <p><img src="${poster}" alt="POSTER MISSING" /></p>
+			<p><b>Trailer:</b></p><p> <iframe src="${trailer}"></iframe></p>
+			<div class="btn-wrapper">
+				<button id="update-confirm-btn">Confirm</button>
+				<button id="update-back-btn">Back</button>
+			</div>
+		</div>
 		`;
+
 		dialogContent.innerHTML = html;
 
 		// Button event listeners
@@ -753,7 +786,6 @@ function sortHighestRating(movie1, movie2) {
 function sortLowestRating(movie1, movie2) {
 	return movie1.score - movie2.score;
 }
-
 
 // ======================= YOUTUBE ===========================
 
