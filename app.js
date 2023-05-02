@@ -1,9 +1,11 @@
 "use strict";
 
+import { validateInput } from "./assets/js/input-validation.js";
+
 let timeoutIds = [];
 
 window.addEventListener("load", start);
-const endpoint = "https://byca-crud-default-rtdb.europe-west1.firebasedatabase.app/";
+export const endpoint = "https://byca-crud-default-rtdb.europe-west1.firebasedatabase.app/";
 
 async function start() {
 	const moviesArray = await getMovies(endpoint);
@@ -35,7 +37,7 @@ async function start() {
 	showRandomTopMovie(moviesArray)
 }
 
-async function getMovies(url) {
+export async function getMovies(url) {
 	const response = await fetch(`${url}movies.json`);
 	const data = await response.json();
 	const preparedData = prepareData(data);
@@ -171,25 +173,8 @@ function showMovieDialog(movie) {
 	dialogContent.insertAdjacentHTML("beforeend", section);
 	populateActorList(movie.actorStars);
 
-	document.querySelector("#movie-update-btn").addEventListener("click", updateClicked);
-	document.querySelector("#movie-remove-btn").addEventListener("click", removeClicked);
-
-	function updateClicked() {
-		document.querySelector("#movie-update-btn").addEventListener("click", updateClicked);
-		// kald på brains funktion med movie som argument mhp. updater
-		updateMovieDialog(movie);
-	}
-
-	function removeClicked() {
-		//Kommenteret ud, fordi det virker uden at fjerne eventlisteneren
-		/*
-    document
-      .querySelector("#movie-remove-btn")
-      .removeEventListener("click", removeClicked);
-    */
-		// kald på brains funktion med movie som argument mhp. slet
-		deleteMovieDialog(movie);
-	}
+	document.querySelector("#movie-update-btn").addEventListener("click", () => updateClicked(movie));
+	document.querySelector("#movie-remove-btn").addEventListener("click", () => removeClicked(movie));
 	document.querySelector("#dialog-modal").showModal();
 }
 
@@ -252,11 +237,21 @@ function showAddMovieModal() {
           />
 		  </label>
         
-          <div class="btn-wrapper"><button>Add this movie</button></div>
+          <div class="btn-wrapper"><button id="submit-btn">Add this movie</button></div>
         </form>
   `;
-
 	dialogContent.insertAdjacentHTML("beforeend", html);
+
+	const form = dialogContent.querySelector("#form")
+	const fieldsToValidate = form.querySelectorAll(
+		"#title, #runtime, #score, #director, #actors, #year, #poster, #trailer, #genre, #description"
+	);
+	fieldsToValidate.forEach((field) => {
+		field.addEventListener("input", () => {
+			validateInput(field);
+		});
+	});
+
 	document.querySelector("#form").addEventListener("submit", createMovieClicked);
 	dialog.showModal();
 }
