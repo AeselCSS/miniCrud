@@ -212,6 +212,8 @@ nav {
 	top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+	transition: 0.5s;
+	
 	
 	/* aspect-ratio: 16 / 9; */
 }
@@ -221,11 +223,12 @@ nav {
 	width: auto;
 	height: 10rem;
 	left: 20%;
-	top: 59%;
+	top: 60%;
 	z-index: 9;
 	transition: opacity 0.5s ease-in-out;
 	transform-origin: bottom left;
 	transform:scale(1.5);
+	transition: 1s;
 }
 
 .top-movie-class img:hover {
@@ -511,17 +514,28 @@ width: 20rem;
 	.grid.item {
 		width: 13rem;
 	}
+
+	.top-movie-class img {
+		transform: scale(0.8);
+	}
+	
 }
 
 @media (min-width: 480px) {
 	.grid-container {
 		grid-template-columns: repeat(2, 1fr);
 	}
+	.top-movie-class img {
+		transform: scale(1.2);
+	}
 }
 
 @media (min-width: 769px) {
 	.grid-container {
 		grid-template-columns: repeat(3, 1fr);
+	}
+	.top-movie-class img {
+		transform: scale(1.5);
 	}
 }
 
