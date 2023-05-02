@@ -43,7 +43,13 @@
 
 /* ===== GENERAL STYLING ===== */
 body {
-	background-color: var(--secondary-color);
+	/* background-color: var(--secondary-color); */
+	background-image: linear-gradient(
+		to bottom right,
+		#121212,
+		#3c3c3c,
+		#121212
+	);
 	font-family: var(--font-family);
 	color: var(--text-color);
 	line-height: var(--line-height);
@@ -59,6 +65,7 @@ header {
 	left: 0;
 	right: 0;
 	z-index: 99;
+	box-shadow: 0px 5px 10px black;
 }
 
 footer {
@@ -191,7 +198,6 @@ nav {
 	margin-bottom: 0.4em;
 }
 
-
 /* ===== TOP MOVIE ===== */
 .top-movie-class {
 	/* background-color: var(--accent-color); */
@@ -204,17 +210,15 @@ nav {
 	box-shadow: 0px 5px 10px black;
 }
 
-
 .top-movie-class iframe {
 	position: absolute;
 	width: 60%;
 	height: 100%;
 	top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+	left: 50%;
+	transform: translate(-50%, -50%);
 	transition: 0.5s;
-	
-	
+
 	/* aspect-ratio: 16 / 9; */
 }
 
@@ -227,7 +231,7 @@ nav {
 	z-index: 9;
 	transition: opacity 0.5s ease-in-out;
 	transform-origin: bottom left;
-	transform:scale(1.5);
+	transform: scale(1.5);
 	transition: 1s;
 }
 
@@ -307,6 +311,17 @@ button {
 	height: 2em;
 	width: fit-content;
 	text-align: center;
+	transition: 0.2s;
+}
+
+button:hover {
+	transform: var(--scale-on-hover);
+	background-color: #1b788d;
+}
+
+button:active {
+	transform: scale(0.9);
+	background-color: #2abada;
 }
 
 form > input[type="submit"],
@@ -351,10 +366,12 @@ select:focus ~ select option {
 	position: relative;
 	animation: fadeIn 0.4s;
 	border-radius: 1rem;
+	transition: 0.5s;
 }
 
 .grid-item:hover {
 	transform: var(--scale-on-hover);
+	box-shadow: 5px 5px 10px rgb(24, 24, 24);
 }
 .grid-item:hover .grid-item-text {
 	opacity: 1;
@@ -398,7 +415,7 @@ select:focus ~ select option {
 	border: var(--border-solid);
 	overflow-x: hidden;
 	animation: fadeIn 0.3s;
-	box-shadow: 10px 5px 20px black ;
+	box-shadow: 10px 5px 20px black;
 }
 
 #btn-close-modal {
@@ -485,12 +502,13 @@ select:focus ~ select option {
 	text-align: center;
 }
 
-.update-feedback-body{
-max-width: 40rem;
+.update-feedback-body {
+	max-width: 40rem;
 }
 
-.update-feedback-body img, iframe{
-width: 20rem;
+.update-feedback-body img,
+iframe {
+	width: 20rem;
 }
 
 /* ====== ANIMATIONS ===== */
@@ -518,7 +536,6 @@ width: 20rem;
 	.top-movie-class img {
 		transform: scale(0.8);
 	}
-	
 }
 
 @media (min-width: 480px) {
