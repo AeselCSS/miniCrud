@@ -9,7 +9,7 @@
 	--font-size-small: 0.8em;
 	--font-size-large: 1.3em;
 	--font-size-xlarge: 2em;
-	--font-size-xxlarge: 3em;
+	--font-size-xxlarge: 2.5em;
 	--font-weight-normal: 300;
 	--font-weight-bold: 500;
 	--font-weight-bolder: 700;
@@ -48,12 +48,8 @@
 /* ===== GENERAL STYLING ===== */
 body {
 	/* background-color: var(--secondary-color); */
-	background-image: linear-gradient(
-		to bottom right,
-		#121212,
-		#3c3c3c,
-		#121212
-	);
+	background-image: linear-gradient(to bottom right, #121212, #3c3c3c, #121212);
+	background-size: 100vw 10000px;
 	font-family: var(--font-family);
 	color: var(--text-color);
 	line-height: var(--line-height);
@@ -61,8 +57,8 @@ body {
 }
 
 main {
-	min-height: 3000px;
-
+	min-height: 1000px;
+	transition: 0.5s;
 }
 
 header {
@@ -84,7 +80,7 @@ footer {
 	vertical-align: middle;
 	text-align: center;
 	z-index: 99;
-	box-shadow: 0px -5px 10px black ;
+	box-shadow: 0px -5px 10px black;
 }
 
 a {
@@ -238,7 +234,6 @@ nav {
 	left: 20%;
 	top: 60%;
 	z-index: 9;
-	transition: opacity 0.5s ease-in-out;
 	transform-origin: bottom left;
 	transform: scale(1.5);
 	transition: 1s;
@@ -247,6 +242,7 @@ nav {
 
 .top-movie-class img:hover {
 	opacity: 0.25;
+	pointer-events: none;
 }
 
 /* ===== FORM STYLING ===== */
@@ -381,11 +377,8 @@ select:focus ~ select option {
 .grid-item {
 	cursor: pointer;
 	transition: var(--transition-transform);
-	/* height: fit-content; */
-	/* width: 12rem; */
 	margin-left: auto;
 	margin-right: auto;
-	/* max-width: calc(30em * 0.66); */
 	overflow: hidden;
 	position: relative;
 	animation: fadeIn 0.4s;
@@ -435,7 +428,7 @@ select:focus ~ select option {
 	border: var(--border-solid);
 	overflow-x: hidden;
 	animation: fadeIn 0.3s;
-	box-shadow: 10px 5px 20px var(--secondary-color) ;
+	box-shadow: 10px 5px 20px var(--secondary-color);
 }
 
 #btn-close-modal {
