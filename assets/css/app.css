@@ -147,7 +147,7 @@ nav {
 .search-bar-container {
 	display: flex;
 	align-items: center;
-	justify-content: center;
+	justify-content: right;
 	position: relative;
 	width: 30%;
 	min-width: 18rem;
@@ -155,16 +155,19 @@ nav {
 }
 
 #search-bar {
-	width: 100%;
+	min-width: 200px;
+	width: 60%;
 	height: 100%;
 	padding-left: 1em;
 	padding-right: 8em; /* to accommodate the filter container */
 	border: 1px solid var(--secondary-color);
 	border-radius: 0.5em;
+	transition: 1s ease-in-out;
 }
 
 #search-bar:focus {
 	outline: none;
+	width: 100%;
 }
 
 .filter-container {
