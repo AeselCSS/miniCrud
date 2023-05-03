@@ -2,6 +2,7 @@
 import { showAddMovieModal } from "./assets/js/create-movie-modal.js";
 import { endpoint, getMovies } from "./assets/js/rest-api.js";
 import { showMovieDialog } from "./assets/js/show-movie-modal.js";
+import { showHighlightedMovie } from "./assets/js/top-movie.js";
 
 let timeoutIds = [];
 
@@ -34,7 +35,7 @@ async function start() {
 		sortMovies(selectedSort);
 	}
 
-	showRandomTopMovie(moviesArray);
+	showHighlightedMovie(moviesArray);
 }
 
 export async function updateGrid() {
@@ -189,15 +190,4 @@ function sortHighToLow(movieArray, value) {
 	return movieArray.sort((movie1, movie2) =>
 		value === "year-new" ? movie2.year - movie1.year : movie2.score - movie1.score
 	);
-}
-
-/* ============== TOP MOVIE GENERATOR ====================*/
-
-function showRandomTopMovie(movies) {
-	const randomNumber = Math.floor(Math.random() * movies.length);
-	const videoId = getVideoId(movies[randomNumber].trailer);
-	const embedableVideo = createEmbedLink(videoId);
-
-	document.querySelector("#top-movie-iframe").src = embedableVideo;
-	document.querySelector("#top-movie-img").src = movies[randomNumber].poster;
 }
