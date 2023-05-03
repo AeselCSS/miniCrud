@@ -34,7 +34,7 @@ async function start() {
 		sortMovies(selectedSort);
 	}
 
-	showRandomTopMovie(moviesArray)
+	showRandomTopMovie(moviesArray);
 }
 
 export async function getMovies(url) {
@@ -245,7 +245,7 @@ function showAddMovieModal() {
   `;
 	dialogContent.insertAdjacentHTML("beforeend", html);
 
-	const form = dialogContent.querySelector("#form")
+	const form = dialogContent.querySelector("#form");
 	const fieldsToValidate = form.querySelectorAll(
 		"#title, #runtime, #score, #director, #actors, #year, #poster, #trailer, #genre, #description"
 	);
@@ -753,36 +753,27 @@ function filterMovies(movies, keywords, filter) {
 async function sortMovies(dropDownValue) {
 	const movies = await getMovies(endpoint);
 
-	if (dropDownValue === "year-new") {
-		const sortedByNewestYear = movies.sort(sortYearNew);
-		showMovies(sortedByNewestYear);
-	} else if (dropDownValue === "year-old") {
-		const sortedByOldestYear = movies.sort(sortYearOld);
-		showMovies(sortedByOldestYear);
-	} else if (dropDownValue === "rating-des") {
-		const sortedHighestRate = movies.sort(sortHighestRating);
-		console.log(sortedHighestRate);
-		showMovies(sortedHighestRate);
-	} else if (dropDownValue === "rating-asc") {
-		const sortedLowestRating = movies.sort(sortLowestRating);
-		showMovies(sortedLowestRating);
+	let result;
+
+	if (dropDownValue === "year-old" || dropDownValue === "rating-asc") {
+		result = sortLowToHigh(movies, dropDownValue);
+		showMovies(result);
+	} else {
+		result = sortHighToLow(movies, dropDownValue);
+		showMovies(result);
 	}
 }
 
-function sortYearNew(movie1, movie2) {
-	return movie2.year - movie1.year;
+function sortLowToHigh(movieArray, value) {
+	return movieArray.sort((movie1, movie2) =>
+		value === "year-old" ? movie1.year - movie2.year : movie1.score - movie2.score
+	);
 }
 
-function sortYearOld(movie1, movie2) {
-	return movie1.year - movie2.year;
-}
-
-function sortHighestRating(movie1, movie2) {
-	return movie2.score - movie1.score;
-}
-
-function sortLowestRating(movie1, movie2) {
-	return movie1.score - movie2.score;
+function sortHighToLow(movieArray, value) {
+	return movieArray.sort((movie1, movie2) =>
+		value === "year-new" ? movie2.year - movie1.year : movie2.score - movie1.score
+	);
 }
 
 // ======================= YOUTUBE ===========================
@@ -812,17 +803,13 @@ function createEmbedLink(videoId) {
 	return embedLink;
 }
 
-
 /* ============== TOP MOVIE GENERATOR ====================*/
 
-function showRandomTopMovie(movies) { 
-
+function showRandomTopMovie(movies) {
 	const randomNumber = Math.floor(Math.random() * movies.length);
 	const videoId = getVideoId(movies[randomNumber].trailer);
 	const embedableVideo = createEmbedLink(videoId);
 
 	document.querySelector("#top-movie-iframe").src = embedableVideo;
 	document.querySelector("#top-movie-img").src = movies[randomNumber].poster;
-
-	
 }
