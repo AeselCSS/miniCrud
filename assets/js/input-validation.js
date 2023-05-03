@@ -1,4 +1,4 @@
-import { getMovies, endpoint } from "../../app.js";
+import { getMovies, endpoint } from "./rest-api.js";
 
 // =================== FORM INPUT VALIDATION =====================
 // validate form input and set a green border if input is valid and a red border if input is invalid

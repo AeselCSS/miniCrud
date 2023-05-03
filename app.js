@@ -1,11 +1,11 @@
 "use strict";
 
 import { validateInput } from "./assets/js/input-validation.js";
+import { endpoint, createMovie, updateMovie, deleteMovie, getMovies } from "./assets/js/rest-api.js";
 
 let timeoutIds = [];
 
 window.addEventListener("load", start);
-export const endpoint = "https://byca-crud-default-rtdb.europe-west1.firebasedatabase.app/";
 
 async function start() {
 	const moviesArray = await getMovies(endpoint);
@@ -37,14 +37,8 @@ async function start() {
 	showRandomTopMovie(moviesArray);
 }
 
-export async function getMovies(url) {
-	const response = await fetch(`${url}movies.json`);
-	const data = await response.json();
-	const preparedData = prepareData(data);
-	return preparedData;
-}
 
-function prepareData(dataObject) {
+export function prepareData(dataObject) {
 	const movies = [];
 
 	for (const key in dataObject) {
@@ -259,14 +253,12 @@ function showAddMovieModal() {
 	dialog.showModal();
 }
 
-function createMovieClicked(event) {
+async function createMovieClicked(event) {
 	event.preventDefault();
-	console.log(event);
 
 	document.querySelector("#dialog-modal").close();
 
 	const form = event.target;
-	console.log(form);
 
 	const newMovie = {
 		title: form.title.value,
@@ -288,23 +280,14 @@ function createMovieClicked(event) {
 		newMovie.inCinema = false;
 	}
 
-	createMovie(newMovie);
-}
-
-async function createMovie(newMovie) {
-	console.log(newMovie);
-	const json = JSON.stringify(newMovie);
-	const response = await fetch(`${endpoint}movies.json`, {
-		method: "POST",
-		body: json,
-	});
+	const response = await createMovie(newMovie);
 
 	if (response.ok) {
 		console.log("Movie successfully posted");
 		updateGrid();
 		//Call updateGrid function fetch data again.
 	} else {
-		console.log("Failed to create movie");
+		console.error(`Failed to create movie: ${response.status}, ${response.statusText}`);
 		const errorMessage = "The movie could not be created. Please try again later.";
 		displayErrorDialog(errorMessage);
 	}
@@ -354,29 +337,23 @@ async function deleteMovieDialog(movie) {
 	// Button functions
 	async function deleteYesClicked(event) {
 		event.preventDefault();
-		deleteMovie(movie.id);
+		const response = await deleteMovie(movie.id);
+
+		if (response.ok) {
+			console.log("Movie was succesfully deleted from Firebase! 🔥");
+			//Call updateGrid function fetch data again.
+			updateGrid();
+		} else {
+			console.error(`Something went wrong with DELETE request ☹: ${response.status}, ${response.statusText}`);
+			const errorMessage = "The movie could not be deleted. Please try again later.";
+			displayErrorDialog(errorMessage);
+		}
 
 		dialog.close();
 	}
 
 	function deleteNoClicked() {
 		dialog.close();
-	}
-}
-
-async function deleteMovie(id) {
-	const response = await fetch(`${endpoint}movies/${id}.json`, {
-		method: "DELETE",
-	});
-
-	if (response.ok) {
-		console.log("Movie was succesfully deleted from Firebase! 🔥");
-		//Call updateGrid function fetch data again.
-		updateGrid();
-	} else {
-		console.log("Something went wrong with DELETE request ☹");
-		const errorMessage = "The movie could not be deleted. Please try again later.";
-		displayErrorDialog(errorMessage);
 	}
 }
 
@@ -580,36 +557,25 @@ function updateMovieDialog(movie) {
 
 		document.querySelector("#update-back-btn").addEventListener("click", updateMovieFeedbackBack);
 
-		function updateMovieFeedbackConfirm() {
+		async function updateMovieFeedbackConfirm() {
 			dialog.close();
 
-			updateMovie(updatedMovie);
+			const response = await updateMovie(updatedMovie);
+
+			if (response.ok) {
+				console.log("Movie successfully updated in Firebase! 🔥");
+				updateGrid();
+			} else {
+				console.error(`Something went wrong with PUT request😥: ${response.status}, ${response.statusText}`);
+				const errorMessage = "The movie could not be updated. Please try again later.";
+				displayErrorDialog(errorMessage);
+			}
 		}
 
 		function updateMovieFeedbackBack() {
 			// Shows movie dialog with original values
 			updateMovieDialog(movie);
 		}
-	}
-}
-
-async function updateMovie(updatedMovie) {
-	// Parses into json
-	const json = JSON.stringify(updatedMovie);
-
-	// Updates/replaces object in database
-	const response = await fetch(`${endpoint}movies/${updatedMovie.id}.json`, {
-		method: "PUT",
-		body: json,
-	});
-
-	if (response.ok) {
-		console.log("Movie successfully updated in Firebase! 🔥");
-		updateGrid();
-	} else {
-		console.log("Something went wrong with PUT request ☹");
-		const errorMessage = "The movie could not be updated. Please try again later.";
-		displayErrorDialog(errorMessage);
 	}
 }
 
