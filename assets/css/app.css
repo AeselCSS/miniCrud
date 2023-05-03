@@ -92,38 +92,38 @@ a:hover {
 	color: var(--accent-color);
 }
 
+
 /* ===== NAV BAR STYLING ===== */
 nav {
+	width: 95%;
 	min-height: 2em;
 	display: flex;
-	/* grid-template-columns: 0.5fr repeat(3, 1fr) 2fr 1fr;
-	grid-template-areas: "logo search-bar-container search-bar-container search-bar-container sort add-movie";
-	align-items: center; */
 	justify-content: space-between;
+	align-items: center;
 	flex-wrap: wrap;
 	gap: 1rem;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .logo {
-	/* grid-area: logo; */
-	/* width: fit-content; */
-	/* position: absolute; */
-	/* left: 2em; */
+	display: flex;
+	align-items: center;
+	transition: 0.5s;
+	
 }
 
 .logo i {
 	font-size: 2em;
 	color: var(--primary-color);
 	transition: var(--transition-transform);
+	margin-right: 0.5rem;
 }
 
 .logo i:hover {
 	transform: var(--scale-on-hover);
 }
 
-.search-bar-container {
-	/* grid-area: search-bar-container; */
-}
 
 .sort-container {
 	/* grid-area: sort; */
@@ -368,6 +368,7 @@ select:focus ~ select option {
 	margin-top: 2px;
 	width: 100%;
 	z-index: 1;
+	
 }
 
 /* ====== GRID STYLING ===== */
@@ -420,13 +421,14 @@ select:focus ~ select option {
 
 /* MODAL STYLING */
 .modal {
+	background-image: linear-gradient(to bottom right, #121212, #3c3c3c, #121212);
 	z-index: 100;
 	margin: auto auto auto auto;
 	max-width: 70rem;
 	max-height: 90vh;
 	padding: 1em;
 	color: var(--text-color);
-	background-color: var(--secondary-color);
+	/* background-color: var(--secondary-color); */
 	border-radius: var(--border-radius);
 	border: var(--border-solid);
 	overflow-x: hidden;
