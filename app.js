@@ -762,21 +762,6 @@ async function sortMovies(dropDownValue) {
 		result = sortHighToLow(movies, dropDownValue);
 		showMovies(result);
 	}
-
-	// 	if (dropDownValue === "year-new") {
-	// 		const sortedByNewestYear = movies.sort(sortYearNew);
-	// 		showMovies(sortedByNewestYear);
-	// 	} else if (dropDownValue === "year-old") {
-	// 		const sortedByOldestYear = movies.sort(sortYearOld);
-	// 		showMovies(sortedByOldestYear);
-	// 	} else if (dropDownValue === "rating-des") {
-	// 		const sortedHighestRate = movies.sort(sortHighestRating);
-	// 		console.log(sortedHighestRate);
-	// 		showMovies(sortedHighestRate);
-	// 	} else if (dropDownValue === "rating-asc") {
-	// 		const sortedLowestRating = movies.sort(sortLowestRating);
-	// 		showMovies(sortedLowestRating);
-	// 	}
 }
 
 function sortLowToHigh(movieArray, value) {
@@ -790,22 +775,6 @@ function sortHighToLow(movieArray, value) {
 		value === "year-new" ? movie2.year - movie1.year : movie2.score - movie1.score
 	);
 }
-
-// function sortYearNew(movie1, movie2) {
-// 	return movie2.year - movie1.year;
-// }
-
-// function sortYearOld(movie1, movie2) {
-// 	return movie1.year - movie2.year;
-// }
-
-// function sortHighestRating(movie1, movie2) {
-// 	return movie2.score - movie1.score;
-// }
-
-// function sortLowestRating(movie1, movie2) {
-// 	return movie1.score - movie2.score;
-// }
 
 // ======================= YOUTUBE ===========================
 
