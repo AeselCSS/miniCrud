@@ -46,7 +46,7 @@ function showMovieDialog(movie) {
                 <img src="${movie.poster}">
             </div>
 
-            <div>
+            <div class="iframe-wrapper">
                 <iframe src="${embedableVideo}"></iframe>
             </div>
         </div>
