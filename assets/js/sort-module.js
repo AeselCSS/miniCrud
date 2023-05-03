@@ -4,6 +4,12 @@ import { getMovies, endpoint } from "./rest-api.js";
 
 /*============================ SORT FUNCTIONS =================================*/
 
+function sortBy(event) {
+	const selectedSort = document.querySelector("#sort").value;
+	console.log(selectedSort);
+	sortMovies(selectedSort);
+}
+
 async function sortMovies(dropDownValue) {
 	const movies = await getMovies(endpoint);
 
@@ -30,4 +36,4 @@ function sortHighToLow(movieArray, value) {
 	);
 }
 
-export {sortMovies}
+export {sortBy}

@@ -1,5 +1,6 @@
 import { deleteMovie } from "./rest-api.js";
 import { updateGrid } from "../../app.js";
+import { displayErrorDialog } from "./helpers-module.js";
 
 //---------- Delete movie functions ---------- / /
 async function deleteMovieDialog(movie) {

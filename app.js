@@ -4,7 +4,8 @@ import { endpoint, getMovies } from "./assets/js/rest-api.js";
 import { showMovieDialog } from "./assets/js/show-movie-modal.js";
 import { showHighlightedMovie } from "./assets/js/top-movie.js";
 import { searchBar } from "./assets/js/filter-and-search-module.js";
-import { sortMovies } from "./assets/js/sort-module.js";
+import { sortBy } from "./assets/js/sort-module.js";
+import { closeDialogEventListener } from "./assets/js/helpers-module.js"
 
 let timeoutIds = [];
 
@@ -14,23 +15,16 @@ async function start() {
 	const moviesArray = await getMovies(endpoint);
 
 	showMovies(moviesArray);
+	showHighlightedMovie(moviesArray);
 
+	
+	
+	//Eventlisteners
 	document.querySelector("#btn-add-movie").addEventListener("click", showAddMovieModal);
-
 	document.querySelector("#search-bar").addEventListener("input", searchBar);
 	document.querySelector("#filter").addEventListener("change", searchBar);
-
-	closeDialogEventListener();
-
 	document.querySelector("#sort").addEventListener("change", sortBy);
-
-	function sortBy(event) {
-		const selectedSort = document.querySelector("#sort").value;
-		console.log(selectedSort);
-		sortMovies(selectedSort);
-	}
-
-	showHighlightedMovie(moviesArray);
+	closeDialogEventListener();
 }
 
 export async function updateGrid() {
@@ -85,28 +79,7 @@ function showMovie(movie) {
 	}
 }
 
-// Error handling - display error message in a dialog
-function displayErrorDialog(message) {
-	const dialog = document.querySelector("#dialog-modal");
-	const dialogContent = document.querySelector("#dialog-modal-content");
-	const html = /*html*/ `
-    <h2>Something went wrong</h2>
-    <p>${message}</p>
-    `;
-	dialogContent.innerHTML = html;
-	dialog.showModal();
-}
 
-// Close dialog
-function closeDialogEventListener() {
-	const closeDialogButton = document.querySelector("#btn-close-modal");
-	const dialogContent = document.querySelector("#dialog-modal-content");
-	const dialogModal = document.querySelector("#dialog-modal");
-	closeDialogButton.addEventListener("click", () => {
-		dialogContent.innerHTML = "";
-		dialogModal.close();
-	});
-}
 
 
 
