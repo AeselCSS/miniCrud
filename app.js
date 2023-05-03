@@ -3,6 +3,7 @@ import { showAddMovieModal } from "./assets/js/create-movie-modal.js";
 import { endpoint, getMovies } from "./assets/js/rest-api.js";
 import { showMovieDialog } from "./assets/js/show-movie-modal.js";
 import { showHighlightedMovie } from "./assets/js/top-movie.js";
+import { searchBar } from "./assets/js/filter-and-search-module.js";
 
 let timeoutIds = [];
 
@@ -15,15 +16,8 @@ async function start() {
 
 	document.querySelector("#btn-add-movie").addEventListener("click", showAddMovieModal);
 
-	document.querySelector("#search-bar").addEventListener("input", searchThis);
-	document.querySelector("#filter").addEventListener("change", searchThis);
-
-	function searchThis(event) {
-		const filter = document.querySelector("#filter").value;
-		const searchBarValue = document.querySelector("#search-bar").value;
-
-		searchMovies(searchBarValue, filter);
-	}
+	document.querySelector("#search-bar").addEventListener("input", searchBar);
+	document.querySelector("#filter").addEventListener("change", searchBar);
 
 	closeDialogEventListener();
 
@@ -43,7 +37,7 @@ export async function updateGrid() {
 	showMovies(moviesArray);
 }
 
-function showMovies(movies) {
+export function showMovies(movies) {
 	document.querySelector("#movie-grid").innerHTML = "";
 
 	// Clear any previous timeouts
@@ -113,56 +107,8 @@ function closeDialogEventListener() {
 	});
 }
 
-/*=====================FILTER & SEARCH BAR========================*/
-async function searchMovies(keywords, filter) {
-	const movies = await getMovies(endpoint);
-	const filteredMovies = filterMovies(movies, keywords, filter);
 
-	showMovies(filteredMovies);
-}
 
-function filterMovies(movies, keywords, filter) {
-	const filteredMovies = [];
-	const keyword = keywords.toLowerCase();
-
-	for (const movie of movies) {
-		if (filter == "all") {
-			loopAllPropertiesOfMovie(movie);
-		} else if (filter == "actorStars") {
-			loopActorsOfMovie(movie);
-		} else {
-			loopOtherPropertyOfMovie(movie);
-		}
-	}
-
-	function loopAllPropertiesOfMovie(movie) {
-		for (const property in movie) {
-			if (movie[property].toString().toLowerCase().includes(keyword)) {
-				filteredMovies.push(movie);
-				break;
-			}
-		}
-	}
-
-	function loopOtherPropertyOfMovie(movie) {
-		if (movie[filter].toLowerCase().includes(keyword)) {
-			filteredMovies.push(movie);
-		}
-	}
-
-	//Filtrer på movie.actorStars.some
-	function loopActorsOfMovie(movie) {
-		for (let i = 0; i < movie.actorStars.length; i++) {
-			if (movie.actorStars[i].toLowerCase().includes(keyword)) {
-				filteredMovies.push(movie);
-				break;
-			}
-		}
-	}
-
-	return filteredMovies;
-}
-/*=====================FILTER & SEARCH BAR SLUT========================*/
 
 /*============================ SORT FUNCTIONS =================================*/
 

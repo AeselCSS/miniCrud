@@ -1,4 +1,4 @@
-import { getVideoId, createEmbedLink } from "./youtube-helpers";
+import { getVideoId, createEmbedLink } from "./youtube-helpers.js";
 
 /* ============== TOP MOVIE GENERATOR ====================*/
 
