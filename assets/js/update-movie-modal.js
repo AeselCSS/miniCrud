@@ -1,5 +1,5 @@
-import { getVideoId } from "../../app.js";
 import { updateMovie } from "./rest-api.js";
+import { getVideoId, createEmbedLink } from "../../app.js";
 
 // ---------- Update movie functions ---------- //
 
