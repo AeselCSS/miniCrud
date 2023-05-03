@@ -1,6 +1,6 @@
 import { updateMovieDialog } from "./update-movie-modal.js";
 import { deleteMovieDialog } from "./delete-movie-modal.js";
-import { getVideoId, createEmbedLink } from "../../app.js";
+import { getVideoId, createEmbedLink } from "./youtube-helpers.js";
 
 // Shows dialog for movie clicked
 function showMovieDialog(movie) {
