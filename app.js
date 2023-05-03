@@ -38,22 +38,7 @@ async function start() {
 }
 
 
-export function prepareData(dataObject) {
-	const movies = [];
 
-	for (const key in dataObject) {
-		const movie = dataObject[key];
-
-		//Continues if movie is null
-		if (!movie) {
-			continue;
-		}
-
-		movie.id = key;
-		movies.push(movie);
-	}
-	return movies;
-}
 
 async function updateGrid() {
 	const moviesArray = await getMovies(endpoint);
