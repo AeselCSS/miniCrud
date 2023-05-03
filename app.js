@@ -268,53 +268,30 @@ function createMovieClicked(event) {
 	const form = event.target;
 	console.log(form);
 
-	const title = form.title.value;
-	const runtime = form.runtime.value;
-	const score = form.score.value;
-	const director = form.director.value;
-	const actorStars = form.actorStars.value.split(",");
-	const year = form.year.value;
-	const poster = form.poster.value;
-	const trailer = form.trailer.value;
-	const genreTags = form.genreTags.value.split(",");
-	const description = form.description.value;
-	let inCinema = form.inCinema.value;
+	const newMovie = {
+		title: form.title.value,
+		runtime: form.runtime.value,
+		score: form.score.value,
+		director: form.director.value,
+		actorStars: form.actorStars.value.split(","),
+		year: form.year.value,
+		poster: form.poster.value,
+		trailer: form.trailer.value,
+		genreTags: form.genreTags.value.split(","),
+		description: form.description.value,
+		inCinema: form.inCinema.value,
+	};
 
-	if (inCinema === "yes") {
-		inCinema = true;
-	} else if (inCinema === "no") {
-		inCinema = false;
+	if (newMovie.inCinema === "yes") {
+		newMovie.inCinema = true;
+	} else if (newMovie.inCinema === "no") {
+		newMovie.inCinema = false;
 	}
 
-	createMovie(title, runtime, score, director, actorStars, year, poster, trailer, genreTags, description, inCinema);
+	createMovie(newMovie);
 }
 
-async function createMovie(
-	title,
-	runtime,
-	score,
-	director,
-	actorStars,
-	year,
-	poster,
-	trailer,
-	genreTags,
-	description,
-	inCinema
-) {
-	const newMovie = {
-		title,
-		runtime,
-		score,
-		director,
-		actorStars,
-		year,
-		poster,
-		trailer,
-		genreTags,
-		description,
-		inCinema,
-	};
+async function createMovie(newMovie) {
 	console.log(newMovie);
 	const json = JSON.stringify(newMovie);
 	const response = await fetch(`${endpoint}movies.json`, {
@@ -551,23 +528,25 @@ function updateMovieDialog(movie) {
 		// Form values to variables
 		const form = event.target;
 
-		const title = form.title.value;
-		const runtime = form.runtime.value;
-		const score = form.score.value;
-		const director = form.director.value;
-		const actorStars = form.actorStars.value.split(",");
-		const year = form.year.value;
-		const poster = form.poster.value;
-		const trailer = form.trailer.value;
-		const genreTags = form.genreTags.value.split(",");
-		const description = form.description.value;
-		let inCinema = form.inCinema.value;
-		const id = movie.id;
+		const updatedMovie = {
+			title: form.title.value,
+			runtime: form.runtime.value,
+			score: form.score.value,
+			director: form.director.value,
+			actorStars: form.actorStars.value.split(","),
+			year: form.year.value,
+			poster: form.poster.value,
+			trailer: form.trailer.value,
+			genreTags: form.genreTags.value.split(","),
+			description: form.description.value,
+			inCinema: form.inCinema.value,
+			id: movie.id,
+		};
 
-		if (inCinema === "yes") {
-			inCinema = true;
-		} else if (inCinema === "no") {
-			inCinema = false;
+		if (updatedMovie.inCinema === "yes") {
+			updatedMovie.inCinema = true;
+		} else if (updatedMovie.inCinema === "no") {
+			updatedMovie.inCinema = false;
 		}
 
 		// HTML to insert
@@ -576,17 +555,17 @@ function updateMovieDialog(movie) {
 			<p>
 				<h2>Updated movie details</h2>
 			</p>
-			<p><b>Title:</b> ${title}</p>
-			<p><b>Runtime:</b> ${runtime} minutes</p>
-			<p><b>Year:</b> ${year}</p>
-			<p><b>Director:</b> ${director}</p>
-			<p><b>Star actors:</b> ${actorStars}</p>
-			<p><b>Genres:</b> ${genreTags}</p>
-			<p><b>Score:</b> ${score}</p>
-			<p><b>Description:</b> ${description}</p>
-			<p><b>Currently in cinema:</b> ${inCinema ? "Yes" : "No"}</p>
-			<p><b>Poster:</b></p> <p><img src="${poster}" alt="POSTER MISSING" /></p>
-			<p><b>Trailer:</b></p><p> <iframe src="${trailer}"></iframe></p>
+			<p><b>Title:</b> ${updatedMovie.title}</p>
+			<p><b>Runtime:</b> ${updatedMovie.runtime} minutes</p>
+			<p><b>Year:</b> ${updatedMovie.year}</p>
+			<p><b>Director:</b> ${updatedMovie.director}</p>
+			<p><b>Star actors:</b> ${updatedMovie.actorStars}</p>
+			<p><b>Genres:</b> ${updatedMovie.genreTags}</p>
+			<p><b>Score:</b> ${updatedMovie.score}</p>
+			<p><b>Description:</b> ${updatedMovie.description}</p>
+			<p><b>Currently in cinema:</b> ${updatedMovie.inCinema ? "Yes" : "No"}</p>
+			<p><b>Poster:</b></p> <p><img src="${updatedMovie.poster}" alt="POSTER MISSING" /></p>
+			<p><b>Trailer:</b></p><p> <iframe src="${updatedMovie.trailer}"></iframe></p>
 			<div class="btn-wrapper">
 				<button id="update-confirm-btn">Confirm</button>
 				<button id="update-back-btn">Back</button>
@@ -604,20 +583,7 @@ function updateMovieDialog(movie) {
 		function updateMovieFeedbackConfirm() {
 			dialog.close();
 
-			updateMovie(
-				title,
-				runtime,
-				score,
-				director,
-				actorStars,
-				year,
-				poster,
-				trailer,
-				genreTags,
-				description,
-				inCinema,
-				id
-			);
+			updateMovie(updatedMovie);
 		}
 
 		function updateMovieFeedbackBack() {
@@ -627,39 +593,12 @@ function updateMovieDialog(movie) {
 	}
 }
 
-async function updateMovie(
-	title,
-	runtime,
-	score,
-	director,
-	actorStars,
-	year,
-	poster,
-	trailer,
-	genreTags,
-	description,
-	inCinema,
-	id
-) {
-	const updatedMovie = {
-		title,
-		runtime,
-		score,
-		director,
-		actorStars,
-		year,
-		poster,
-		trailer,
-		genreTags,
-		description,
-		inCinema,
-	};
-
+async function updateMovie(updatedMovie) {
 	// Parses into json
 	const json = JSON.stringify(updatedMovie);
 
 	// Updates/replaces object in database
-	const response = await fetch(`${endpoint}movies/${id}.json`, {
+	const response = await fetch(`${endpoint}movies/${updatedMovie.id}.json`, {
 		method: "PUT",
 		body: json,
 	});
@@ -781,17 +720,23 @@ function sortHighToLow(movieArray, value) {
 // youtube video id retriever
 function getVideoId(link) {
 	let videoId;
-	if (link.includes("youtu.be/")) { // short link
+	if (link.includes("youtu.be/")) {
+		// short link
 		videoId = link.split("youtu.be/")[1].split("?")[0];
-	} else if (link.includes("watch?v=")) { // standard link
+	} else if (link.includes("watch?v=")) {
+		// standard link
 		videoId = link.split("watch?v=")[1].split("&")[0];
-	} else if (link.includes("t=")) { // timestamped link
+	} else if (link.includes("t=")) {
+		// timestamped link
 		videoId = link.split("v=")[1].split("&")[0];
-	} else if (link.includes("channel/")) { // channel link
+	} else if (link.includes("channel/")) {
+		// channel link
 		videoId = link.split("channel/")[1].split("?")[0];
-	} else if (link.includes("playlist?list=")) { // playlist link
+	} else if (link.includes("playlist?list=")) {
+		// playlist link
 		videoId = link.split("playlist?list=")[1].split("&")[0];
-	} else if (link.includes("embed/")) { // embed link
+	} else if (link.includes("embed/")) {
+		// embed link
 		videoId = link.split("embed/")[1].split("?")[0];
 	}
 	return videoId;
