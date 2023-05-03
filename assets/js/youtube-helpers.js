@@ -1,6 +1,6 @@
 // ======================= YOUTUBE ===========================
 // youtube video id retriever
-export function getVideoId(link) {
+function getVideoId(link) {
 	let videoId;
 	if (link.includes("youtu.be/")) {
 		// short link
@@ -25,7 +25,7 @@ export function getVideoId(link) {
 }
 
 // create youtube embed link
-export function createEmbedLink(videoId) {
+function createEmbedLink(videoId) {
 	const embedLink = `https://www.youtube.com/embed/${videoId}`;
 	return embedLink;
 }
