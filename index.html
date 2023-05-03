@@ -7,7 +7,7 @@
 		<!-- <link rel="stylesheet" href="./assets/css/style.css" /> -->
 		<link rel="stylesheet" href="./assets/css/app.css" />
 		<link rel="shortcut icon" href="./assets/images/icons8-film-reel-16.png" type="image/x-icon" />
-		<script src="./app.js" defer></script>
+		<script src="./app.js" type="module" defer></script>
 		<script src="https://kit.fontawesome.com/d632d8ce37.js" crossorigin="anonymous" defer></script>
 		<title>Movie CRUD</title>
 	</head>
@@ -33,6 +33,7 @@
 				<div class="sort-container">
 					<label for="sort">sort by:</label>
 					<select id="sort">
+						<option value="" selected>No selection</option>
 						<option value="year-new">Newest</option>
 						<option value="year-old">Oldest</option>
 						<option value="rating-des">Rating descending</option>
@@ -44,7 +45,16 @@
 			</nav>
 		</header>
 		<main>
-			<section class="jumbo" id="top-movie-container"><h1>Top Movie</h1></section>
+
+
+			<section class="top-movie-class" id="top-movie-container">
+				<iframe id="top-movie-iframe" src="" frameborder="0" allowfullscreen></iframe>
+				<img id="top-movie-img" src="">
+			</section>
+
+
+
+
 			<section class="grid-container" id="movie-grid"></section>
 			<dialog class="modal" id="dialog-modal">
 				<button id="btn-close-modal">X</button>
