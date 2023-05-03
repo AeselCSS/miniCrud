@@ -47,7 +47,6 @@
 
 /* ===== GENERAL STYLING ===== */
 body {
-	/* background-color: var(--secondary-color); */
 	background-image: linear-gradient(
 		to bottom right,
 		#121212,
@@ -62,7 +61,6 @@ body {
 
 main {
 	min-height: 3000px;
-
 }
 
 header {
@@ -74,7 +72,7 @@ header {
 	left: 0;
 	right: 0;
 	z-index: 99;
-	box-shadow: 0px 5px 10px black;
+	box-shadow: 0px 5px 10px var(--secondary-color-darker);
 }
 
 footer {
@@ -84,7 +82,7 @@ footer {
 	vertical-align: middle;
 	text-align: center;
 	z-index: 99;
-	box-shadow: 0px -5px 10px black ;
+	box-shadow: 0px -5px 10px var(--secondary-color-darker) ;
 }
 
 a {
@@ -100,19 +98,9 @@ a:hover {
 nav {
 	min-height: 2em;
 	display: flex;
-	/* grid-template-columns: 0.5fr repeat(3, 1fr) 2fr 1fr;
-	grid-template-areas: "logo search-bar-container search-bar-container search-bar-container sort add-movie";
-	align-items: center; */
 	justify-content: space-between;
 	flex-wrap: wrap;
 	gap: 1rem;
-}
-
-.logo {
-	/* grid-area: logo; */
-	/* width: fit-content; */
-	/* position: absolute; */
-	/* left: 2em; */
 }
 
 .logo i {
@@ -125,13 +113,7 @@ nav {
 	transform: var(--scale-on-hover);
 }
 
-.search-bar-container {
-	/* grid-area: search-bar-container; */
-}
-
 .sort-container {
-	/* grid-area: sort; */
-	/* margin-left: 1em; */
 	text-transform: capitalize;
 	margin: 0px;
 }
@@ -140,12 +122,6 @@ nav {
 	font-size: var(--font-size-large);
 	font-weight: var(--font-weight-light);
 	margin: 0px;
-}
-
-#btn-add-movie {
-	grid-area: add-movie;
-	/* position: absolute; */
-	/* right: 2em; */
 }
 
 .search-bar-container {
@@ -209,9 +185,8 @@ nav {
 
 /* ===== TOP MOVIE ===== */
 .top-movie-class {
-	/* aspect-ratio: 3 / 1; */
 	position: relative;
-	background-color: black;
+	background-color: var(--secondary-color-darker);
 	height: 25em;
 	margin-top: 4em;
 	margin-bottom: 2em;
@@ -227,8 +202,6 @@ nav {
 	left: 50%;
 	transform: translate(-50%, -50%);
 	transition: 0.5s;
-
-	/* aspect-ratio: 16 / 9; */
 }
 
 .top-movie-class img {
@@ -249,7 +222,6 @@ nav {
 }
 
 /* ===== FORM STYLING ===== */
-
 dialog h2 {
 	font-size: var(--font-size-xxlarge);
 	text-align: center;
@@ -379,11 +351,8 @@ select:focus ~ select option {
 .grid-item {
 	cursor: pointer;
 	transition: var(--transition-transform);
-	/* height: fit-content; */
-	/* width: 12rem; */
 	margin-left: auto;
 	margin-right: auto;
-	/* max-width: calc(30em * 0.66); */
 	overflow: hidden;
 	position: relative;
 	animation: fadeIn 0.4s;
@@ -417,20 +386,16 @@ select:focus ~ select option {
 	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 	backdrop-filter: blur(2.8px);
 	-webkit-backdrop-filter: blur(2.8px);
-	/* border-top: 1px solid rgba(147, 147, 147, 0.48); */
 }
 
 /* MODAL STYLING */
 .modal {
-	/* position: fixed; */
 	z-index: 100;
 	margin-left: auto;
 	margin-right: auto;
 	top: 9%;
-	/* min-width: 60%; */
 	max-width: 70rem;
 	max-height: 90vh;
-	/* height: fit-content; */
 	padding: 1em;
 	color: var(--text-color);
 	background-color: var(--secondary-color);
