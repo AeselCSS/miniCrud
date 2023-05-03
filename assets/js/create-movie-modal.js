@@ -1,6 +1,6 @@
 import { validateInput } from "./input-validation.js";
 import { createMovie } from "./rest-api.js";
-import { updateGrid } from "../../app.js";
+import { updateGrid } from "./grid-module.js";
 import { displayErrorDialog } from "./helpers-module.js";
 
 // Shows dialog for Add Movie

@@ -1,5 +1,5 @@
 import { deleteMovie } from "./rest-api.js";
-import { updateGrid } from "../../app.js";
+import { updateGrid } from "./grid-module.js";
 import { displayErrorDialog } from "./helpers-module.js";
 
 //---------- Delete movie functions ---------- / /

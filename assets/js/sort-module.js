@@ -1,4 +1,4 @@
-import { showMovies } from "../../app.js";
+import { showMovies } from "./grid-module.js";
 import { getMovies, endpoint } from "./rest-api.js";
 
 
@@ -36,4 +36,4 @@ function sortHighToLow(movieArray, value) {
 	);
 }
 
-export {sortBy}
+export { sortBy };

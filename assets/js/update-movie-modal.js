@@ -1,6 +1,7 @@
 import { updateMovie } from "./rest-api.js";
 import { getVideoId, createEmbedLink } from "./youtube-helpers.js";
 import { displayErrorDialog } from "./helpers-module.js";
+import {updateGrid} from "./grid-module.js"
 
 // ---------- Update movie functions ---------- //
 
