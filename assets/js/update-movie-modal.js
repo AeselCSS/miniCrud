@@ -1,15 +1,15 @@
+// import modules
 import { updateMovie } from "./rest-api.js";
 import { getVideoId, createEmbedLink } from "./youtube-helpers.js";
 import { displayErrorDialog } from "./helpers-module.js";
 import {updateGrid} from "./grid-module.js"
 
-// ---------- Update movie functions ---------- //
-
+// update movie function
 function updateMovieDialog(movie) {
-	// console.log(movie);
+  // Get dialog and dialog content
 	const dialog = document.querySelector("#dialog-modal");
 	const dialogContent = document.querySelector("#dialog-modal-content");
-
+  // get video id and create embedable videolink
 	const videoId = getVideoId(movie.trailer);
 	const embedableVideo = createEmbedLink(videoId);
 
@@ -115,7 +115,6 @@ function updateMovieDialog(movie) {
             name="inCinema"
             value="yes"
             required
-          
            
           /></label>
           
@@ -125,32 +124,27 @@ function updateMovieDialog(movie) {
             name="inCinema"
             value="no"
             required
-            
-            
           /></label>
-          
-
+    
           <div class="btn-wrapper"><button>Update this movie</button></div>
         </form>
   `;
-
+  // insert html into dialog content
 	dialogContent.innerHTML = html;
 
-	// Sets clicked in cinema radio button
+	// sets clicked in cinema radio button
 	if (movie.inCinema) {
 		document.querySelector("#in-cinema-yes").setAttribute("checked", true);
 	} else {
 		document.querySelector("#in-cinema-no").setAttribute("checked", true);
 	}
-
+  // add eventlistener to form submit
 	document.querySelector("#form").addEventListener("submit", updateMovieFeedbackDialog);
 
 	function updateMovieFeedbackDialog(event) {
 		event.preventDefault();
-
-		// Form values to variables
+		// get form data and create updated movie object
 		const form = event.target;
-
 		const updatedMovie = {
 			title: form.title.value,
 			runtime: form.runtime.value,
@@ -172,7 +166,7 @@ function updateMovieDialog(movie) {
 			updatedMovie.inCinema = false;
 		}
 
-		// HTML to insert
+		// HTML to insert into dialog content
 		const html = /*html*/ `
 		<div class="update-feedback-body">
 			<p>
@@ -195,14 +189,14 @@ function updateMovieDialog(movie) {
 			</div>
 		</div>
 		`;
-
+    // insert html into dialog content
 		dialogContent.innerHTML = html;
 
 		// Button event listeners
 		document.querySelector("#update-confirm-btn").addEventListener("click", updateMovieFeedbackConfirm);
-
 		document.querySelector("#update-back-btn").addEventListener("click", updateMovieFeedbackBack);
 
+    // update movie in firebase and update grid if successful
 		async function updateMovieFeedbackConfirm() {
 			dialog.close();
 
@@ -217,9 +211,8 @@ function updateMovieDialog(movie) {
 				displayErrorDialog(errorMessage);
 			}
 		}
-
+    // shows movie dialog with original values
 		function updateMovieFeedbackBack() {
-			// Shows movie dialog with original values
 			updateMovieDialog(movie);
 		}
 	}
