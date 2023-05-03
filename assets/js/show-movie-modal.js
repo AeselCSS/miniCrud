@@ -27,6 +27,7 @@ function showMovieDialog(movie) {
 			<p><b>Year of release:</b> ${movie.year}</p>
         	<p><b>Runtime:</b> ${movie.runtime} Minutes</p>
         	<p><b>Rating:</b> ${movie.score}</p>
+        	<p><b>In cinemas: </b>${movie.inCinema ? "Yes" : "No"}</p>
 		</div>
 
 		<div class="middle">
