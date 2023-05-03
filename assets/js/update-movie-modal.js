@@ -1,5 +1,5 @@
 import { updateMovie } from "./rest-api.js";
-import { getVideoId, createEmbedLink } from "../../app.js";
+import { getVideoId, createEmbedLink } from "./youtube-helpers.js";
 
 // ---------- Update movie functions ---------- //
 
