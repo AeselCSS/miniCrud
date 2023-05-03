@@ -410,7 +410,7 @@ select:focus ~ select option {
 	background-image: linear-gradient(to bottom right, #121212, #3c3c3c, #121212);
 	z-index: 100;
 	margin: auto auto auto auto;
-	max-width: 70rem;
+	max-width: 50rem;
 	max-height: 90vh;
 	padding: 1em;
 	color: var(--text-color);
