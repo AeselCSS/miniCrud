@@ -529,13 +529,39 @@ select:focus ~ select option {
 	text-align: center;
 }
 
-.update-feedback-body {
+.update-feedback-grid {
 	max-width: 40rem;
 }
 
-.update-feedback-body img,
-iframe {
-	width: 20rem;
+.update-feedback-bottom img {
+	width: 100%;
+	border-radius: var(--border-radius);
+}
+.update-feedback-bottom iframe {
+	width: 100%;
+	height: 92%;
+	border: none;
+	border-radius: var(--border-radius);
+}
+
+.update-feedback-grid .iframe-wrapper {
+	margin-right: 1rem;
+}
+
+.update-feedback-top {
+	display: grid;
+	grid-template-columns: 1fr;
+}
+.update-feedback-middle {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	margin-bottom: 1rem;
+}
+.update-feedback-bottom {
+	display: grid;
+	grid-template-columns: 30% 70%;
+	margin-top: 1rem;
+	gap: 1rem;
 }
 
 /* ====== ANIMATIONS ===== */

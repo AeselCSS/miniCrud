@@ -1,7 +1,7 @@
 import { updateMovie } from "./rest-api.js";
 import { getVideoId, createEmbedLink } from "./youtube-helpers.js";
 import { displayErrorDialog } from "./helpers-module.js";
-import {updateGrid} from "./grid-module.js"
+import { updateGrid } from "./grid-module.js";
 
 // ---------- Update movie functions ---------- //
 
@@ -174,21 +174,34 @@ function updateMovieDialog(movie) {
 
 		// HTML to insert
 		const html = /*html*/ `
-		<div class="update-feedback-body">
-			<p>
-				<h2>Updated movie details</h2>
-			</p>
-			<p><b>Title:</b> ${updatedMovie.title}</p>
-			<p><b>Runtime:</b> ${updatedMovie.runtime} minutes</p>
-			<p><b>Year:</b> ${updatedMovie.year}</p>
-			<p><b>Director:</b> ${updatedMovie.director}</p>
-			<p><b>Star actors:</b> ${updatedMovie.actorStars}</p>
-			<p><b>Genres:</b> ${updatedMovie.genreTags}</p>
-			<p><b>Score:</b> ${updatedMovie.score}</p>
+		<div class="update-feedback-grid">
+			
+				<section class="update-feedback-top">
+          <h2>Updated movie details</h2>
+        </section>
+			<section class="update-feedback-middle">
+        <div>
+          <p><b>Title:</b> ${updatedMovie.title}</p>
+          <p><b>Runtime:</b> ${updatedMovie.runtime} minutes</p>
+          <p><b>Year:</b> ${updatedMovie.year}</p>
+          <p><b>Score:</b> ${updatedMovie.score}</p>
+          <p><b>Currently in cinema:</b> ${updatedMovie.inCinema ? "Yes" : "No"}</p>
+        </div>
+        <div>
+        <p><b>Director:</b> ${updatedMovie.director}</p>
+        <p><b>Star actors:</b> ${updatedMovie.actorStars}</p>
+        <p><b>Genres:</b> ${updatedMovie.genreTags}</p>
+        </div>
+      </section>
 			<p><b>Description:</b> ${updatedMovie.description}</p>
-			<p><b>Currently in cinema:</b> ${updatedMovie.inCinema ? "Yes" : "No"}</p>
-			<p><b>Poster:</b></p> <p><img src="${updatedMovie.poster}" alt="POSTER MISSING" /></p>
-			<p><b>Trailer:</b></p><p> <iframe src="${updatedMovie.trailer}"></iframe></p>
+			<section class="update-feedback-bottom">
+        <div>
+          <p><b>Poster:</b></p> <img src="${updatedMovie.poster}" alt="POSTER MISSING" />
+        </div>
+        <div class="iframe-wrapper">
+          <p><b>Trailer:</b></p> <iframe src="${updatedMovie.trailer}"></iframe>
+        </div>
+      </section>
 			<div class="btn-wrapper">
 				<button id="update-confirm-btn">Confirm</button>
 				<button id="update-back-btn">Back</button>
