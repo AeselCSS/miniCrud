@@ -1,12 +1,8 @@
 
-
-
 // End point
-
 const endpoint = "https://byca-crud-default-rtdb.europe-west1.firebasedatabase.app/";
 
-// Get
-
+// Read
 async function getMovies(url) {
 	const response = await fetch(`${url}movies.json`);
 	const data = await response.json();
@@ -14,9 +10,7 @@ async function getMovies(url) {
 	return preparedData;
 }
 
-
 // Create
-
 async function createMovie(newMovie) {
 	console.log(newMovie);
 	const json = JSON.stringify(newMovie);
@@ -43,7 +37,6 @@ async function updateMovie(updatedMovie) {
 }
 
 // Delete
-
 async function deleteMovie(id) {
 	const response = await fetch(`${endpoint}movies/${id}.json`, {
 		method: "DELETE",
@@ -52,8 +45,9 @@ async function deleteMovie(id) {
 	return response
 }
 
-// Helper function to rest-api
 
+
+// Helper function to rest-api
 function prepareData(dataObject) {
 	const movies = [];
 

@@ -1,4 +1,3 @@
-// ======================= YOUTUBE ===========================
 // youtube video id retriever
 function getVideoId(link) {
 	let videoId;

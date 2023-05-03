@@ -1,6 +1,5 @@
 import { getVideoId, createEmbedLink } from "./youtube-helpers.js";
 
-/* ============== TOP MOVIE GENERATOR ====================*/
 
 function showHighlightedMovie(movies) {
 	const randomNumber = Math.floor(Math.random() * movies.length);

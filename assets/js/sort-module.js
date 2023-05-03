@@ -2,8 +2,6 @@ import { showMovies } from "./grid-module.js";
 import { getMovies, endpoint } from "./rest-api.js";
 
 
-/*============================ SORT FUNCTIONS =================================*/
-
 function sortBy(event) {
 	const selectedSort = document.querySelector("#sort").value;
 	console.log(selectedSort);

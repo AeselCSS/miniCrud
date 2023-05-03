@@ -1,5 +1,3 @@
-
-
 // Error handling - display error message in a dialog
 function displayErrorDialog(message) {
 	const dialog = document.querySelector("#dialog-modal");
