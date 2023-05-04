@@ -4,7 +4,7 @@ Mini project with CRUD-functionalities. Created as part of our AP Graduate in Co
 
 Made with Firebase.
 
-## Contributers
+## Contributors
 
 [Chris Skov Sørensen](https://github.com/AeselCSS)
 
