@@ -9,8 +9,9 @@ async function deleteMovieDialog(movie) {
 	const dialogContent = document.querySelector("#dialog-modal-content");
 	// HTML for dialog modal
 	const html = /*html*/ `
-    <h2>Are you sure you want to delete</h2>
-    <p id="dialog-delete-movie-title">${movie.title}</p>
+    <h2>Do you want to delete</h2>
+    <h1 id="dialog-delete-movie-title">${movie.title}</h1>
+
     <form method="dialog" id="form-delete-movie">
     <button type="button" class="btn-cancel">NO</button>
     <button>YES</button>
