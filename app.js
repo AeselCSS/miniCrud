@@ -1,17 +1,18 @@
 "use strict";
-// Import modules
 import { showAddMovieModal } from "./assets/js/create-movie-modal.js";
+import { endpoint, getMovies } from "./assets/js/rest-api.js";
+import { showHighlightedMovie } from "./assets/js/top-movie.js";
 import { searchBar } from "./assets/js/filter-and-search-module.js";
 import { sortBy } from "./assets/js/sort-module.js";
 import { closeDialogEventListener } from "./assets/js/helpers-module.js"
-import { updateGrid } from "./assets/js/grid-module.js";
+import { showMovies } from "./assets/js/grid-module.js";
 
-// Eventlistener for loading the page
 window.addEventListener("load", start);
 
-// Start function
 async function start() {
-	updateGrid();
+	const moviesArray = await getMovies(endpoint);
+	showMovies(moviesArray);
+	showHighlightedMovie(moviesArray);
 
 	//Eventlisteners
 	document.querySelector("#btn-add-movie").addEventListener("click", showAddMovieModal);

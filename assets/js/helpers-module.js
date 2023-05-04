@@ -21,4 +21,4 @@ function closeDialogEventListener() {
 	});
 }
 
-export { displayErrorDialog, closeDialogEventListener };
+export {displayErrorDialog, closeDialogEventListener}
