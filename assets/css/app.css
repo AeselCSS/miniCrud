@@ -9,7 +9,7 @@
 	--font-size-small: 0.8em;
 	--font-size-large: 1.3em;
 	--font-size-xlarge: 2em;
-	--font-size-xxlarge: 2.5em;
+	--font-size-xxlarge: 3em;
 	--font-weight-normal: 300;
 	--font-weight-bold: 500;
 	--font-weight-bolder: 700;
@@ -28,8 +28,8 @@
 	--valid-color: #18d33d;
 
 	/* Borders */
-	--border-radius: 1em;
-	--border-solid: 1px solid #9a9a9a;
+	--border-radius: 0.5em;
+	--border-solid: 1px solid var(--secondary-color);
 	--border-none: none;
 
 	/* Effects */
@@ -47,9 +47,12 @@
 
 /* ===== GENERAL STYLING ===== */
 body {
-	/* background-color: var(--secondary-color); */
-	background-image: linear-gradient(to bottom right, #121212, #3c3c3c, #121212);
-	background-size: 100vw 10000px;
+	background-image: linear-gradient(
+		to bottom right,
+		#121212,
+		#3c3c3c,
+		#121212
+	);
 	font-family: var(--font-family);
 	color: var(--text-color);
 	line-height: var(--line-height);
@@ -57,8 +60,7 @@ body {
 }
 
 main {
-	min-height: 1000px;
-	transition: 0.5s;
+	min-height: 3000px;
 }
 
 header {
@@ -80,7 +82,7 @@ footer {
 	vertical-align: middle;
 	text-align: center;
 	z-index: 99;
-	box-shadow: 0px -5px 10px black;
+	box-shadow: 0px -5px 10px var(--secondary-color-darker) ;
 }
 
 a {
@@ -92,32 +94,19 @@ a:hover {
 	color: var(--accent-color);
 }
 
-
 /* ===== NAV BAR STYLING ===== */
 nav {
-	width: 95%;
 	min-height: 2em;
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
 	flex-wrap: wrap;
 	gap: 1rem;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.logo {
-	display: flex;
-	align-items: center;
-	transition: 0.5s;
-	
 }
 
 .logo i {
 	font-size: 2em;
 	color: var(--primary-color);
 	transition: var(--transition-transform);
-	margin-right: 0.5rem;
 }
 
 .logo i:hover {
@@ -138,7 +127,7 @@ nav {
 .search-bar-container {
 	display: flex;
 	align-items: center;
-	justify-content: right;
+	justify-content: center;
 	position: relative;
 	width: 30%;
 	min-width: 18rem;
@@ -146,19 +135,16 @@ nav {
 }
 
 #search-bar {
-	min-width: 200px;
-	width: 60%;
+	width: 100%;
 	height: 100%;
 	padding-left: 1em;
 	padding-right: 8em; /* to accommodate the filter container */
 	border: 1px solid var(--secondary-color);
 	border-radius: 0.5em;
-	transition: 1s ease-in-out;
 }
 
 #search-bar:focus {
 	outline: none;
-	width: 100%;
 }
 
 .filter-container {
@@ -225,23 +211,21 @@ nav {
 	left: 20%;
 	top: 60%;
 	z-index: 9;
+	transition: opacity 0.5s ease-in-out;
 	transform-origin: bottom left;
 	transform: scale(1.5);
 	transition: 1s;
-	border-top-right-radius: var(--border-radius);
 }
 
 .top-movie-class img:hover {
 	opacity: 0.25;
-	pointer-events: none;
 }
 
 /* ===== FORM STYLING ===== */
 dialog h2 {
 	font-size: var(--font-size-xxlarge);
 	text-align: center;
-	margin-top: 1rem;
-	margin-bottom: 2rem;
+	margin-bottom: 1em;
 	line-height: 1em;
 }
 
@@ -355,7 +339,6 @@ select:focus ~ select option {
 	margin-top: 2px;
 	width: 100%;
 	z-index: 1;
-	
 }
 
 /* ====== GRID STYLING ===== */
@@ -373,7 +356,7 @@ select:focus ~ select option {
 	overflow: hidden;
 	position: relative;
 	animation: fadeIn 0.4s;
-	border-radius: var(--border-radius);
+	border-radius: 1rem;
 	transition: 0.5s;
 }
 
@@ -407,19 +390,20 @@ select:focus ~ select option {
 
 /* MODAL STYLING */
 .modal {
-	background-image: linear-gradient(to bottom right, #121212, #3c3c3c, #121212);
 	z-index: 100;
-	margin: auto auto auto auto;
-	max-width: 50rem;
+	margin-left: auto;
+	margin-right: auto;
+	top: 9%;
+	max-width: 70rem;
 	max-height: 90vh;
 	padding: 1em;
 	color: var(--text-color);
-	/* background-color: var(--secondary-color); */
+	background-color: var(--secondary-color);
 	border-radius: var(--border-radius);
 	border: var(--border-solid);
 	overflow-x: hidden;
 	animation: fadeIn 0.3s;
-	box-shadow: 10px 5px 20px var(--secondary-color);
+	box-shadow: 10px 5px 20px var(--secondary-color) ;
 }
 
 #btn-close-modal {
@@ -450,8 +434,6 @@ select:focus ~ select option {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
 	margin-bottom: 0.5em;
-	margin-left: auto;
-	margin-right: auto;
 }
 
 .movie-details-top .right {
@@ -463,33 +445,20 @@ select:focus ~ select option {
 	grid-template-columns: 30% 70%;
 	margin-bottom: 0.5em;
 	gap: 1em;
-	max-width: 700px;
-	margin-left: auto;
-	margin-right: auto;
 }
 
 .movie-details-middle img {
 	width: 100%;
-	border-radius: var(--border-radius);
-}
-
-.movie-details-middle .iframe-wrapper {
-	margin-right: 1rem;
 }
 
 .movie-details-middle iframe {
 	width: 100%;
 	height: 99%;
 	border: none;
-	border-radius: var(--border-radius);
 }
 
 .movie-details-bottom {
 	margin-bottom: 0.5em;
-	max-width: 700px;
-	text-align: center;
-	margin-left: auto;
-	margin-right: auto;
 }
 
 #form-delete-movie {
@@ -522,39 +491,13 @@ select:focus ~ select option {
 	text-align: center;
 }
 
-.update-feedback-grid {
+.update-feedback-body {
 	max-width: 40rem;
 }
 
-.update-feedback-bottom img {
-	width: 100%;
-	border-radius: var(--border-radius);
-}
-.update-feedback-bottom iframe {
-	width: 100%;
-	height: 92%;
-	border: none;
-	border-radius: var(--border-radius);
-}
-
-.update-feedback-grid .iframe-wrapper {
-	margin-right: 1rem;
-}
-
-.update-feedback-top {
-	display: grid;
-	grid-template-columns: 1fr;
-}
-.update-feedback-middle {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	margin-bottom: 1rem;
-}
-.update-feedback-bottom {
-	display: grid;
-	grid-template-columns: 30% 70%;
-	margin-top: 1rem;
-	gap: 1rem;
+.update-feedback-body img,
+iframe {
+	width: 20rem;
 }
 
 /* ====== ANIMATIONS ===== */

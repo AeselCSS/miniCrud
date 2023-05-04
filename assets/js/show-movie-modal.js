@@ -25,7 +25,6 @@ function showMovieDialog(movie) {
 			<p><b>Year of release:</b> ${movie.year}</p>
         	<p><b>Runtime:</b> ${movie.runtime} Minutes</p>
         	<p><b>Rating:</b> ${movie.score}</p>
-        	<p><b>In cinemas: </b>${movie.inCinema ? "Yes" : "No"}</p>
 		</div>
 		<div class="middle">
         	<p><b>Genre:</b> ${genreString}</p>
@@ -41,7 +40,7 @@ function showMovieDialog(movie) {
                 <img src="${movie.poster}">
             </div>
 
-            <div class="iframe-wrapper">
+            <div>
                 <iframe src="${embedableVideo}"></iframe>
         </div>
 
