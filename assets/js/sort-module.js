@@ -1,5 +1,6 @@
 import { showMovies } from "./grid-module.js";
 import { getMovies, endpoint } from "./rest-api.js";
+import { filterMovies } from "./filter-and-search-module.js";
 
 
 function sortBy(event) {
@@ -10,14 +11,17 @@ function sortBy(event) {
 
 async function sortMovies(dropDownValue) {
 	const movies = await getMovies(endpoint);
-
+	const keywords = document.querySelector("#search-bar").value;
+	const filter = document.querySelector("#filter").value;
 	let result;
 
 	if (dropDownValue === "year-old" || dropDownValue === "rating-asc") {
 		result = sortLowToHigh(movies, dropDownValue);
+		result = filterMovies(result, keywords, filter);
 		showMovies(result);
 	} else {
 		result = sortHighToLow(movies, dropDownValue);
+		result = filterMovies(result, keywords, filter);
 		showMovies(result);
 	}
 }

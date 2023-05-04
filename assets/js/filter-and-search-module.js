@@ -60,4 +60,4 @@ function filterMovies(movies, keywords, filter) {
 	return filteredMovies;
 }
 
-export {searchBar}
+export {searchBar, filterMovies}
