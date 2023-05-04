@@ -1,4 +1,3 @@
-// Import modules
 import { getMovies, endpoint } from "./rest-api.js";
 
 // =================== FORM INPUT VALIDATION =====================

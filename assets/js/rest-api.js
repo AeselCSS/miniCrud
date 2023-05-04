@@ -1,7 +1,15 @@
-// end point for firebase
+
+// End point
 const endpoint = "https://byca-crud-default-rtdb.europe-west1.firebasedatabase.app/";
 
-// CRUD functions
+// Read
+async function getMovies(url) {
+	const response = await fetch(`${url}movies.json`);
+	const data = await response.json();
+	const preparedData = prepareData(data);
+	return preparedData;
+}
+
 // Create
 async function createMovie(newMovie) {
 	console.log(newMovie);
@@ -10,15 +18,10 @@ async function createMovie(newMovie) {
 		method: "POST",
 		body: json,
 	});
+
 	return response;
 }
-// Read
-async function getMovies(url) {
-	const response = await fetch(`${url}movies.json`);
-	const data = await response.json();
-	const preparedData = prepareData(data);
-	return preparedData;
-}
+
 // Update
 async function updateMovie(updatedMovie) {
 	// Parses into json
@@ -29,6 +32,7 @@ async function updateMovie(updatedMovie) {
 		method: "PUT",
 		body: json,
 	});
+
 	return response;
 }
 
@@ -37,22 +41,29 @@ async function deleteMovie(id) {
 	const response = await fetch(`${endpoint}movies/${id}.json`, {
 		method: "DELETE",
 	});
-	return response;
+
+	return response
 }
+
+
 
 // Helper function to rest-api
 function prepareData(dataObject) {
 	const movies = [];
+
 	for (const key in dataObject) {
 		const movie = dataObject[key];
+
 		//Continues if movie is null
 		if (!movie) {
 			continue;
 		}
+
 		movie.id = key;
 		movies.push(movie);
 	}
 	return movies;
 }
 
-export { endpoint, createMovie, updateMovie, deleteMovie, getMovies };
+
+export { endpoint, createMovie, updateMovie, deleteMovie, getMovies};

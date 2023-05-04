@@ -1,27 +1,21 @@
-// Import modules
-import { showMovieDialog } from "./show-movie-modal.js";
+import { showMovieDialog } from "./show-movie-modal.js"
 import { getMovies, endpoint } from "./rest-api.js";
-import { showHighlightedMovie } from "./top-movie.js";
 
-// Update grid function (called when page loads)
+let timeoutIds = [];
+
 async function updateGrid() {
-	// Get movies from API
 	const moviesArray = await getMovies(endpoint);
-	// Show movies
 	showMovies(moviesArray);
-	// Show highlighted movie
-	showHighlightedMovie(moviesArray);
 }
 
-// Show movies function
 function showMovies(movies) {
-	// Array to store timeoutIds
-	let timeoutIds = [];
 	document.querySelector("#movie-grid").innerHTML = "";
+
 	// Clear any previous timeouts
 	for (const i of timeoutIds) clearTimeout(i);
-	// Loop through each movie and set a timeout for each movie,
-	// to create a staggered effect when showing movies
+
+	// Loop through each movie,
+	// Timeout to get fadeIn effect
 	for (let i = 0; i < movies.length; i++) {
 		const timeoutId = setTimeout(() => {
 			showMovie(movies[i]);
@@ -29,13 +23,17 @@ function showMovies(movies) {
 
 		timeoutIds.push(timeoutId);
 	}
+
+	// Old loop method
+	// for (const movie of movies) {
+	// 	showMovie(movie);
+	// }
 }
 
-// Show movie function
 function showMovie(movie) {
 	const moviesContainer = document.querySelector("#movie-grid");
-	// Create HTML for movie
 	const movieHTML = /*html*/ `
+  
   <article class="grid-item" > 
   <img src="${movie.poster}" >
   <div class="grid-item-text"><p>
@@ -48,10 +46,13 @@ function showMovie(movie) {
   <p>${movie.actorStars}</p></div>
   </article>
   `;
-	// Insert movie HTML into movie-grid
+
 	moviesContainer.insertAdjacentHTML("beforeend", movieHTML);
-	// Add event listener to movie to show movie dialog
-	document.querySelector("#movie-grid article:last-child").addEventListener("click", () => showMovieDialog(movie));
+	document.querySelector("#movie-grid article:last-child").addEventListener("click", movieClicked);
+
+	function movieClicked(event) {
+		showMovieDialog(movie);
+	}
 }
 
 export { updateGrid, showMovies };
