@@ -1,8 +1,6 @@
 # MINICRUD - Movie Database
 
-Et miniprojekt med CRUD-funktionaliteter. Udarbejdet 1. semester på datamatikeruddannelsen KEA. 
-
-Mini project with CRUD-functionalities. Created as part of our AP Graduate in Computer Science Program at KEA.
+Mini project with CRUD-functionalities. Created as part of our AP Graduate in Computer Science Program at first semester at KEA.
 
 Made with Firebase.
 
