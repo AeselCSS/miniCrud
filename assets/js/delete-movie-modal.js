@@ -10,8 +10,8 @@ async function deleteMovieDialog(movie) {
 
 	// HTML to insert
 	const html = /*html*/ `
-    <h2>Are you sure you want to delete</h2>
-    <p id="dialog-delete-movie-title">${movie.title}</p>
+    <h2>Do you want to delete</h2>
+    <h1 id="dialog-delete-movie-title">${movie.title}</h1>
 
     <form method="dialog" id="form-delete-movie">
 
